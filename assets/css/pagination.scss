@@ -1,0 +1,24 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination__box {
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: black;
+  }
+}
+
+.pagination__number {
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
