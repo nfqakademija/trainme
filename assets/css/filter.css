@@ -1,0 +1,70 @@
+.listContainer {
+  width: 70%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px; }
+
+.filterContainer {
+  margin-bottom: 40px; }
+
+.filters__container {
+  display: flex;
+  justify-content: space-between; }
+
+.filters__pageTitle {
+  color: white;
+  background: black;
+  margin: 0;
+  width: 250px;
+  padding: 5px 10px; }
+
+.filters__name {
+  height: 30px;
+  width: 250px;
+  padding: 2px 5px;
+  margin-right: 30px; }
+
+.filters__inputs {
+  margin: 20px 0;
+  display: flex; }
+
+.filters__submit {
+  background: rgba(0, 0, 0, 0.78);
+  color: white;
+  border: none;
+  height: 50px;
+  width: 60px;
+  cursor: pointer; }
+  .filters__submit:hover {
+    background: black; }
+
+.filters__date,
+.filters__from,
+.filters__to {
+  margin: 0 20px;
+  height: 20px; }
+
+.filters__tags {
+  display: flex;
+  margin: 0;
+  padding: 0 15px 0 0;
+  width: 300px;
+  flex-wrap: wrap; }
+
+.filters__tag {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px;
+  margin: 0 5px 5px 0;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  font-weight: bold;
+  color: black; }
+  .filters__tag:hover {
+    color: white;
+    background: rgba(0, 0, 0, 0.78); }
+
+/*# sourceMappingURL=filter.css.map */

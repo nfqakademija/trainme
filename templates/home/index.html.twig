@@ -8,4 +8,38 @@
 
 {% block body %}
     <div class="hero"></div>
+
+    <div class="listContainer">
+        {#Form#}
+        <section class="filterContainer">
+            <form method="" action="" class="filters">
+                <div class="filters__container">
+                    <div class="filters__left">
+                        <h1 class="filters__pageTitle">Our trainers</h1>
+                    </div>
+                    <div class="filters__right">
+                        <input class="filters__name" type="text" placeholder="Search by name..." name="name"/>
+                    </div>
+                </div>
+                <div class="filters__inputs">
+                    <label class="filters__label" for="date">Date</label>
+                    <input id="date" type="date" class="filters__date" name="date"/>
+                    {#From#}
+                    <label class="filters__label" for="from">From</label>
+                    <input class="filters__from" type="time" id="from" name="from"/>
+                    {#To#}
+                    <label class="filters__label" for="to">To</label>
+                    <input class="filters__to" type="time" id="to" name="to"/>
+                    {#Tags#}
+                    <ul class="filters__tags u-listNone">
+                        <li class="filters__tag">Running</li>
+                        <li class="filters__tag">Weight lifting</li>
+                        <li class="filters__tag">Martial arts</li>
+                    </ul>
+
+                    <input class="filters__submit" type="submit" value="Go"/>
+                </div>
+            </form>
+        </section>
+    </div>
 {% endblock %}
