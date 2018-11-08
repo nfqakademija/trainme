@@ -1,4 +1,5 @@
 // the ~ allows you to reference things in node_modules
+//Trainers list page
 @import "~normalize.css";
 @import "navbar";
 @import "hero";
@@ -6,6 +7,9 @@
 @import "trainers";
 @import "pagination";
 @import "footer";
+
+//Personal trainer's page
+
 
 body,
 html {
