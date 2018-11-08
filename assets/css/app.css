@@ -41,4 +41,12 @@
   .navbar__item__link:hover {
     background: rgba(0, 0, 0, 0.9); }
 
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: 100;
+  font-family: 'Lato'; }
+
 /*# sourceMappingURL=app.css.map */

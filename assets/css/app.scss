@@ -1,3 +1,12 @@
 // the ~ allows you to reference things in node_modules
 @import "~normalize.css";
 @import "navbar";
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: 100;
+  font-family: 'Lato';
+}
