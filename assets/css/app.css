@@ -41,6 +41,13 @@
   .navbar__item__link:hover {
     background: rgba(0, 0, 0, 0.9); }
 
+.hero {
+  background: url(https://images.unsplash.com/photo-1522350260280-7d8f965f5d0f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d0d0f17bdf444a81e5ca5704635082ce&auto=format&fit=crop&w=750&q=80);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 200px; }
+
 body,
 html {
   margin: 0;
