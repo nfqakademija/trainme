@@ -1,4 +1,3 @@
-@import url(~normalize.css);
 .navbar {
   height: 60px;
   background: rgba(0, 0, 0, 0.78);
@@ -41,4 +40,4 @@
   .navbar__item__link:hover {
     background: rgba(0, 0, 0, 0.9); }
 
-/*# sourceMappingURL=app.css.map */
+/*# sourceMappingURL=navbar.css.map */
