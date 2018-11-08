@@ -1,0 +1,73 @@
+.trainersBlock {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.trainerBox {
+  position: relative;
+  height: 250px;
+  width: 350px;
+  overflow: hidden;
+  margin: 30px 60px;
+
+  &:hover {
+    .trainerBox__overlay {
+      background: rgba(0, 0, 0, .7);
+    }
+
+    .trainerBox__details {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.trainerBox__overlay {
+  background: transparent;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.trainerBox__image {
+  object-fit: cover;
+  width: 350px;
+  height: 250px;
+}
+
+.trainerBox__details {
+  position: absolute;
+  background: rgba(0, 0, 0, .7);
+  transition: all 0.3s ease-in-out;
+  height: 100%;
+  width: 100%;
+  transform: translateY(200px);
+  color: white;
+  padding: 15px 10px;
+  box-sizing: border-box;
+}
+
+.trainerBox__name {
+  font-weight: bold;
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.fa-star--yellow {
+  color: yellow;
+  font-size: 1.1em;
+}
+
+.trainerBox__head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.trainerBox__rating {
+  margin: 0;
+  font-weight: bold;
+}
