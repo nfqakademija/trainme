@@ -70,3 +70,19 @@
 .filters__tags--big {
   width: 400px;
 }
+
+.button {
+  padding: 0;
+  border: none;
+}
+
+.button__content {
+  display: block;
+  height: 100%;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  background: black;
+  padding: 15px 20px;
+}
