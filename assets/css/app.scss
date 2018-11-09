@@ -1,17 +1,19 @@
 // the ~ allows you to reference things in node_modules
-//Trainers list page
+//Libs
 @import "~normalize.css";
-@import "navbar";
-@import "hero";
-@import "filter";
-@import "trainers";
-@import "pagination";
-@import "footer";
-//Personal trainer's page
 @import "lib/fullcalendar.min.css";
-@import "trainerHero";
-@import "trainerContainer";
-@import "calendar";
+//Base
+@import "footer";
+@import "navbar";
+//Trainers list page
+@import "trainerList/hero";
+@import "trainerList/filter";
+@import "trainerList/trainers";
+@import "trainerList/pagination";
+//Personal trainer's page
+@import "trainerPage/trainerHero";
+@import "trainerPage/trainerContainer";
+@import "trainerPage/calendar";
 
 body,
 html {
