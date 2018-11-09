@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Tag
 {
     /**
+     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,35 +20,51 @@ class Tag
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $description;
 
     /**
+     * @var Trainer
      * @ORM\ManyToMany(targetEntity="App\Entity\Trainer", inversedBy="tags")
      */
     private $trainer;
 
+    /**
+     * Tag constructor.
+     */
     public function __construct()
     {
         $this->trainer = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Tag
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -55,11 +72,18 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return Tag
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -75,6 +99,10 @@ class Tag
         return $this->trainer;
     }
 
+    /**
+     * @param Trainer $trainer
+     * @return Tag
+     */
     public function addTrainer(Trainer $trainer): self
     {
         if (!$this->trainer->contains($trainer)) {
@@ -84,6 +112,10 @@ class Tag
         return $this;
     }
 
+    /**
+     * @param Trainer $trainer
+     * @return Tag
+     */
     public function removeTrainer(Trainer $trainer): self
     {
         if ($this->trainer->contains($trainer)) {

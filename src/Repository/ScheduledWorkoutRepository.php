@@ -18,33 +18,4 @@ class ScheduledWorkoutRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ScheduledWorkout::class);
     }
-
-    // /**
-    //  * @return ScheduledWorkout[] Returns an array of ScheduledWorkout objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ScheduledWorkout
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

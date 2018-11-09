@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Trainer
 {
     /**
+     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,35 +20,44 @@ class Trainer
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
 
     /**
+     * @var string
      * @ORM\Column(type="text")
      */
     private $personalStatement;
 
     /**
+     * @var Collection|AvailabilitySlot[]
      * @ORM\OneToMany(targetEntity="App\Entity\AvailabilitySlot", mappedBy="trainer")
      */
     private $availabilitySlots;
 
     /**
+     * @var Collection|ScheduledWorkout[]
      * @ORM\OneToMany(targetEntity="App\Entity\ScheduledWorkout", mappedBy="trainer")
      */
     private $scheduledWorkouts;
 
     /**
+     * @var Collection|Tag[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="trainer")
      */
     private $tags;
 
+    /**
+     * Trainer constructor.
+     */
     public function __construct()
     {
         $this->availabilitySlots = new ArrayCollection();
@@ -55,16 +65,26 @@ class Trainer
         $this->tags = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Trainer
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -72,11 +92,18 @@ class Trainer
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPhone(): ?string
     {
         return $this->phone;
     }
 
+    /**
+     * @param string $phone
+     * @return Trainer
+     */
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
@@ -84,11 +111,18 @@ class Trainer
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPersonalStatement(): ?string
     {
         return $this->personalStatement;
     }
 
+    /**
+     * @param string $personalStatement
+     * @return Trainer
+     */
     public function setPersonalStatement(string $personalStatement): self
     {
         $this->personalStatement = $personalStatement;
@@ -104,6 +138,10 @@ class Trainer
         return $this->availabilitySlots;
     }
 
+    /**
+     * @param AvailabilitySlot $availabilitySlot
+     * @return Trainer
+     */
     public function addAvailabilitySlot(AvailabilitySlot $availabilitySlot): self
     {
         if (!$this->availabilitySlots->contains($availabilitySlot)) {
@@ -114,6 +152,10 @@ class Trainer
         return $this;
     }
 
+    /**
+     * @param AvailabilitySlot $availabilitySlot
+     * @return Trainer
+     */
     public function removeAvailabilitySlot(AvailabilitySlot $availabilitySlot): self
     {
         if ($this->availabilitySlots->contains($availabilitySlot)) {
@@ -135,6 +177,10 @@ class Trainer
         return $this->scheduledWorkouts;
     }
 
+    /**
+     * @param ScheduledWorkout $scheduledWorkout
+     * @return Trainer
+     */
     public function addScheduledWorkout(ScheduledWorkout $scheduledWorkout): self
     {
         if (!$this->scheduledWorkouts->contains($scheduledWorkout)) {
@@ -145,6 +191,10 @@ class Trainer
         return $this;
     }
 
+    /**
+     * @param ScheduledWorkout $scheduledWorkout
+     * @return Trainer
+     */
     public function removeScheduledWorkout(ScheduledWorkout $scheduledWorkout): self
     {
         if ($this->scheduledWorkouts->contains($scheduledWorkout)) {
@@ -166,6 +216,10 @@ class Trainer
         return $this->tags;
     }
 
+    /**
+     * @param Tag $tag
+     * @return Trainer
+     */
     public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {
@@ -176,6 +230,10 @@ class Trainer
         return $this;
     }
 
+    /**
+     * @param Tag $tag
+     * @return Trainer
+     */
     public function removeTag(Tag $tag): self
     {
         if ($this->tags->contains($tag)) {
