@@ -1,10 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Trainer's Page - {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+{% endblock %}
 {% block body %}
     <div class="heroTrainer"></div>
 
     <section class="trainerContainer">
         <h1 class="blackTitle">John Davis</h1>
+
+        <div class="trainerInfo">
+
+            <div class="trainerInfo__left">
+                <div class="trainerInfo__imageContainer">
+                    <img class="trainerInfo__image" src="{{ asset('images/john.jpg') }}" alt="Trainer"/>
+                </div>
+                <div class="trainerInfo__tags">
+                    <p class="blackTitle">Tags</p>
+                    <ul class="filters__tags filters__tags--big u-listNone u-marginTop">
+                        <li class="filters__tag filters__tag--big">Running</li>
+                        <li class="filters__tag filters__tag--big">Weight lifting</li>
+                        <li class="filters__tag filters__tag--big">Martial arts</li>
+                        <li class="filters__tag filters__tag--big">Running</li
+                    </ul>
+                </div>
+            </div>
+
+            <div class="trainerInfo__right">
+                <p class="trainerInfo__rating"><i class="fas fa-star fa-star--yellow fa-star--big"></i> 4.8</p>
+                <span class="trainerInfo__count"> 486 rating(s)</span>
+                <p class="trainerInfo__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus volutpat
+                    velit ipsum, vitae congue nisi volutpat at. Cras leo libero, porta sit amet pretium eu, laoreet nec
+                    ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ut porta elit, ac
+                    consequat augue. In leo nisi, tempus in.</p>
+                <p class="trainerInfo__desc">Location: <span class="trainerInfo__desc">London</span></p>
+                <p class="trainerInfo__desc">Workouts on TrainMe: <span class="trainerInfo__desc">496</span></p>
+            </div>
+        </div>
     </section>
 {% endblock %}

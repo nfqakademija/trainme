@@ -1,6 +1,60 @@
 .trainerContainer {
-  width: 70%;
+  width: 60%;
   margin: auto;
-  padding: 40px 20px; }
+  padding: 40px 20px;
+  justify-content: center; }
+
+.trainerInfo {
+  display: flex;
+  color: black;
+  font-weight: bold;
+  margin-top: 35px; }
+
+.trainerInfo__left,
+.trainerInfo__right {
+  width: 50%; }
+
+.trainerInfo__left {
+  display: flex;
+  flex-direction: column; }
+
+.trainerInfo__imageContainer {
+  height: 350px;
+  width: 350px; }
+
+.trainerInfo__image {
+  object-fit: cover;
+  width: 350px;
+  height: 350px; }
+
+.trainerInfo__rating {
+  display: inline;
+  font-size: 1.2em; }
+
+.trainerInfo__count {
+  font-size: .9em;
+  font-style: italic;
+  margin-left: 10px; }
+
+.fa-star--big {
+  font-size: 2em; }
+
+.trainerInfo__desc {
+  max-width: 330px;
+  margin: 20px 0;
+  text-align: justify;
+  font-size: 1.2em; }
+
+.trainerInfo__tags {
+  margin: 35px 0; }
+
+.u-marginTop {
+  margin-top: 35px; }
+
+.filters__tag--big {
+  padding: 10px 15px; }
+
+.filters__tags--big {
+  width: 400px; }
 
 /*# sourceMappingURL=trainerContainer.css.map */
