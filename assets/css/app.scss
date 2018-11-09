@@ -7,10 +7,11 @@
 @import "trainers";
 @import "pagination";
 @import "footer";
-
 //Personal trainer's page
+@import "lib/fullcalendar.min.css";
 @import "trainerHero";
 @import "trainerContainer";
+@import "calendar";
 
 body,
 html {
