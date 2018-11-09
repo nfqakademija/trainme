@@ -205,31 +205,7 @@
             </div>
         </section>
     </div>
-    {#Footer#}
-    <footer class="footerContainer">
-        <div class="footer">
-            <ul class="linkList">
-                <li class="u-listNone"><a class="footer__link" href="/">Home</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">About Us</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">Out trainers</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">FAQ</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">Login / Signup</a></li>
-            </ul>
-
-            <div class="media">
-                <p class="media__text">Follow us:</p>
-                <ul class="mediaList">
-                    <li class="u-listNone"><a class="footer__link footer__link--media" href="#"><i
-                                    class="fab fa-facebook"></i></a>
-                    </li>
-                    <li class="u-listNone"><a class="footer__link footer__link--media" href="#"><i
-                                    class="fab fa-instagram"></i></a>
-                    </li>
-                    <li class="u-listNone"><a class="footer__link footer__link--media" href="#"><i
-                                    class="fab fa-youtube"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-    <footer class="copyright">All rights reserved at © TrainMe 2018</footer>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
