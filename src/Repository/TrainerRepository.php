@@ -38,10 +38,10 @@ class TrainerRepository extends ServiceEntityRepository
         ?\DateTimeInterface $startsAt,
         ?\DateTimeInterface $endsAt,
         array $tags
-    ) : Paginator
+    ): Paginator
     {
         $qb = $this->createQueryBuilder('t');
-        if($startsAt && $endsAt) {
+        if ($startsAt && $endsAt) {
 
             $qb->innerJoin('t.availabilitySlots', 'a')->leftJoin('t.scheduledWorkouts', 's', Join::WITH, 'a.startsAt <= :from and s.endsAt >= :to')->where($qb->expr()->andX(
                 $qb->expr()->andX(
@@ -62,11 +62,11 @@ class TrainerRepository extends ServiceEntityRepository
             ))->setParameters(['from' => $startsAt, 'to' => $endsAt]);
         }
 
-        if($name) {
-            $qb->andWhere('t.name LIKE :name')->setParameter('name','%' . $name . '%');
+        if ($name) {
+            $qb->andWhere('t.name LIKE :name')->setParameter('name', '%' . $name . '%');
         }
 
-        if(!empty($tags)) {
+        if (!empty($tags)) {
             $qb->innerJoin('t.tags', 'f')
                 ->andWhere($qb->expr()->in('f.id', $tags));
         }
@@ -87,9 +87,9 @@ class TrainerRepository extends ServiceEntityRepository
      *     $paginator->count() # Count of ALL posts (ie: `20` posts)
      *     $paginator->getIterator() # ArrayIterator
      *
-     * @param \Doctrine\ORM\Query $dql   DQL Query Object
-     * @param integer            $page  Current page (defaults to 1)
-     * @param integer            $limit The total number per page (defaults to 5)
+     * @param \Doctrine\ORM\Query $dql DQL Query Object
+     * @param integer $page Current page (defaults to 1)
+     * @param integer $limit The total number per page (defaults to 5)
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
@@ -98,7 +98,7 @@ class TrainerRepository extends ServiceEntityRepository
         $paginator = new Paginator($dql);
 
         $paginator->getQuery()
-            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setFirstResult($limit * ($page - 1))// Offset
             ->setMaxResults($limit);
 
         return $paginator;
