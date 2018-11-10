@@ -56,6 +56,11 @@ class Trainer
     private $tags;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image_url;
+
+    /**
      * Trainer constructor.
      */
     public function __construct()
@@ -240,6 +245,18 @@ class Trainer
             $this->tags->removeElement($tag);
             $tag->removeTrainer($this);
         }
+
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->image_url;
+    }
+
+    public function setImageUrl(string $image_url): self
+    {
+        $this->image_url = $image_url;
 
         return $this;
     }
