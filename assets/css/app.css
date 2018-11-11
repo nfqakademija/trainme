@@ -243,15 +243,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px;
+  height: 45px;
+  width: 45px;
   margin: 0 10px;
   cursor: pointer; }
   .pagination__box:hover {
     background: black; }
 
+.pagination__box--active {
+  background: black; }
+
 .pagination__number {
   color: white;
   font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
   margin: 0; }
 
 .heroTrainer {
