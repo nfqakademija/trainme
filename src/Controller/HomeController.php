@@ -18,10 +18,19 @@ class HomeController extends Controller
      * @param int $page
      * @return Response
      */
-    public function index(TrainerRepository $trainerRepository, $page = 1)
+    public function index(TrainerRepository $trainerRepository, Request $request, $page = 1)
     {
-        $trainers = $trainerRepository->findFilteredTrainers($page, 5, null, null, null, []);
+        $name = $request->get('name');
+        $date = $request->get('date');
+        $from = $request->get('from');
+        $to = $request->get('to');
+
+        $startsAt = new \DateTime($date . ' ' . $from);
+        $endsAt = new \DateTime(($date . ' ' . $to));
+
+        $trainers = $trainerRepository->findFilteredTrainers($page, 5, $name, $startsAt, $endsAt, []);
         $maxPages = ceil($trainers->count() / 5);
+
         return $this->render('home/index.html.twig', ['trainers' => $trainers->getIterator(), 'thisPage' => $page, 'maxPages' => $maxPages]);
     }
 
