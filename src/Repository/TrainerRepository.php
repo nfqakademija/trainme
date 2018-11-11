@@ -42,8 +42,7 @@ class TrainerRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t');
         if ($startsAt && $endsAt) {
             $qb->innerJoin('t.availabilitySlots', 'a')
-                ->leftJoin('t.scheduledWorkouts', 's', Join::WITH,
-                    'a.startsAt <= :from and s.endsAt >= :to')
+                ->leftJoin('t.scheduledWorkouts', 's', Join::WITH, 'a.startsAt <= :from and s.endsAt >= :to')
                 ->where(
                 $qb->expr()->andX(
                     $qb->expr()->andX(
