@@ -60,7 +60,7 @@ class TrainerRepository extends ServiceEntityRepository
                             )
                         )
                     )
-            )->setParameters(['from' => $startsAt, 'to' => $endsAt]);
+                )->setParameters(['from' => $startsAt, 'to' => $endsAt]);
         }
 
         if ($name) {
