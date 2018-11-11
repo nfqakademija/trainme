@@ -41,8 +41,10 @@ class TrainerRepository extends ServiceEntityRepository
     ): Paginator {
         $qb = $this->createQueryBuilder('t');
         if ($startsAt && $endsAt) {
-
-            $qb->innerJoin('t.availabilitySlots', 'a')->leftJoin('t.scheduledWorkouts', 's', Join::WITH, 'a.startsAt <= :from and s.endsAt >= :to')->where(
+            $qb->innerJoin('t.availabilitySlots', 'a')
+                ->leftJoin('t.scheduledWorkouts', 's', Join::WITH,
+                    'a.startsAt <= :from and s.endsAt >= :to')
+                ->where(
                 $qb->expr()->andX(
                     $qb->expr()->andX(
                         $qb->expr()->lte('a.startsAt', ':from'),
