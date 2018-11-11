@@ -14,7 +14,7 @@
     <div class="listContainer">
         {#Form#}
         <section class="filterContainer">
-            <form method="" action="" class="filters">
+            <form method="GET" action="" class="filters">
                 <div class="filters__container">
                     <div class="filters__left">
                         <h1 class="blackTitle">Our trainers</h1>
@@ -45,165 +45,36 @@
         </section>
         {#List of trainers#}
         <section class="trainersBlock">
-            <div class="trainerBox">
-                <a href="#">
-                    <div class="trainerBox__overlay">
-                        <div class="trainerBox__details">
-                            <div class="trainerBox__head">
-                                <p class="trainerBox__name">John Davis</p>
-                                <p class="trainerBox__rating"><span>4.8 </span><i
-                                            class="fas fa-star fa-star--yellow"></i>
-                                </p>
+            {% for trainer in trainers %}
+                <div class="trainerBox">
+                    <a href="{{ trainer.id }}">
+                        <div class="trainerBox__overlay">
+                            <div class="trainerBox__details">
+                                <div class="trainerBox__head">
+                                    <p class="trainerBox__name">{{ trainer.name }}</p>
+                                    <p class="trainerBox__rating"><span>4.8 </span><i
+                                                class="fas fa-star fa-star--yellow"></i>
+                                    </p>
+                                </div>
+                                <p class="trainerBox__description">{{ trainer.personalStatement }}</p>
                             </div>
-                            <p class="trainerBox__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Curabitur mollis arcu et vulputate volutpat. Vivamus ut ante sit amet ipsum dapibus
-                                commodo.
-                                Nunc placerat nibh metus, vitae consectetur sem lobortis vel. Vestibulum eu arcu tempus,
-                                aliquam neque id, vehicula sem. Aliquam tincidunt vehicula tortor, non ornare leo
-                                venenatis
-                                nec. Fusce.</p>
                         </div>
-                    </div>
-                    <img class="trainerBox__image" src="{{ asset('images/john.jpg') }}">
-                </a>
-            </div>
-
-            <div class="trainerBox">
-                <a href="#">
-                    <div class="trainerBox__overlay">
-                        <div class="trainerBox__details">
-                            <div class="trainerBox__head">
-                                <p class="trainerBox__name">John Davis</p>
-                                <p class="trainerBox__rating"><span>4.8 </span><i
-                                            class="fas fa-star fa-star--yellow"></i>
-                                </p>
-                            </div>
-                            <p class="trainerBox__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Curabitur mollis arcu et vulputate volutpat. Vivamus ut ante sit amet ipsum dapibus
-                                commodo.
-                                Nunc placerat nibh metus, vitae consectetur sem lobortis vel. Vestibulum eu arcu tempus,
-                                aliquam neque id, vehicula sem. Aliquam tincidunt vehicula tortor, non ornare leo
-                                venenatis
-                                nec. Fusce.</p>
-                        </div>
-                    </div>
-                    <img class="trainerBox__image" src="{{ asset('images/john.jpg') }}">
-                </a>
-            </div>
-
-            <div class="trainerBox">
-                <a href="#">
-                    <div class="trainerBox__overlay">
-                        <div class="trainerBox__details">
-                            <div class="trainerBox__head">
-                                <p class="trainerBox__name">John Davis</p>
-                                <p class="trainerBox__rating"><span>4.8 </span><i
-                                            class="fas fa-star fa-star--yellow"></i>
-                                </p>
-                            </div>
-                            <p class="trainerBox__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Curabitur mollis arcu et vulputate volutpat. Vivamus ut ante sit amet ipsum dapibus
-                                commodo.
-                                Nunc placerat nibh metus, vitae consectetur sem lobortis vel. Vestibulum eu arcu tempus,
-                                aliquam neque id, vehicula sem. Aliquam tincidunt vehicula tortor, non ornare leo
-                                venenatis
-                                nec. Fusce.</p>
-                        </div>
-                    </div>
-                    <img class="trainerBox__image" src="{{ asset('images/john.jpg') }}">
-                </a>
-            </div>
-
-            <div class="trainerBox">
-                <a href="#">
-                    <div class="trainerBox__overlay">
-                        <div class="trainerBox__details">
-                            <div class="trainerBox__head">
-                                <p class="trainerBox__name">John Davis</p>
-                                <p class="trainerBox__rating"><span>4.8 </span><i
-                                            class="fas fa-star fa-star--yellow"></i>
-                                </p>
-                            </div>
-                            <p class="trainerBox__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Curabitur mollis arcu et vulputate volutpat. Vivamus ut ante sit amet ipsum dapibus
-                                commodo.
-                                Nunc placerat nibh metus, vitae consectetur sem lobortis vel. Vestibulum eu arcu tempus,
-                                aliquam neque id, vehicula sem. Aliquam tincidunt vehicula tortor, non ornare leo
-                                venenatis
-                                nec. Fusce.</p>
-                        </div>
-                    </div>
-                    <img class="trainerBox__image" src="{{ asset('images/john.jpg') }}">
-                </a>
-            </div>
-
-            <div class="trainerBox">
-                <a href="#">
-                    <div class="trainerBox__overlay">
-                        <div class="trainerBox__details">
-                            <div class="trainerBox__head">
-                                <p class="trainerBox__name">John Davis</p>
-                                <p class="trainerBox__rating"><span>4.8 </span><i
-                                            class="fas fa-star fa-star--yellow"></i>
-                                </p>
-                            </div>
-                            <p class="trainerBox__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Curabitur mollis arcu et vulputate volutpat. Vivamus ut ante sit amet ipsum dapibus
-                                commodo.
-                                Nunc placerat nibh metus, vitae consectetur sem lobortis vel. Vestibulum eu arcu tempus,
-                                aliquam neque id, vehicula sem. Aliquam tincidunt vehicula tortor, non ornare leo
-                                venenatis
-                                nec. Fusce.</p>
-                        </div>
-                    </div>
-                    <img class="trainerBox__image" src="{{ asset('images/john.jpg') }}">
-                </a>
-            </div>
-
-            <div class="trainerBox">
-                <a href="#">
-                    <div class="trainerBox__overlay">
-                        <div class="trainerBox__details">
-                            <div class="trainerBox__head">
-                                <p class="trainerBox__name">John Davis</p>
-                                <p class="trainerBox__rating"><span>4.8 </span><i
-                                            class="fas fa-star fa-star--yellow"></i>
-                                </p>
-                            </div>
-                            <p class="trainerBox__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Curabitur mollis arcu et vulputate volutpat. Vivamus ut ante sit amet ipsum dapibus
-                                commodo.
-                                Nunc placerat nibh metus, vitae consectetur sem lobortis vel. Vestibulum eu arcu tempus,
-                                aliquam neque id, vehicula sem. Aliquam tincidunt vehicula tortor, non ornare leo
-                                venenatis
-                                nec. Fusce.</p>
-                        </div>
-                    </div>
-                    <img class="trainerBox__image" src="{{ asset('images/john.jpg') }}">
-                </a>
-            </div>
+                        <img class="trainerBox__image" src="{{ trainer.imageUrl }}">
+                    </a>
+                </div>
+            {% endfor %}
         </section>
         {#Pagination#}
-        <section class="pagination">
-            <div class="pagination__box">
-                <p class="pagination__number">1</p>
-            </div>
-            <div class="pagination__box">
-                <p class="pagination__number">2</p>
-            </div>
-            <div class="pagination__box">
-                <p class="pagination__number">3</p>
-            </div>
-            <div class="pagination__box">
-                <p class="pagination__number">4</p>
-            </div>
-            <div class="pagination__box">
-                <p class="pagination__number">...</p>
-            </div>
-            <div class="pagination__box">
-                <p class="pagination__number">9</p>
-            </div>
-        </section>
+
+        {% if maxPages > 1 %}
+            <ul class="pagination u-listNone">
+                {% for i in 1..maxPages %}
+                    <li class="pagination__box {{ thisPage==i? "pagination__box--active" }}">
+                        <a class="pagination__number" href="{{ path('home', {page: i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
 {% block footer %}
