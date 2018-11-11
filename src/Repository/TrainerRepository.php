@@ -23,12 +23,12 @@ class TrainerRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $page
-     * @param int $itemsPerPage
-     * @param null|string $name
-     * @param \DateTimeInterface|null $startsAt
-     * @param \DateTimeInterface|null $endsAt
-     * @param array $tags
+     * @param  int                     $page
+     * @param  int                     $itemsPerPage
+     * @param  null|string             $name
+     * @param  \DateTimeInterface|null $startsAt
+     * @param  \DateTimeInterface|null $endsAt
+     * @param  array                   $tags
      * @return Paginator
      */
     public function findFilteredTrainers(
@@ -38,28 +38,28 @@ class TrainerRepository extends ServiceEntityRepository
         ?\DateTimeInterface $startsAt,
         ?\DateTimeInterface $endsAt,
         array $tags
-    ): Paginator
-    {
+    ): Paginator {
         $qb = $this->createQueryBuilder('t');
         if ($startsAt && $endsAt) {
 
-            $qb->innerJoin('t.availabilitySlots', 'a')->leftJoin('t.scheduledWorkouts', 's', Join::WITH, 'a.startsAt <= :from and s.endsAt >= :to')->where($qb->expr()->andX(
+            $qb->innerJoin('t.availabilitySlots', 'a')->leftJoin('t.scheduledWorkouts', 's', Join::WITH, 'a.startsAt <= :from and s.endsAt >= :to')->where(
                 $qb->expr()->andX(
-                    $qb->expr()->lte('a.startsAt', ':from'),
-                    $qb->expr()->gte('a.endsAt', ':to')
-                ),
-                $qb->expr()->andX(
-                    $qb->expr()->orX(
-                        $qb->expr()->gte('s.startsAt', ':to'),
-                        $qb->expr()->lte('s.endsAt', ':to'),
-                        $qb->expr()->andX(
-                            $qb->expr()->isNull('s.startsAt'),
-                            $qb->expr()->isNull('s.endsAt')
+                    $qb->expr()->andX(
+                        $qb->expr()->lte('a.startsAt', ':from'),
+                        $qb->expr()->gte('a.endsAt', ':to')
+                    ),
+                    $qb->expr()->andX(
+                        $qb->expr()->orX(
+                            $qb->expr()->gte('s.startsAt', ':to'),
+                            $qb->expr()->lte('s.endsAt', ':to'),
+                            $qb->expr()->andX(
+                                $qb->expr()->isNull('s.startsAt'),
+                                $qb->expr()->isNull('s.endsAt')
+                            )
                         )
                     )
-
                 )
-            ))->setParameters(['from' => $startsAt, 'to' => $endsAt]);
+            )->setParameters(['from' => $startsAt, 'to' => $endsAt]);
         }
 
         if ($name) {
@@ -87,9 +87,9 @@ class TrainerRepository extends ServiceEntityRepository
      *     $paginator->count() # Count of ALL posts (ie: `20` posts)
      *     $paginator->getIterator() # ArrayIterator
      *
-     * @param \Doctrine\ORM\Query $dql DQL Query Object
-     * @param integer $page Current page (defaults to 1)
-     * @param integer $limit The total number per page (defaults to 5)
+     * @param \Doctrine\ORM\Query $dql   DQL Query Object
+     * @param integer             $page  Current page (defaults to 1)
+     * @param integer             $limit The total number per page (defaults to 5)
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
