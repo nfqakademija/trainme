@@ -1,0 +1,44 @@
+.homeHero {
+  height: 350px;
+  background: url(https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=de05b46a8ac91fcff2b134811e62d79f&auto=format&fit=crop&w=889&q=80);
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.homeHeadingContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.homeContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.article {
+  display: flex;
+  justify-content: space-evenly;
+  width: 900px;
+  height: 300px;
+  margin: 30px 0;
+}
+
+.article__image {
+  height: 90%;
+  flex: 3;
+}
+
+.article__textContainer {
+  flex: 3;
+  padding: 20px 25px;
+}
+
+.article__text {
+  font-weight: bold;
+  font-size: 1.1em;
+  text-align: justify;
+}
