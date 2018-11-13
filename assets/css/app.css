@@ -96,6 +96,44 @@
   .navbar__item__link:hover {
     background: rgba(0, 0, 0, 0.9); }
 
+.homeHero {
+  height: 350px;
+  background: url(https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=de05b46a8ac91fcff2b134811e62d79f&auto=format&fit=crop&w=889&q=80);
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; }
+
+.homeHeadingContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px; }
+
+.homeContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+
+.article {
+  display: flex;
+  justify-content: space-evenly;
+  width: 900px;
+  height: 300px;
+  margin: 30px 0; }
+
+.article__image {
+  height: 90%;
+  flex: 3; }
+
+.article__textContainer {
+  flex: 3;
+  padding: 20px 25px; }
+
+.article__text {
+  font-weight: bold;
+  font-size: 1.1em;
+  text-align: justify; }
+
 .hero {
   background: url(https://images.unsplash.com/photo-1522350260280-7d8f965f5d0f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d0d0f17bdf444a81e5ca5704635082ce&auto=format&fit=crop&w=750&q=80);
   background-size: cover;
