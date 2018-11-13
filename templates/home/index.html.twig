@@ -20,18 +20,18 @@
                         <h1 class="blackTitle">Our trainers</h1>
                     </div>
                     <div class="filters__right">
-                        <input class="filters__name" type="text" placeholder="Search by name..." name="name"/>
+                        <input class="filters__name" type="text" placeholder="Search by name..." name="name" value="{{ app.request.query.get('name') }}"/>
                     </div>
                 </div>
                 <div class="filters__inputs">
                     <label class="filters__label" for="date">Date</label>
-                    <input id="date" type="date" class="filters__date" name="date"/>
+                    <input id="date" type="date" class="filters__date" value="{{ app.request.query.get('date') }}" name="date"/>
                     {#From#}
                     <label class="filters__label" for="from">From</label>
-                    <input class="filters__from" type="time" id="from" name="from"/>
+                    <input class="filters__from" type="time" id="from" name="from"  value="{{ app.request.query.get('from') }}"/>
                     {#To#}
                     <label class="filters__label" for="to">To</label>
-                    <input class="filters__to" type="time" id="to" name="to"/>
+                    <input class="filters__to" type="time" id="to" name="to"  value="{{ app.request.query.get('to') }}"/>
                     {#Tags#}
                     <ul class="filters__tags u-listNone">
                         <li class="filters__tag">Running</li>
@@ -70,7 +70,7 @@
             <ul class="pagination u-listNone">
                 {% for i in 1..maxPages %}
                     <li class="pagination__box {{ thisPage==i? "pagination__box--active" }}">
-                        <a class="pagination__number" href="{{ path('home', {page: i}) }}">{{ i }}</a>
+                        <a class="pagination__number" href="{{ path('home', {page: i, name: app.request.query.get('name'), date: app.request.query.get('date'), from: app.request.query.get('from'), to: app.request.query.get('to') }) }}">{{ i }}</a>
                     </li>
                 {% endfor %}
             </ul>

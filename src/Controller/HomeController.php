@@ -12,21 +12,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller
 {
     /**
-     * @Route("/trainers/list/{page}", name="home")
+     * @Route("/trainers/list", name="home")
      * @param Request $request
      * @param TrainerRepository $trainerRepository
-     * @param int $page
      * @return Response
      */
-    public function index(TrainerRepository $trainerRepository, Request $request, $page = 1)
+    public function index(TrainerRepository $trainerRepository, Request $request)
     {
-        $name = $request->get('name');
-        $date = $request->get('date');
-        $from = $request->get('from');
-        $to = $request->get('to');
+        $name = $request->query->get('name');
+        $date = $request->query->get('date');
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $page = $request->query->get('page') ?? 1;
 
-        $startsAt = new \DateTime($date . ' ' . $from);
-        $endsAt = new \DateTime(($date . ' ' . $to));
+        $startsAt = null;
+        $endsAt = null;
+
+
+        if ($date && $from && $to) {
+            $date = new \DateTime($date);
+            $from = new \DateTime($from);
+            $to = new \DateTime($to);
+            $startsAt = new \DateTime($date->format('Y-m-d') .' ' .$from->format('H:i:s'));
+            $endsAt = new \DateTime($date->format('Y-m-d') .' ' .$to->format('H:i:s'));
+        }
 
         $trainers = $trainerRepository->findFilteredTrainers($page, 5, $name, $startsAt, $endsAt, []);
         $maxPages = ceil($trainers->count() / 5);
