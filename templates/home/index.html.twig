@@ -24,8 +24,8 @@
                     </div>
                 </div>
                 <div class="filters__inputs">
-                    <label class="filters__label" for="date">Date</label>
-                    <input id="date" type="date" class="filters__date" value="{{ app.request.query.get('date') }}" name="date"/>
+                    <label class="filters__label" for="datepicker">Date</label>
+                    <input id="datepicker" type="text" class="filters__date" value="{{ app.request.query.get('date') }}" name="date" autocomplete="off"/>
                     {#From#}
                     <label class="filters__label" for="from">From</label>
                     <input class="filters__from" type="time" id="from" name="from"  value="{{ app.request.query.get('from') }}"/>

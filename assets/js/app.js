@@ -1,6 +1,2 @@
-import $ from 'jquery';
-import 'fullcalendar';
-
-$(function () {
-    $('#calendar').fullCalendar({})
-})
+import './calendar';
+import './dateTimePicker';
