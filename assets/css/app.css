@@ -173,9 +173,10 @@
   margin-right: 30px;
   font-weight: bold; }
 
-.filters__inputs {
+.inputContainer {
   margin: 20px 0;
-  display: flex; }
+  display: flex;
+  flex-direction: column; }
 
 .filters__submit {
   background: rgba(0, 0, 0, 0.78);
@@ -197,7 +198,6 @@
   display: flex;
   margin: 0;
   padding: 0 15px 0 0;
-  width: 300px;
   flex-wrap: wrap; }
 
 .filters__tag {
@@ -205,8 +205,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px 5px;
-  margin: 0 5px 5px 0;
+  padding: 8px 15px;
+  margin: 5px 5px 0 0;
   cursor: pointer;
   transition: all .2s ease-in-out;
   font-weight: bold;
@@ -221,6 +221,18 @@
   .hiddenCheckbox:checked ~ .filters__tag {
     background: rgba(0, 0, 0, 0.78);
     color: white; }
+
+.inputContainer__top {
+  display: flex;
+  margin: 10px 0 25px 0; }
+
+.inputContainer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; }
+
+.u-mRight {
+  margin-right: 100px; }
 
 .trainersBlock {
   display: flex;
@@ -401,7 +413,8 @@
   cursor: pointer;
   text-decoration: none;
   background: black;
-  padding: 15px 20px; }
+  padding: 15px 20px;
+  max-height: 55px; }
 
 .calendar {
   margin: 35px 0; }

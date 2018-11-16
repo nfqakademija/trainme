@@ -33,9 +33,10 @@
   font-weight: bold;
 }
 
-.filters__inputs {
+.inputContainer {
   margin: 20px 0;
   display: flex;
+  flex-direction: column;
 }
 
 .filters__submit {
@@ -62,7 +63,6 @@
   display: flex;
   margin: 0;
   padding: 0 15px 0 0;
-  width: 300px;
   flex-wrap: wrap;
 }
 
@@ -71,8 +71,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px 5px;
-  margin: 0 5px 5px 0;
+  padding: 8px 15px;
+  margin: 5px 5px 0 0;
   cursor: pointer;
   transition: all .2s ease-in-out;
   font-weight: bold;
@@ -94,4 +94,19 @@
       color: white;
     }
   }
+}
+
+.inputContainer__top {
+  display: flex;
+  margin: 10px 0 25px 0;
+}
+
+.inputContainer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.u-mRight {
+  margin-right: 100px;
 }
