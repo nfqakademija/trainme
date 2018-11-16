@@ -83,3 +83,15 @@
     background: rgba(0, 0, 0, .78);
   }
 }
+
+.hiddenCheckbox {
+  position: absolute;
+  left: -9999px;
+
+  &:checked {
+    ~ .filters__tag {
+      background: rgba(0, 0, 0, .78);
+      color: white;
+    }
+  }
+}

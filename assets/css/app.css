@@ -215,6 +215,13 @@
     color: white;
     background: rgba(0, 0, 0, 0.78); }
 
+.hiddenCheckbox {
+  position: absolute;
+  left: -9999px; }
+  .hiddenCheckbox:checked ~ .filters__tag {
+    background: rgba(0, 0, 0, 0.78);
+    color: white; }
+
 .trainersBlock {
   display: flex;
   justify-content: flex-start;

@@ -38,9 +38,18 @@
                     <input class="filters__to" type="text" id="to" name="to" value="{{ app.request.query.get('to') }}"/>
                     {#Tags#}
                     <ul class="filters__tags u-listNone">
-                        <li class="filters__tag">Running</li>
-                        <li class="filters__tag">Weight lifting</li>
-                        <li class="filters__tag">Martial arts</li>
+                        <li>
+                            <input name="indoors" class="hiddenCheckbox" type="checkbox" id="indoors" value="1"/>
+                            <label for="indoors" class="filters__tag">Indoors</label>
+                        </li>
+                        <li>
+                            <input name="outdoors" class="hiddenCheckbox" type="checkbox" id="outdoors" value="1"/>
+                            <label for="outdoors" class="filters__tag">Outdoors</label>
+                        </li>
+                        <li>
+                            <input name="lifting" class="hiddenCheckbox" type="checkbox" id="lifting" value="1"/>
+                            <label for="lifting" class="filters__tag">Weight Lifting</label>
+                        </li>
                     </ul>
 
                     <input class="button button__content" type="submit" value="Go"/>
