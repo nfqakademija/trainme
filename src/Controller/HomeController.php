@@ -46,8 +46,8 @@ class HomeController extends Controller
             $endsAt = new \DateTime($date->format('Y-m-d') . ' ' . $to->format('H:i:s'));
         }
 
-        $trainers = $trainerRepository->findFilteredTrainers($page, 5, $name, $startsAt, $endsAt, []);
-        $maxPages = ceil($trainers->count() / 5);
+        $trainers = $trainerRepository->findFilteredTrainers($page, 6, $name, $startsAt, $endsAt, []);
+        $maxPages = ceil($trainers->count() / 6);
 
         return $this->render('trainer/list.html.twig', ['trainers' => $trainers->getIterator(), 'thisPage' => $page, 'maxPages' => $maxPages]);
     }

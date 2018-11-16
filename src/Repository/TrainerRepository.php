@@ -104,7 +104,7 @@ class TrainerRepository extends ServiceEntityRepository
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
-    public function paginate($dql, $page = 1, $limit = 5)
+    public function paginate($dql, $page = 1, $limit = 6)
     {
         $paginator = new Paginator($dql);
 
