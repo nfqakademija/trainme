@@ -56,7 +56,7 @@ class TrainerRepository extends ServiceEntityRepository
                             ),
                             $sub->expr()->andX(
                                 $sub->expr()->gt(':to', 's.startsAt'),
-                                $sub->expr()->lt(':to', 's.endsAt')
+                                $sub->expr()->lte(':to', 's.endsAt')
                             )
                         )
                     )
