@@ -42,35 +42,35 @@ class TrainerRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t');
         if ($startsAt && $endsAt) {
-            $qb->innerJoin('t.availabilitySlots', 'a')
-                ->leftJoin('t.scheduledWorkouts', 's', Join::WITH, 'a.startsAt <= s.startsAt and a.endsAt >= s.endsAt')
-                ->where(
-                    $qb->expr()->andX(
-                        $qb->expr()->andX(
-                            $qb->expr()->gte(':from', 'a.startsAt'),
-                            $qb->expr()->lte(':from', 'a.endsAt'),
-                            $qb->expr()->gte(':to', 'a.startsAt'),
-                            $qb->expr()->lte(':to', 'a.endsAt')
-                        ),
-                        $qb->expr()->orX(
-                            $qb->expr()->andX(
-                                $qb->expr()->orX(
-                                    $qb->expr()->lte(':from', 's.startsAt'),
-                                    $qb->expr()->lt(':from', 's.endsAt')
-                                ),
+            $sub = $this->_em->createQueryBuilder();
 
-                                $qb->expr()->orX(
-                                    $qb->expr()->lte(':to', 's.startsAt'),
-                                    $qb->expr()->gt(':to', 's.endsAt')
-                                )
+            $sub->select('s')->from('App\Entity\ScheduledWorkout
+', 's')->where(
+                $sub->expr()->andX(
+                    $sub->expr()->andX(
+                        $sub->expr()->eq('s.trainer', 'a.trainer'),
+                        $sub->expr()->orX(
+                            $sub->expr()->andX(
+                                $sub->expr()->gte(':from', 's.startsAt'),
+                                $sub->expr()->lt(':from', 's.endsAt')
                             ),
-                            $qb->expr()->andX(
-                                $qb->expr()->isNull('s.startsAt'),
-                                $qb->expr()->isNull('s.endsAt')
+                            $sub->expr()->andX(
+                                $sub->expr()->gt(':to', 's.startsAt'),
+                                $sub->expr()->lt(':to', 's.endsAt')
                             )
                         )
                     )
-                )->setParameters(['from' => $startsAt, 'to' => $endsAt]);
+                )
+            );
+
+            $qb->innerJoin('t.availabilitySlots', 'a')->where(
+                $qb->expr()->andX(
+                    $qb->expr()->between(':from', 'a.startsAt', 'a.endsAt'),
+                    $qb->expr()->between(':to', 'a.startsAt', 'a.endsAt'),
+                    $qb->expr()->not($qb->expr()->exists($sub->getDQL()))
+
+                )
+            )->setParameters(['from' => $startsAt, 'to' => $endsAt]);
         }
 
         if ($name) {
