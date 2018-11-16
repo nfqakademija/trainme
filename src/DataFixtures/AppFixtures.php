@@ -94,7 +94,7 @@ class AppFixtures extends Fixture
             $trainer->setName(sprintf("John Doe - %s", $i));
             $trainer->setPersonalStatement("personal statment");
             $trainer->setPhone("8686868686");
-            $trainer->setImageUrl("https://placeimg.com/123/480/animals");
+            $trainer->setImageUrl("https://placeimg.com/350/250/animals");
             $this->addReference(sprintf("Trainer %s", $i + 1), $trainer);
             $manager->persist($trainer);
         }
