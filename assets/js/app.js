@@ -1,2 +1,2 @@
 import './calendar';
-import './dateTimePicker';
+import './datePicker';
