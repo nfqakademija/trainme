@@ -25,34 +25,64 @@
                                value="{{ app.request.query.get('name') }}"/>
                     </div>
                 </div>
-                <div class="filters__inputs">
-                    <label class="filters__label" for="datepicker">Date</label>
-                    <input id="datepicker" type="text" class="filters__date" value="{{ app.request.query.get('date') }}"
-                           name="date" autocomplete="off"/>
-                    {#From#}
-                    <label class="filters__label" for="from">From</label>
-                    <input class="filters__from" type="text" id="from" name="from"
-                           value="{{ app.request.query.get('from') }}"/>
-                    {#To#}
-                    <label class="filters__label" for="to">To</label>
-                    <input class="filters__to" type="text" id="to" name="to" value="{{ app.request.query.get('to') }}"/>
+                <div class="inputContainer">
+                    <div class="inputContainer__top">
+                        <label class="filters__label" for="datepicker">Date</label>
+                        <input id="datepicker" type="text" class="filters__date"
+                               value="{{ app.request.query.get('date') }}"
+                               name="date" autocomplete="off"/>
+                        {#From#}
+                        <label class="filters__label" for="from">From</label>
+                        <input class="filters__from" type="text" id="from" name="from"
+                               value="{{ app.request.query.get('from') }}"/>
+                        {#To#}
+                        <label class="filters__label" for="to">To</label>
+                        <input class="filters__to" type="text" id="to" name="to"
+                               value="{{ app.request.query.get('to') }}"/>
+                    </div>
                     {#Tags#}
-                    <ul class="filters__tags u-listNone">
-                        <li>
-                            <input name="indoors" class="hiddenCheckbox" type="checkbox" id="indoors" value="1"/>
-                            <label for="indoors" class="filters__tag">Indoors</label>
-                        </li>
-                        <li>
-                            <input name="outdoors" class="hiddenCheckbox" type="checkbox" id="outdoors" value="1"/>
-                            <label for="outdoors" class="filters__tag">Outdoors</label>
-                        </li>
-                        <li>
-                            <input name="lifting" class="hiddenCheckbox" type="checkbox" id="lifting" value="1"/>
-                            <label for="lifting" class="filters__tag">Weight Lifting</label>
-                        </li>
-                    </ul>
+                    <div class="inputContainer__bottom">
+                        <ul class="filters__tags u-listNone">
+                            <li>
+                                <input name="indoors" class="hiddenCheckbox" type="checkbox" id="indoors" value="1"/>
+                                <label for="indoors" class="filters__tag">Indoors</label>
+                            </li>
+                            <li>
+                                <input name="outdoors" class="hiddenCheckbox" type="checkbox" id="outdoors" value="1"/>
+                                <label for="outdoors" class="filters__tag">Outdoors</label>
+                            </li>
+                            <li>
+                                <input name="lifting" class="hiddenCheckbox" type="checkbox" id="lifting" value="1"/>
+                                <label for="lifting" class="filters__tag">Weight Lifting</label>
+                            </li>
+                            <li>
+                                <input name="running" class="hiddenCheckbox" type="checkbox" id="running" value="1"/>
+                                <label for="running" class="filters__tag">Running</label>
+                            </li>
+                            <li>
+                                <input name="cross" class="hiddenCheckbox" type="checkbox" id="cross" value="1"/>
+                                <label for="cross" class="filters__tag">Crossfit</label>
+                            </li>
+                            <li>
+                                <input name="endur" class="hiddenCheckbox" type="checkbox" id="endur" value="1"/>
+                                <label for="endur" class="filters__tag">Endurance Training</label>
+                            </li>
+                            <li>
+                                <input name="yoga" class="hiddenCheckbox" type="checkbox" id="yoga" value="1"/>
+                                <label for="yoga" class="filters__tag">Yoga</label>
+                            </li>
+                            <li>
+                                <input name="mart" class="hiddenCheckbox" type="checkbox" id="mart" value="1"/>
+                                <label for="mart" class="filters__tag">Martial Arts</label>
+                            </li>
+                            <li>
+                                <input name="kardio" class="hiddenCheckbox" type="checkbox" id="kardio" value="1"/>
+                                <label for="kardio" class="filters__tag">Kardio</label>
+                            </li>
+                        </ul>
 
-                    <input class="button button__content" type="submit" value="Go"/>
+                        <input class="button button__content u-mRight" type="submit" value="Go"/>
+                    </div>
                 </div>
             </form>
         </section>
