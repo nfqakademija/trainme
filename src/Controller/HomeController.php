@@ -12,7 +12,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller
 {
     /**
-     * @Route("/trainers/list", name="home")
+     * @Route("/", name="home")
+     * @return Response
+     */
+    public function home()
+    {
+        return $this->render('home/home.html.twig');
+    }
+
+    /**
+     * @Route("/trainers/list", name="home1")
      * @param Request $request
      * @param TrainerRepository $trainerRepository
      * @return Response
