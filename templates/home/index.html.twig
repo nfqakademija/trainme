@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/timepicki@2.0.1/css/timepicki.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 {% endblock %}
@@ -20,18 +21,21 @@
                         <h1 class="blackTitle">Our trainers</h1>
                     </div>
                     <div class="filters__right">
-                        <input class="filters__name" type="text" placeholder="Search by name..." name="name" value="{{ app.request.query.get('name') }}"/>
+                        <input class="filters__name" type="text" placeholder="Search by name..." name="name"
+                               value="{{ app.request.query.get('name') }}"/>
                     </div>
                 </div>
                 <div class="filters__inputs">
                     <label class="filters__label" for="datepicker">Date</label>
-                    <input id="datepicker" type="text" class="filters__date" value="{{ app.request.query.get('date') }}" name="date" autocomplete="off"/>
+                    <input id="datepicker" type="text" class="filters__date" value="{{ app.request.query.get('date') }}"
+                           name="date" autocomplete="off"/>
                     {#From#}
                     <label class="filters__label" for="from">From</label>
-                    <input class="filters__from" type="time" id="from" name="from"  value="{{ app.request.query.get('from') }}"/>
+                    <input class="filters__from" type="text" id="from" name="from"
+                           value="{{ app.request.query.get('from') }}"/>
                     {#To#}
                     <label class="filters__label" for="to">To</label>
-                    <input class="filters__to" type="time" id="to" name="to"  value="{{ app.request.query.get('to') }}"/>
+                    <input class="filters__to" type="text" id="to" name="to" value="{{ app.request.query.get('to') }}"/>
                     {#Tags#}
                     <ul class="filters__tags u-listNone">
                         <li class="filters__tag">Running</li>
@@ -70,7 +74,8 @@
             <ul class="pagination u-listNone">
                 {% for i in 1..maxPages %}
                     <li class="pagination__box {{ thisPage==i? "pagination__box--active" }}">
-                        <a class="pagination__number" href="{{ path('home', {page: i, name: app.request.query.get('name'), date: app.request.query.get('date'), from: app.request.query.get('from'), to: app.request.query.get('to') }) }}">{{ i }}</a>
+                        <a class="pagination__number"
+                           href="{{ path('home', {page: i, name: app.request.query.get('name'), date: app.request.query.get('date'), from: app.request.query.get('from'), to: app.request.query.get('to') }) }}">{{ i }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -79,4 +84,23 @@
 {% endblock %}
 {% block footer %}
     {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/timepicki@2.0.1/js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timepicki@2.0.1/js/timepicki.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#from, #to").timepicki({
+                show_meridian: false,
+                min_hour_value: 6,
+                max_hour_value: 22,
+                step_size_minutes: 1,
+                step_size_hours: 1,
+                overflow_minutes: false,
+                increase_direction: 'up',
+                disable_keyboard_mobile: true
+            });
+        });
+    </script>
 {% endblock %}

@@ -31,10 +31,10 @@ class HomeController extends Controller
 
         if ($date && $from && $to) {
             $date = new \DateTime($date);
-            $from = new \DateTime($from);
-            $to = new \DateTime($to);
-            $startsAt = new \DateTime($date->format('Y-m-d') .' ' .$from->format('H:i:s'));
-            $endsAt = new \DateTime($date->format('Y-m-d') .' ' .$to->format('H:i:s'));
+            $from = new \DateTime(str_replace(' ', '', $from));
+            $to = new \DateTime(str_replace(' ', '', $to));
+            $startsAt = new \DateTime($date->format('Y-m-d') . ' ' . $from->format('H:i:s'));
+            $endsAt = new \DateTime($date->format('Y-m-d') . ' ' . $to->format('H:i:s'));
         }
 
         $trainers = $trainerRepository->findFilteredTrainers($page, 5, $name, $startsAt, $endsAt, []);
