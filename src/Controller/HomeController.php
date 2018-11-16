@@ -21,7 +21,7 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/trainers/list", name="home1")
+     * @Route("/trainers/list", name="list")
      * @param Request $request
      * @param TrainerRepository $trainerRepository
      * @return Response
@@ -49,7 +49,7 @@ class HomeController extends Controller
         $trainers = $trainerRepository->findFilteredTrainers($page, 5, $name, $startsAt, $endsAt, []);
         $maxPages = ceil($trainers->count() / 5);
 
-        return $this->render('home/index.html.twig', ['trainers' => $trainers->getIterator(), 'thisPage' => $page, 'maxPages' => $maxPages]);
+        return $this->render('trainer/list.html.twig', ['trainers' => $trainers->getIterator(), 'thisPage' => $page, 'maxPages' => $maxPages]);
     }
 
     /**
