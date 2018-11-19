@@ -53,7 +53,8 @@ class HomeController extends Controller
         $trainers = $trainerRepository->findFilteredTrainers($page, 6, $name, $startsAt, $endsAt, $tags);
         $maxPages = ceil($trainers->count() / 6);
 
-        return $this->render('trainer/list.html.twig', ['trainers' => $trainers->getIterator(), 'thisPage' => $page, 'maxPages' => $maxPages]);
+        return $this->render('trainer/list.html.twig', ['trainers' => $trainers->getIterator(),
+            'thisPage' => $page, 'maxPages' => $maxPages]);
     }
 
     /**
