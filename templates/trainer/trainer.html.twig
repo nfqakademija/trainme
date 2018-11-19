@@ -49,3 +49,7 @@
 {% block footer %}
     {{ parent() }}
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/calendar.js') }}"></script>
+{% endblock %}
