@@ -74,9 +74,9 @@ class AppFixtures extends Fixture
             ]
         ];
         $tags = [
-            'Tag 1' => 'Tag 1 description',
-            'Tag 2' => 'Tag 2 description',
-            'Tag 3' => 'Tag 3 description'
+            'Indoors' => 'Tag 1 description',
+            'Outdoors' => 'Tag 2 description',
+            'Yoga' => 'Tag 3 description'
         ];
 
         $tagObjects = [];
@@ -84,7 +84,7 @@ class AppFixtures extends Fixture
         foreach ($tags as $name => $description) {
             $tag = new Tag();
             $tag->setName($name);
-            $tag->setDescription($name);
+            $tag->setDescription($description);
             $tagObjects[] = $tag;
             $manager->persist($tag);
         }
