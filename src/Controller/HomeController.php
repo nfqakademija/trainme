@@ -33,10 +33,14 @@ class HomeController extends Controller
         $from = $request->query->get('from');
         $to = $request->query->get('to');
         $page = $request->query->get('page') ?? 1;
+        $tags = $request->query->get('tags');
 
         $startsAt = null;
         $endsAt = null;
 
+        if (!$tags) {
+            $tags = [];
+        }
 
         if ($date && $from && $to) {
             $date = new \DateTime($date);
@@ -46,7 +50,7 @@ class HomeController extends Controller
             $endsAt = new \DateTime($date->format('Y-m-d') . ' ' . $to->format('H:i:s'));
         }
 
-        $trainers = $trainerRepository->findFilteredTrainers($page, 6, $name, $startsAt, $endsAt, []);
+        $trainers = $trainerRepository->findFilteredTrainers($page, 6, $name, $startsAt, $endsAt, $tags);
         $maxPages = ceil($trainers->count() / 6);
 
         return $this->render('trainer/list.html.twig', ['trainers' => $trainers->getIterator(), 'thisPage' => $page, 'maxPages' => $maxPages]);
