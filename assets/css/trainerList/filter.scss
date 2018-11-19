@@ -73,7 +73,6 @@
   justify-content: center;
   padding: 8px 15px;
   margin: 5px 5px 0 0;
-  cursor: pointer;
   transition: all .2s ease-in-out;
   font-weight: bold;
   color: black;
@@ -81,6 +80,7 @@
   &:hover {
     color: white;
     background: rgba(0, 0, 0, .78);
+    cursor: pointer;
   }
 }
 

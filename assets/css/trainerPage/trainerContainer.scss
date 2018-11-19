@@ -67,8 +67,16 @@
   padding: 10px 15px;
 }
 
-.filters__tags--big {
+.u-w400 {
   width: 400px;
+}
+
+.filters__tag--noInteraction {
+  &:hover {
+    color: black;
+    background: white;
+    cursor: default;
+  }
 }
 
 .button {
