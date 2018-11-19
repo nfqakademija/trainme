@@ -38,8 +38,7 @@ class TrainerRepository extends ServiceEntityRepository
         ?\DateTimeInterface $startsAt,
         ?\DateTimeInterface $endsAt,
         array $tags
-    ): Paginator
-    {
+    ): Paginator{
         $qb = $this->createQueryBuilder('t');
         if ($startsAt && $endsAt) {
             $sub = $this->_em->createQueryBuilder();
@@ -68,7 +67,6 @@ class TrainerRepository extends ServiceEntityRepository
                     $qb->expr()->between(':from', 'a.startsAt', 'a.endsAt'),
                     $qb->expr()->between(':to', 'a.startsAt', 'a.endsAt'),
                     $qb->expr()->not($qb->expr()->exists($sub->getDQL()))
-
                 )
             )->setParameters(['from' => $startsAt, 'to' => $endsAt]);
         }
