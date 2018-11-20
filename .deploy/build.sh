@@ -13,10 +13,6 @@ yarn run encore production
 
 # <-- This is a good place to add custom commands for your project
 cp .env.dist .env
-php bin/console doctrine:database:create --no-interaction --no-debug --env=prod
-php bin/console doctrine:schema:create --no-interaction --no-debug --env=prod
-php bin/console doctrine:fixtures:load --no-interaction --no-debug --env=prod
-php bin/console cache:clear --env=prod --no-debug
 
 # Generating deployment artifact (one file with everything you need to be deployed on the server)
 tar czf project.tar.gz * --exclude="node_modules" --exclude=".git" --owner 0 --group 0 --anchored
