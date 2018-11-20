@@ -12,6 +12,7 @@ yarn
 yarn run encore production
 
 # <-- This is a good place to add custom commands for your project
+cp .env.dist .env
 php bin/console doctrine:database:create --no-interaction --no-debug
 php bin/console doctrine:schema:create --no-interaction --no-debug
 php bin/console doctrine:fixtures:load --no-interaction --no-debug
