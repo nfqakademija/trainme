@@ -21,15 +21,14 @@ axios.all([
             })
         });
 
-        availabilitySlotsRes.data.forEach((item) => {
-            events.push({
-                'title': 'AVAILABLE',
-                'start': new Date(item.start),
-                'end': new Date(item.end),
-            })
-        });
+        // availabilitySlotsRes.data.forEach((item) => { TODO implement availability events
+        //     events.push({
+        //         'title': 'AVAILABLE',
+        //         'start': new Date(item.start),
+        //         'end': new Date(item.end),
+        //     })
+        // });
 
-        console.log(events);
         ReactDOM.render(<Calendar events={events}/>, document.getElementById('calendar'));
     }))
     .catch((error) => {
