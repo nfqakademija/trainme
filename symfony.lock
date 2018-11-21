@@ -1,0 +1,5 @@
+{
+    "fzaninotto/faker": {
+        "version": "v1.8.0"
+    }
+}

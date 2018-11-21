@@ -6,13 +6,16 @@ use App\Entity\AvailabilitySlot;
 use App\Entity\ScheduledWorkout;
 use App\Entity\Tag;
 use App\Entity\Trainer;
+use function Couchbase\fastlzCompress;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create();
         $availabilitySlots = [
             [
                 'from' => '2018-11-10 10:00:00',
@@ -76,7 +79,10 @@ class AppFixtures extends Fixture
         $tags = [
             'Indoors' => 'Tag 1 description',
             'Outdoors' => 'Tag 2 description',
-            'Yoga' => 'Tag 3 description'
+            'Yoga' => 'Tag 3 description',
+            'Weight lifting' => 'Tag 4 description',
+            'Running' => 'Tag 5 description',
+            'Endurance training' => 'Tag 6 description',
         ];
 
         $tagObjects = [];
@@ -91,24 +97,17 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 20; $i++) {
             $trainer = new Trainer();
-            $trainer->setName(sprintf("John Doe - %s", $i));
-            $trainer->setPersonalStatement("personal statment");
-            $trainer->setPhone("8686868686");
-            $trainer->setImageUrl("https://placeimg.com/350/250/animals");
+            $trainer->setName($faker->name);
+            $trainer->setPersonalStatement($faker->realText());
+            $trainer->setPhone($faker->phoneNumber);
+            $trainer->setImageUrl($faker->imageUrl(250, 250, 'sports', false, $i % 10 + 1));
             $this->addReference(sprintf("Trainer %s", $i + 1), $trainer);
+            $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags)-1)]);
             $manager->persist($trainer);
         }
 
-        $trainer1 = $this->getReference(sprintf("Trainer %s", 1));
-        $trainer2 = $this->getReference(sprintf("Trainer %s", 4));
-        $trainer3 = $this->getReference(sprintf("Trainer %s", 8));
 
-        $trainer1->addTag($tagObjects[0]);
-        $trainer1->addTag($tagObjects[2]);
-        $trainer2->addTag($tagObjects[1]);
-        $trainer3->addTag($tagObjects[0]);
-        $trainer3->addTag($tagObjects[1]);
-        $trainer3->addTag($tagObjects[2]);
+
 
 
         foreach ($availabilitySlots as $availabSl) {
