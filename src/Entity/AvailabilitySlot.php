@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AvailabilitySlotRepository")
  */
-class AvailabilitySlot
+class AvailabilitySlot implements \JsonSerializable
 {
     /**
      * @var int
@@ -99,5 +99,13 @@ class AvailabilitySlot
         $this->trainer = $trainer;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'start' => $this->startsAt->format('Y-m-d H:i:s'),
+            'end' => $this->endsAt->format('Y-m-d H:i:s')
+        ];
     }
 }
