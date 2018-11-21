@@ -43,42 +43,12 @@
                     {#Tags#}
                     <div class="inputContainer__bottom">
                         <ul class="filters__tags u-listNone">
+                            {% for tag in tags %}
                             <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="indoors" value="25"/>
-                                <label for="indoors" class="filters__tag">Indoors</label>
+                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="{{ tag.name }}" value="{{ tag.id }}"/>
+                                <label for="{{ tag.name }}" class="filters__tag">{{ tag.name }}</label>
                             </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="outdoors" value="26"/>
-                                <label for="outdoors" class="filters__tag">Outdoors</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="lifting" value=""/>
-                                <label for="lifting" class="filters__tag">Weight Lifting</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="running" value=""/>
-                                <label for="running" class="filters__tag">Running</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="crossfit" value=""/>
-                                <label for="crossfit" class="filters__tag">Crossfit</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="endur" value=""/>
-                                <label for="endur" class="filters__tag">Endurance Training</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="yoga" value="27"/>
-                                <label for="yoga" class="filters__tag">Yoga</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="mart" value=""/>
-                                <label for="mart" class="filters__tag">Martial Arts</label>
-                            </li>
-                            <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="kardio" value=""/>
-                                <label for="kardio" class="filters__tag">Kardio</label>
-                            </li>
+                            {% endfor %}
                         </ul>
 
                         <input class="button button__content u-mRight" type="submit" value="Go"/>

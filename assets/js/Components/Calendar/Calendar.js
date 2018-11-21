@@ -9,7 +9,7 @@ const Calendar = (props) => (
         <BigCalendar
             localizer={localizer}
             views={['month', 'week', 'day']}
-            events={[]}
+            events={props.events}
         />
     </React.Fragment>
 );

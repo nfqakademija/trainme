@@ -8,7 +8,6 @@
 {% endblock %}
 {% block body %}
     <div class="heroTrainer"></div>
-
     <section class="trainerContainer">
         <h1 class="blackTitle">{{ trainer.name }}</h1>
 
@@ -21,10 +20,9 @@
                 <div class="trainerInfo__tags">
                     <p class="blackTitle">Tags</p>
                     <ul class="filters__tags u-w400 u-listNone u-marginTop">
-                        <li class="filters__tag filters__tag--big filters__tag--noInteraction">Running</li>
-                        <li class="filters__tag filters__tag--big filters__tag--noInteraction">Weight lifting</li>
-                        <li class="filters__tag filters__tag--big filters__tag--noInteraction">Martial arts</li>
-                        <li class="filters__tag filters__tag--big filters__tag--noInteraction">Running</li>
+                        {% for tag in trainer.tags %}
+                        <li class="filters__tag filters__tag--big filters__tag--noInteraction">{{ tag.name }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -40,7 +38,7 @@
 
         <div class="calendarContainer">
             <p class="blackTitle">My schedule</p>
-            <div id="calendar" class="calendar"></div>
+            <div id="calendar" class="calendar" data-trainer='{{ trainer.id }}'></div>
         </div>
 
         <button class="button"><a class="button__content" href="{{ path('list') }}">Go Back</a></button>

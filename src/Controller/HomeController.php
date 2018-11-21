@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trainer;
+use App\Repository\TagRepository;
 use App\Repository\TrainerRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +25,10 @@ class HomeController extends Controller
      * @Route("/trainers/list", name="list")
      * @param Request $request
      * @param TrainerRepository $trainerRepository
+     * @param TagRepository $tagRepository
      * @return Response
      */
-    public function index(TrainerRepository $trainerRepository, Request $request)
+    public function index(TrainerRepository $trainerRepository, TagRepository $tagRepository, Request $request)
     {
         $name = $request->query->get('name');
         $date = $request->query->get('date');
@@ -50,10 +52,11 @@ class HomeController extends Controller
             $endsAt = new \DateTime($date->format('Y-m-d') . ' ' . $to->format('H:i:s'));
         }
 
+        $allTags = $tagRepository->findAll();
         $trainers = $trainerRepository->findFilteredTrainers($page, 6, $name, $startsAt, $endsAt, $tags);
         $maxPages = ceil($trainers->count() / 6);
 
-        return $this->render('trainer/list.html.twig', ['trainers' => $trainers->getIterator(),
+        return $this->render('trainer/list.html.twig', ['tags' => $allTags, 'trainers' => $trainers->getIterator(),
             'thisPage' => $page, 'maxPages' => $maxPages]);
     }
 
