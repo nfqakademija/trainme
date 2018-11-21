@@ -45,7 +45,12 @@
                         <ul class="filters__tags u-listNone">
                             {% for tag in tags %}
                             <li>
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="{{ tag.name }}" value="{{ tag.id }}"/>
+                                {% if (tag.id in app.request.query.get('tags')) %}
+                                    <input name="tags[]" class="hiddenCheckbox" checked type="checkbox" id="{{ tag.name }}" value="{{ tag.id }}"/>
+                                {% else %}
+                                    <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="{{ tag.name }}" value="{{ tag.id }}"/>
+                                {% endif %}
+
                                 <label for="{{ tag.name }}" class="filters__tag">{{ tag.name }}</label>
                             </li>
                             {% endfor %}
