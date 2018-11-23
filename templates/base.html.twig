@@ -19,38 +19,41 @@
         <li class="navbar__item"><a href="{{ path('list') }}" class="navbar__item__link">Trainers</a></li>
         <li class="navbar__item"><a href="#" class="navbar__item__link">Signin / Signup</a></li>
     </ul>
+    <div class="navbar__toggle"><i class="navbar__arrow">&#128899</i></div>
 </nav>
 {% block body %}{% endblock %}
 {% block footer %}
     <footer class="footerContainer">
         <div class="footer">
-            <ul class="linkList">
-                <li class="u-listNone"><a class="footer__link" href="{{ path('home') }}">Home</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">About Us</a></li>
-                <li class="u-listNone"><a class="footer__link" href="{{ path('list') }}">Our trainers</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">FAQ</a></li>
-                <li class="u-listNone"><a class="footer__link" href="#">Login / Signup</a></li>
-            </ul>
-
-            <div class="media">
-                <p class="media__text">Follow us:</p>
-                <ul class="mediaList">
-                    <li class="u-listNone">
-                        <a class="footer__link footer__link--media" href="https://facebook.com" target="_blank">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                    </li>
-                    <li class="u-listNone">
-                        <a class="footer__link footer__link--media" href="https://instagram.com" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </li>
-                    <li class="u-listNone">
-                        <a class="footer__link footer__link--media" href="https://youtube.com" target="_blank">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </li>
+            <div class="footer__container">
+                <ul class="linkList">
+                    <li class="u-listNone"><a class="footer__link" href="{{ path('home') }}">Home</a></li>
+                    <li class="u-listNone"><a class="footer__link" href="#">About Us</a></li>
+                    <li class="u-listNone"><a class="footer__link" href="{{ path('list') }}">Our trainers</a></li>
+                    <li class="u-listNone"><a class="footer__link" href="#">FAQ</a></li>
+                    <li class="u-listNone"><a class="footer__link" href="#">Login / Signup</a></li>
                 </ul>
+
+                <div class="media">
+                    <p class="media__text">Follow us:</p>
+                    <ul class="mediaList">
+                        <li class="u-listNone">
+                            <a class="footer__link footer__link--media" href="https://facebook.com" target="_blank">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li class="u-listNone">
+                            <a class="footer__link footer__link--media" href="https://instagram.com" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="u-listNone">
+                            <a class="footer__link footer__link--media" href="https://youtube.com" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </footer>

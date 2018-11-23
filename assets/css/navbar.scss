@@ -50,3 +50,58 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
     background: $navlink-hover;
   }
 }
+
+.navbar__toggle {
+  background: none;
+  border: 1px solid white;
+  height: 45px;
+  width: 60px;
+  margin-right: 20px;
+  display: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .navbar__menu {
+    display: block;
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    background: $navbar;
+    transform: scaleY(0);
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    -ms-transform-origin: top;
+    -o-transform-origin: top;
+    transform-origin: top;
+  }
+
+  .navbar__menu--active {
+    transform: scaleY(1);
+    transition: transform .2s ease-in-out;
+  }
+
+  .navbar__item__link {
+    padding: 4px 15px;
+  }
+
+  .navbar__toggle {
+    display: block;
+  }
+
+  .navbar__toggle--active {
+    transform: rotate(180deg);
+    transition: trasform .2s ease-in;
+  }
+
+  .navbar__arrow {
+    font-style: normal;
+    font-size: 1.1em;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5px;
+    height: 100%;
+  }
+}
