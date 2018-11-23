@@ -79,7 +79,7 @@
 
   &:hover {
     color: white;
-    background: rgba(0, 0, 0, .78);
+    background: black;
     cursor: pointer;
   }
 }
@@ -109,4 +109,10 @@
 
 .u-mRight {
   margin-right: 100px;
+}
+
+@media only screen and (max-width: 480px) {
+  .blackTitle {
+    font-size: 1.4em;
+  }
 }
