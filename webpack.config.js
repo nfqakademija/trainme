@@ -42,6 +42,13 @@ Encore
     //enable React support
     .enableReactPreset()
 
+    //enable postCSS support
+    .enablePostCssLoader(options=>{
+        options.config={
+            path:'postcss.config.js'
+        }
+    })
+
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 
