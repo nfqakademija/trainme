@@ -1,3 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: 100;
+  font-family: 'Lato';
+}
+
 // the ~ allows you to reference things in node_modules
 //Libs
 @import "~normalize.css";
@@ -20,12 +28,3 @@
 @import "trainerPage/trainerContainer";
 @import "trainerPage/calendar";
 @import "~react-big-calendar/lib/css/react-big-calendar.css";
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-weight: 100;
-  font-family: 'Lato';
-}
