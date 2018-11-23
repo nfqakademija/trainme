@@ -52,7 +52,6 @@
 }
 
 .trainerBox__name {
-  font-weight: bold;
   margin: 0;
   font-size: 1.1em;
 }
@@ -67,7 +66,10 @@
   justify-content: space-between;
 }
 
+.trainerBox__description {
+  margin-top: 15px;
+}
+
 .trainerBox__rating {
   margin: 0;
-  font-weight: bold;
 }

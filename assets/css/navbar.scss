@@ -43,7 +43,6 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
   height: 100%;
   text-align: center;
   color: white;
-  color: white;
   text-decoration: none;
   padding: 0 15px;
   &:hover {
@@ -69,10 +68,6 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
     position: absolute;
     top: 60px;
     background: $navbar;
-    -webkit-transform-origin: top;
-    -moz-transform-origin: top;
-    -ms-transform-origin: top;
-    -o-transform-origin: top;
     transform-origin: top;
   }
 
