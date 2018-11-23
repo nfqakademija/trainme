@@ -64,21 +64,16 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
   .navbar__menu {
     display: block;
     height: 100px;
+    opacity: 0;
     width: 100%;
     position: absolute;
     top: 60px;
     background: $navbar;
-    transform: scaleY(0);
     -webkit-transform-origin: top;
     -moz-transform-origin: top;
     -ms-transform-origin: top;
     -o-transform-origin: top;
     transform-origin: top;
-  }
-
-  .navbar__menu--active {
-    transform: scaleY(1);
-    transition: transform .2s ease-in-out;
   }
 
   .navbar__item__link {
@@ -87,11 +82,6 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
 
   .navbar__toggle {
     display: block;
-  }
-
-  .navbar__toggle--active {
-    transform: rotate(180deg);
-    transition: trasform .2s ease-in;
   }
 
   .navbar__arrow {
