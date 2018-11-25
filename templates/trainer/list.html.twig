@@ -90,7 +90,11 @@
                 {% for i in 1..maxPages %}
                     <li class="pagination__box {{ thisPage==i? "pagination__box--active" }}">
                         <a class="pagination__number"
-                           href="{{ path('list', {page: i, name: app.request.query.get('name'), date: app.request.query.get('date'), from: app.request.query.get('from'), to: app.request.query.get('to') }) }}">{{ i }}</a>
+                           href="{{ path('list', {page: i, name: app.request.query.get('name'),
+                               date: app.request.query.get('date'),
+                               from: app.request.query.get('from'),
+                               to: app.request.query.get('to'),
+                               tags: app.request.query.get('tags')}) }}">{{ i }}</a>
                     </li>
                 {% endfor %}
             </ul>
