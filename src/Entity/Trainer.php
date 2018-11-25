@@ -61,6 +61,12 @@ class Trainer
     private $image_url;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * Trainer constructor.
      */
     public function __construct()
@@ -257,6 +263,18 @@ class Trainer
     public function setImageUrl(string $image_url): self
     {
         $this->image_url = $image_url;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
