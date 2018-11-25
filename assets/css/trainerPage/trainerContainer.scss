@@ -1,5 +1,6 @@
 .trainerContainer {
-  width: 60%;
+  width: 80vw;
+  max-width: 900px;
   margin: auto;
   padding: 40px 20px;
   justify-content: center;
@@ -11,9 +12,9 @@
   margin-top: 35px;
 }
 
-.trainerInfo__left,
 .trainerInfo__right {
   width: 50%;
+  padding-left: 15px;
 }
 
 .trainerInfo__left {
@@ -23,13 +24,16 @@
 
 .trainerInfo__imageContainer {
   height: 350px;
-  width: 350px;
+  width: 50%;
+}
+
+.justify {
+  text-align: justify;
 }
 
 .trainerInfo__image {
-  object-fit: cover;
-  width: 350px;
-  height: 350px;
+  max-width: 100%;
+  height: 100%;
 }
 
 .trainerInfo__rating {
@@ -50,12 +54,12 @@
 .trainerInfo__desc {
   max-width: 330px;
   margin: 20px 0;
-  text-align: justify;
   font-size: 1.2em;
 }
 
-.trainerInfo__tags {
+.tagsContainer {
   margin: 35px 0;
+  max-width: 400px;
 }
 
 .u-marginTop {
@@ -91,4 +95,37 @@
   background: black;
   padding: 15px 20px;
   max-height: 55px;
+}
+
+@media only screen and (max-width: 600px) {
+  .trainerInfo {
+    flex-direction: column;
+  }
+
+  .trainerInfo__imageContainer {
+    width: 100%;
+    height: inherit;
+  }
+
+  .trainerInfo__image {
+    width: 100%;
+  }
+
+  .trainerInfo {
+    width: 100%;
+  }
+
+  .trainerInfo__right {
+    width: 100%;
+    padding: 15px 10px 0 10px;
+  }
+
+  .tagsContainer {
+    margin: 15px 0 30px 0;
+    max-width: 100%;
+  }
+
+  .trainerContainer {
+    width: 100vw;
+  }
 }
