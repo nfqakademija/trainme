@@ -6,13 +6,23 @@ use App\Entity\AvailabilitySlot;
 use App\Entity\ScheduledWorkout;
 use App\Entity\Tag;
 use App\Entity\Trainer;
+use App\Entity\User;
 use function Couchbase\fastlzCompress;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
@@ -97,17 +107,20 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 20; $i++) {
             $trainer = new Trainer();
+            $user = new User();
+            $user->setEmail($faker->email);
+            $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+            $user->setRoles(['ROLE_TRAINER']);
+            $manager->persist($user);
             $trainer->setName($faker->name);
             $trainer->setPersonalStatement($faker->realText());
             $trainer->setPhone($faker->phoneNumber);
             $trainer->setImageUrl($faker->imageUrl(250, 250, 'sports', false, $i % 10 + 1));
             $this->addReference(sprintf("Trainer %s", $i + 1), $trainer);
-            $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags)-1)]);
+            $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags) - 1)]);
+            $trainer->setUser($user);
             $manager->persist($trainer);
         }
-
-
-
 
 
         foreach ($availabilitySlots as $availabSl) {
