@@ -7,9 +7,9 @@
 .trainerBox {
   position: relative;
   height: 250px;
-  width: 350px;
+  width: 40%;
   overflow: hidden;
-  margin: 30px 60px;
+  margin: 30px 60px 20px 0;
 
   &:hover {
     .trainerBox__overlay {
@@ -34,9 +34,13 @@
 }
 
 .trainerBox__image {
-  object-fit: cover;
-  width: 350px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
+}
+
+.trainerBox__imageContainer {
+  height: 100%;
+  width: 100%;
 }
 
 .trainerBox__details {
@@ -72,4 +76,46 @@
 
 .trainerBox__rating {
   margin: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .trainerBox {
+    width: 45%;
+    margin: 30px 15px 20px 0;
+  }
+
+  .listContainer {
+    width: 100vw;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .trainerBox__details {
+    transform: translateY(190px);
+  }
+
+  .trainerBox__description {
+    margin-top: 25px;
+    width: 45px;
+  }
+
+  .trainerBox__name {
+    max-width: 70%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .trainersBlock {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .trainerBox {
+    margin: 30px 0;
+    width: 80%;
+  }
+
+  .listContainer {
+    padding: 0 0 40px 0;
+  }
 }

@@ -1,14 +1,14 @@
+.filters,
 .listContainer {
   width: 80vw;
   max-width: 900px;
   margin: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 20px;
+  padding: 40px 20px 0 20px;
 }
 
-.filters {
-  margin-bottom: 40px;
+.listContainer {
+  padding-bottom: 40px;
+  width: 90vw;
 }
 
 .filters__head {
@@ -108,7 +108,8 @@
 }
 
 @media only screen and (max-width: 480px) {
-  .listContainer {
+  .listContainer,
+  .filters {
     width: 90vw;
   }
 
@@ -146,7 +147,7 @@
     width: 200px;
   }
 
-  .listContainer {
+  .filters {
     padding: 40px 0;
   }
 
@@ -159,3 +160,4 @@
     margin-bottom: 15px;
   }
 }
+

@@ -12,57 +12,56 @@
 {% block body %}
     <div class="hero"></div>
 
+    <form method="GET" action="{{ path('list') }}" class="filters">
+        <div class="filters__head">
+            <h1 class="blackTitle">Our trainers</h1>
+            <input class="filters__name" type="text" placeholder="Search by name..." name="name"
+                   value="{{ app.request.query.get('name') }}"/>
+        </div>
+        <div class="filters__selection">
+            <div class="filters__inputElement">
+                <label class="filters__label" for="datepicker">Date:</label>
+                <div>
+                    <input id="datepicker" type="text" class="filters__input"
+                           value="{{ app.request.query.get('date') }}"
+                           name="date" autocomplete="off"/>
+                </div>
+            </div>
+
+            <div class="filters__inputElement">
+                <label class="filters__label" for="from">From:</label>
+                <input class="filters__input" type="text" id="from" name="from"
+                       value="{{ app.request.query.get('from') }}"/>
+            </div>
+
+            <div class="filters__inputElement">
+                <label class="filters__label" for="to">To:</label>
+                <input class="filters__input" type="text" id="to" name="to"
+                       value="{{ app.request.query.get('to') }}"/>
+            </div>
+        </div>
+        <div class="filters__tagContainer">
+            <ul class="filters__tags u-listNone">
+                {% for tag in tags %}
+                    <li>
+                        {% if (tag.id in app.request.query.get('tags')) %}
+                            <input name="tags[]" class="hiddenCheckbox" checked type="checkbox"
+                                   id="{{ tag.name }}" value="{{ tag.id }}"/>
+                        {% else %}
+                            <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="{{ tag.name }}"
+                                   value="{{ tag.id }}"/>
+                        {% endif %}
+
+                        <label for="{{ tag.name }}" class="filters__tag">{{ tag.name }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <input class="button button__content u-mRight" type="submit" value="Go"/>
+        </div>
+    </form>
+
     <div class="listContainer">
-        {#Form#}
-        <form method="GET" action="{{ path('list') }}" class="filters">
-            <div class="filters__head">
-                <h1 class="blackTitle">Our trainers</h1>
-                <input class="filters__name" type="text" placeholder="Search by name..." name="name"
-                       value="{{ app.request.query.get('name') }}"/>
-            </div>
-            <div class="filters__selection">
-                <div class="filters__inputElement">
-                    <label class="filters__label" for="datepicker">Date:</label>
-                    <div>
-                        <input id="datepicker" type="text" class="filters__input"
-                               value="{{ app.request.query.get('date') }}"
-                               name="date" autocomplete="off"/>
-                    </div>
-                </div>
-
-                <div class="filters__inputElement">
-                    <label class="filters__label" for="from">From:</label>
-                    <input class="filters__input" type="text" id="from" name="from"
-                           value="{{ app.request.query.get('from') }}"/>
-                </div>
-
-                <div class="filters__inputElement">
-                    <label class="filters__label" for="to">To:</label>
-                    <input class="filters__input" type="text" id="to" name="to"
-                           value="{{ app.request.query.get('to') }}"/>
-                </div>
-            </div>
-            <div class="filters__tagContainer">
-                <ul class="filters__tags u-listNone">
-                    {% for tag in tags %}
-                        <li>
-                            {% if (tag.id in app.request.query.get('tags')) %}
-                                <input name="tags[]" class="hiddenCheckbox" checked type="checkbox"
-                                       id="{{ tag.name }}" value="{{ tag.id }}"/>
-                            {% else %}
-                                <input name="tags[]" class="hiddenCheckbox" type="checkbox" id="{{ tag.name }}"
-                                       value="{{ tag.id }}"/>
-                            {% endif %}
-
-                            <label for="{{ tag.name }}" class="filters__tag">{{ tag.name }}</label>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-                <input class="button button__content u-mRight" type="submit" value="Go"/>
-            </div>
-        </form>
-        {#List of trainers#}
         <section class="trainersBlock">
             {% for trainer in trainers %}
                 <div class="trainerBox">
@@ -71,19 +70,20 @@
                             <div class="trainerBox__details">
                                 <div class="trainerBox__head">
                                     <p class="trainerBox__name">{{ trainer.name }}</p>
-                                    <p class="trainerBox__rating"><span>4.8 </span><i
-                                                class="fas fa-star fa-star--yellow"></i>
+                                    <p class="trainerBox__rating"><span>4.8 </span>
+                                        <i class="fas fa-star fa-star--yellow"></i>
                                     </p>
                                 </div>
                                 <p class="trainerBox__description">{{ trainer.personalStatement }}</p>
                             </div>
                         </div>
-                        <img class="trainerBox__image" src="{{ trainer.imageUrl }}">
+                        <div class="trainerBox__imageContainer">
+                            <img class="trainerBox__image" src="{{ trainer.imageUrl }}">
+                        </div>
                     </a>
                 </div>
             {% endfor %}
         </section>
-        {#Pagination#}
 
         {% if maxPages > 1 %}
             <ul class="pagination u-listNone">
