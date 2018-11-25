@@ -17,7 +17,28 @@
     <ul class="navbar__menu u-listNone">
         <li class="navbar__item"><a href="#" class="navbar__item__link">About</a></li>
         <li class="navbar__item"><a href="{{ path('list') }}" class="navbar__item__link">Trainers</a></li>
-        <li class="navbar__item"><a href="#" class="navbar__item__link">Signin / Signup</a></li>
+        <li class="navbar__item sublist">
+            {#{% if logged_in and is_trainer%}#}
+            {#<a href="#" class="navbar__item__link">My account</a>#}
+            {#<ul class="login__list u-listNone">#}
+            {#<li class="login__item"><a href="#" class="login__link">Personal page</a></li>#}
+            {#<li class="login__item"><a href="#" class="login__link">Manage schedule</a></li>#}
+            {#<li class="login__item"><a href="#" class="login__link">Log out</a></li>#}
+            {#</ul>#}
+            {#{% elseif logged_in and is_user %}#}
+            {#<a href="#" class="navbar__item__link">My account</a>#}
+            {#<ul class="login__list u-listNone">#}
+            {#<li class="login__item"><a href="#" class="login__link">Personal info</a></li>#}
+            {#<li class="login__item"><a href="#" class="login__link">Log out</a></li>#}
+            {#</ul>#}
+            {#{% else %}#}
+            <a href="#" class="navbar__item__link">Log In</a>
+            <ul class="login__list sublist u-listNone">
+                <li class="login__item"><a href="#" class="login__link">Trainer</a></li>
+                <li class="login__item"><a href="#" class="login__link">Client</a></li>
+            </ul>
+            {#{% endif %}#}
+        </li>
     </ul>
     <div class="navbar__toggle"><i class="navbar__arrow">&#128899</i></div>
 </nav>

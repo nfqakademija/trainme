@@ -32,19 +32,27 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
 
 .navbar__menu {
   display: flex;
-  margin: 0 20px 0 0;
+  margin: 0 70px 0 0;
   padding: 0;
   height: 100%;
 }
 
 .navbar__item__link {
-  display: flex;
-  align-items: center;
   height: 100%;
   text-align: center;
+  padding: 0 15px;
+}
+
+.login__link {
+  padding: 10px 25px;
+}
+
+.navbar__item__link,
+.login__link {
+  display: flex;
+  align-items: center;
   color: white;
   text-decoration: none;
-  padding: 0 15px;
   &:hover {
     background: $navlink-hover;
   }
@@ -57,6 +65,20 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
   width: 60px;
   margin-right: 20px;
   display: none;
+}
+
+.login__list {
+  position: absolute;
+  display: none;
+  width: 180px;
+  background: $navbar;
+  font-size: 0.9em;
+}
+
+.sublist:hover {
+  .login__list {
+    display: block;
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -89,5 +111,15 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
     align-items: center;
     padding-bottom: 5px;
     height: 100%;
+  }
+
+  .login__list {
+    width: 100%;
+    left: 0;
+    right: inherit;
+  }
+
+  .login__link {
+    padding: 10px 35px;
   }
 }
