@@ -63,26 +63,30 @@
 
     <div class="listContainer">
         <section class="trainersBlock">
-            {% for trainer in trainers %}
-                <div class="trainerBox">
-                    <a href="{{ trainer.id }}">
-                        <div class="trainerBox__overlay">
-                            <div class="trainerBox__details">
-                                <div class="trainerBox__head">
-                                    <p class="trainerBox__name">{{ trainer.name }}</p>
-                                    <p class="trainerBox__rating"><span>4.8 </span>
-                                        <i class="fas fa-star fa-star--yellow"></i>
-                                    </p>
+            {% if trainers|length>0 %}
+                {% for trainer in trainers %}
+                    <div class="trainerBox">
+                        <a href="{{ trainer.id }}">
+                            <div class="trainerBox__overlay">
+                                <div class="trainerBox__details">
+                                    <div class="trainerBox__head">
+                                        <p class="trainerBox__name">{{ trainer.name }}</p>
+                                        <p class="trainerBox__rating"><span>4.8 </span>
+                                            <i class="fas fa-star fa-star--yellow"></i>
+                                        </p>
+                                    </div>
+                                    <p class="trainerBox__description">{{ trainer.personalStatement }}</p>
                                 </div>
-                                <p class="trainerBox__description">{{ trainer.personalStatement }}</p>
                             </div>
-                        </div>
-                        <div class="trainerBox__imageContainer">
-                            <img class="trainerBox__image" src="{{ trainer.imageUrl }}">
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
+                            <div class="trainerBox__imageContainer">
+                                <img class="trainerBox__image" src="{{ trainer.imageUrl }}">
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Oops, it looks like there no trainers available at this time. Try searching again.</p>
+            {% endif %}
         </section>
 
         {% if maxPages > 1 %}
