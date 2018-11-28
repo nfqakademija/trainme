@@ -1,7 +1,67 @@
 .heroManagement {
-  background: url(https://images.unsplash.com/photo-1522350260280-7d8f965f5d0f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d0d0f17bdf444a81e5ca5704635082ce&auto=format&fit=crop&w=750&q=80);
+  background: url(https://images.unsplash.com/photo-1526401485004-46910ecc8e51?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=126329be8d7b9c484ee5e2981fe1f907&auto=format&fit=crop&w=1350&q=80);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center -750px;
   height: 200px;
 }
+
+.managementContainer {
+  width: 80vw;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 15px;
+  min-height: 600px;
+}
+
+.managementContainer__item {
+  border: 1px solid #eee;
+  transition: border .2s ease-in;
+  margin: 0 10px 15px 0;
+  padding: 10px 25px;
+  min-width: 300px;
+
+  &:hover {
+    border: 1px solid #bfbfbf;
+  }
+}
+
+.top {
+  display: flex;
+}
+
+.top__item {
+  margin-right: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.u-mgBtm {
+  margin-bottom: 60px;
+}
+
+.newSlot {
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  background: black;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+.newSlotContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #eee;
+  padding: 50px 30px;
+  margin-bottom: 30px;
+}
+
+.mngList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
