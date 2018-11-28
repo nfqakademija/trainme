@@ -16,7 +16,7 @@ $(document).ready(() => {
             }
         );
 
-        $(".btnDiscard").on('click', () => {
+        $('.btnDiscard').on('click', () => {
                 editable.html(oldText);
                 editButton.on('click', () => replaceHTML());
                 $('.btnSave, .btnDiscard').css({'opacity': 0});
