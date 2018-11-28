@@ -50,5 +50,6 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('build/js/editable.js') }}"></script>
     <script src="{{ asset('build/js/calendar.js') }}"></script>
 {% endblock %}

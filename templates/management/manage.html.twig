@@ -3,5 +3,31 @@
 {% block title %}Manage Schedule{% endblock %}
 
 {% block body %}
-management
+    <div class="heroManagement"></div>
+
+    <section class="managementContainer">
+        <div class="managementContainer__item">
+            <div class="top">
+                <div class="top__item">
+                    <label for="mngDate">Date:</label>
+                    <input type="date" id="mngDate"/>
+                </div>
+
+                <div class="top__item">
+                    <label for="mngFrom">From:</label>
+                    <input type="time" id="mngFrom"/>
+                </div>
+
+                <div class="top__item">
+                    <label for="mngTo">To:</label>
+                    <input type="time" id="mngTo"/>
+                </div>
+            </div>
+            <div class="functionsBlock">
+                <button class="btn editButton">Edit</button>
+                <button class="btn btnSave">Save</button>
+                <button class="btn btnDiscard">Discard</button>
+            </div>
+        </div>
+    </section>
 {% endblock %}
