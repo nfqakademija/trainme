@@ -5,6 +5,9 @@
     "symfony/inflector": {
         "version": "v4.1.7"
     },
+    "symfony/profiler-pack": {
+        "version": "v1.0.3"
+    },
     "symfony/property-access": {
         "version": "v4.1.7"
     },
@@ -18,6 +21,18 @@
             "branch": "master",
             "version": "3.3",
             "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
+        }
+    },
+    "symfony/stopwatch": {
+        "version": "v4.1.8"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
         }
     }
 }

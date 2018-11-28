@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Schedule{% endblock %}
+
+{% block body %}
+    <div class="heroManagement"></div>
+    <section class="managementContainer">
+        <h1 class="blackTitle u-mgBtm">Manage availability</h1>
+        <div id="management"></div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/management.js') }}"></script>
+{% endblock %}
