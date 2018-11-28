@@ -18,7 +18,7 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('js/app', './assets/js/app.js')
-    .addEntry('js/calendar','./assets/js/Components/index.js')
+    .addEntry('js/calendar','./assets/js/Components/Calendar/index.js')
     .addEntry('js/editable','./assets/js/editable.js')
     .addStyleEntry('css/app', './assets/css/app.scss')
     //.addEntry('page1', './assets/js/page1.js')
