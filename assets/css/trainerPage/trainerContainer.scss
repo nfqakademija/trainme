@@ -53,7 +53,7 @@
 
 .trainerInfo__desc {
   max-width: 330px;
-  margin: 20px 0;
+  margin: 20px 0 10px 0;
   font-size: 1.2em;
 }
 
@@ -95,6 +95,43 @@
   background: black;
   padding: 15px 20px;
   max-height: 55px;
+}
+
+.textBox {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #eeeeee;
+  overflow: hidden;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  box-sizing: content-box;
+  resize: none;
+}
+
+.btn {
+  color: grey;
+  font-size: .85em;
+  margin-right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 5px 5px 5px 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.btn--cancel {
+  color: red;
+}
+
+.btnSave,
+.btnDiscard {
+  opacity: 0;
+  transition: opacity .3s;
 }
 
 @media only screen and (max-width: 600px) {
