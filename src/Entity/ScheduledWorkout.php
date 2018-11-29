@@ -35,6 +35,12 @@ class ScheduledWorkout implements \JsonSerializable
      * @ORM\JoinColumn(nullable=false)
      */
     private $trainer;
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     /**
      * @return int|null
@@ -107,5 +113,21 @@ class ScheduledWorkout implements \JsonSerializable
             'start' => $this->startsAt->format('Y-m-d H:i:s'),
             'end' => $this->endsAt->format('Y-m-d H:i:s')
         ];
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }
