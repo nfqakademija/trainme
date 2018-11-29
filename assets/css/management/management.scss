@@ -18,7 +18,7 @@
   border: 1px solid #eee;
   transition: border .2s ease-in;
   margin: 0 10px 15px 0;
-  padding: 10px 25px;
+  padding: 20px 35px;
   min-width: 300px;
 
   &:hover {
@@ -28,6 +28,10 @@
 
 .top {
   display: flex;
+}
+
+.functionsBlock {
+  margin-top: 10px;
 }
 
 .top__item {
@@ -47,6 +51,11 @@
   background: black;
   cursor: pointer;
   margin-top: 25px;
+}
+
+.newSlot--disabled {
+  background: rgba(0, 0, 0, .6);
+  cursor: default;
 }
 
 .newSlotContainer {

@@ -9,7 +9,11 @@ class Management extends React.Component {
         super(props);
         this.state = {
             slots: [],
-            loading: false
+            loading: false,
+            date: '',
+            from: '',
+            to: '',
+            posting: false
         };
     }
 
@@ -35,6 +39,45 @@ class Management extends React.Component {
             });
     };
 
+    addNewSlot() {
+        const {date, from, to} = this.state;
+
+        if (date && from && to) {
+            this.setState({posting: true});
+            // axios.post('someUrl', {
+            //     start: `${date} ${from}`,
+            //     end: `${date} ${to}`
+            // }).then(response => {
+            this.setState({
+                slots: [...this.state.slots, {
+                    start: `${date} ${from}`,
+                    end: `${date} ${to}`
+                }],
+                posting: false
+            });
+            // }).catch(err => {
+            //     console.log(err);
+            //     this.setState({posting: false});
+            // });
+        } else {
+            alert('Please fill in all inputs');
+        }
+    };
+
+    deleteClicked(id) {
+        let box = confirm('Are you sure you want to remove available schedule time?');
+        if (box) {
+            console.log('deleted');
+            // axios.delete('someUrl/id',
+            //     {
+            //         params: {'id': id}
+            //     })
+            //     .then(response => {
+            //     }).catch(err => console.log(err));
+        }
+    }
+
+
     render() {
         let list = <Spinner/>;
 
@@ -43,14 +86,22 @@ class Management extends React.Component {
                 list = this.state.slots.map(slot => (
                     <Item
                         key={Math.floor(Math.random() * 9999)}
+                        // id={slot.id}
                         date={slot.start.split(' ')[0]}
                         from={slot.start.split(' ')[1].substr(0, 5)}
                         to={slot.end.split(' ')[1].substr(0, 5)}
+                        onDelete={(id) => this.deleteClicked(id)}
                     />
                 ));
             } else {
                 list = <p>You don't have any available time ranges yet.</p>;
             }
+        }
+
+        let addNewButton = <button onClick={() => this.addNewSlot()} className="newSlot">Add new</button>;
+
+        if (this.state.posting) {
+            addNewButton = <button className="newSlot newSlot--disabled">Posting</button>;
         }
 
         return (
@@ -59,20 +110,26 @@ class Management extends React.Component {
                     <div className="top">
                         <div className="top__item">
                             <label htmlFor="mngDate">Date:</label>
-                            <input type="date" id="mngDate"/>
+                            <input onChange={(e) => {
+                                this.setState({date: e.target.value})
+                            }} type="date" id="mngDate"/>
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngFrom">From:</label>
-                            <input type="time" id="mngFrom"/>
+                            <input onChange={(e) => {
+                                this.setState({from: e.target.value})
+                            }} type="time" id="mngFrom"/>
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngTo">To:</label>
-                            <input type="time" id="mngTo"/>
+                            <input onChange={(e) => {
+                                this.setState({to: e.target.value})
+                            }} type="time" id="mngTo"/>
                         </div>
                     </div>
-                    <button className="newSlot">Add new</button>
+                    {addNewButton}
                 </div>
 
                 <div className={this.state.loading ? "mngList" : null}>{list}</div>
