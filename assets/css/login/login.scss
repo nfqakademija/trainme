@@ -1,0 +1,85 @@
+.heroLogin {
+  background: url(https://images.unsplash.com/photo-1526401485004-46910ecc8e51?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=126329be8d7b9c484ee5e2981fe1f907&auto=format&fit=crop&w=1350&q=80);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center -750px;
+  height: 200px;
+}
+
+.loginContainer {
+  width: 80vw;
+  margin: 0 auto;
+  padding: 65px 0 40px 0;
+  min-height: 400px;
+  max-width: 900px;
+}
+
+.loginForm {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.loginForm__input {
+  margin-bottom: 20px;
+  width: 60%;
+  height: 30px;
+  padding: 5px 10px;
+}
+
+.loginForm__block {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+
+  &:first-of-type {
+    border-right: 1px solid black;
+  }
+}
+
+.u-w85 {
+  width: 85px;
+}
+
+.u-w100 {
+  width: 100px;
+}
+
+.register {
+  height: 100%;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.register__heading {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .loginForm__input {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .loginForm {
+    flex-direction: column;
+  }
+
+  .loginForm__block {
+    width: 100%;
+
+    &:first-of-type {
+      border-right: none;
+      border-bottom: 1px solid black;
+      padding-bottom: 20px;
+    }
+  }
+
+  .register {
+    padding: 20px 0 0 0;
+  }
+}

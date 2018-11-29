@@ -68,15 +68,17 @@ class Management extends React.Component {
         let box = confirm('Are you sure you want to remove available schedule time?');
         if (box) {
             console.log('deleted');
-            // axios.delete('someUrl/id',
-            //     {
-            //         params: {'id': id}
-            //     })
-            //     .then(response => {
-            //     }).catch(err => console.log(err));
+
+            axios.delete('someUrl/' + id)
+                .then(response => {
+                    this.setState({
+                        slots: [...this.state.slots.filter(slot => slot.id !== id)]
+                    });
+                }).catch(err => {
+                console.log(err)
+            });
         }
     }
-
 
     render() {
         let list = <Spinner/>;
@@ -85,12 +87,13 @@ class Management extends React.Component {
             if (this.state.slots.length !== 0) {
                 list = this.state.slots.map(slot => (
                     <Item
+                        // key={slot.id}
                         key={Math.floor(Math.random() * 9999)}
                         // id={slot.id}
                         date={slot.start.split(' ')[0]}
                         from={slot.start.split(' ')[1].substr(0, 5)}
                         to={slot.end.split(' ')[1].substr(0, 5)}
-                        onDelete={(id) => this.deleteClicked(id)}
+                        onDelete={id => this.deleteClicked(id)}
                     />
                 ));
             } else {
