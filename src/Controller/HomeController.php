@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class HomeController extends Controller
 {
@@ -63,10 +64,11 @@ class HomeController extends Controller
     /**
      * @Route("/trainers/{trainer}")
      * @param Trainer $trainer
+     * @param null|UserInterface $user
      * @return Response
      */
-    public function show(Trainer $trainer)
+    public function show(Trainer $trainer, ?UserInterface $user)
     {
-        return $this->render('trainer/trainer.html.twig', compact('trainer'));
+        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user'));
     }
 }
