@@ -1,10 +1,12 @@
 import React from 'react';
+import axios from 'axios';
 
 class Item extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             edit: false,
+            saving: false,
             date: this.props.date,
             from: this.props.from,
             to: this.props.to,
@@ -22,7 +24,7 @@ class Item extends React.Component {
         this.setState({edit: false});
     }
 
-    saveClicked() {
+    saveClicked(id) {
         const {dateInput, fromInput, toInput} = this.state;
         let date = this.props.date;
         let from = this.props.from;
@@ -38,12 +40,24 @@ class Item extends React.Component {
             to = toInput
         }
 
-        this.setState({
-            edit: false,
-            date: date,
-            from: from,
-            to: to
-        });
+        this.setState({saving: true});
+
+        // axios.post('someUrl/' + id, {
+        //     'id': id,
+        //     'start': `${date} ${from}`,
+        //     'end': `${date} ${to}`
+        // }).then(response => {
+            this.setState({
+                edit: false,
+                saving: false,
+                date: date,
+                from: from,
+                to: to
+            });
+        // }).catch(err => {
+        //     this.setState({saving: false, edit: false});
+        //     console.log(err)
+        // });
     }
 
     render() {
@@ -85,10 +99,11 @@ class Item extends React.Component {
                         </div>
                     </div>
                     <div className="functionsBlock">
-                        <button onClick={() => this.editClicked()} className="btn editButton">Edit</button>
+                        <button onClick={() => this.editClicked()}
+                                className="btn editButton">{this.state.saving ? 'Saving...' : 'Edit'}</button>
                         {this.state.edit ?
                             <React.Fragment>
-                                <button style={{'opacity': 1}} onClick={() => this.saveClicked()}
+                                <button style={{'opacity': 1}} onClick={() => this.saveClicked(this.props.id)}
                                         className="btn btnSave">Save
                                 </button>
                                 <button style={{'opacity': 1}} onClick={() => this.cancelClicked()}
