@@ -16,10 +16,12 @@
                 <p class="trainerInfo__rating"><i class="fas fa-star fa-star--yellow fa-star--big"></i> 4.8</p>
                 <span class="trainerInfo__count"> 486 rating(s)</span>
                 <p class="trainerInfo__desc justify editable">{{ trainer.personalStatement }}</p>
-                {#{% if user is logged in and user id=loggedIn id %}#}
-                <button class="btn editButton">Edit</button>
-                <button class="btn btnSave">Save</button>
-                <button class="btn btn--cancel btnDiscard">Discard</button>
+
+                {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
+                    <button class="btn editButton">Edit</button>
+                    <button class="btn btnSave">Save</button>
+                    <button class="btn btn--cancel btnDiscard">Discard</button>
+                {% endif %}
                 {#<button class="btn btnSave">Save</button>#}
                 {#<button class="btn btnDiscard btn--cancel">Discard</button>#}
                 {#{% endif %}#}
