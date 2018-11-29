@@ -61,7 +61,7 @@ class Trainer
     private $image_url;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"}, inversedBy="trainer")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

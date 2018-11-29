@@ -22,6 +22,7 @@ class User implements UserInterface
      */
     private $email;
 
+
     /**
      * @ORM\Column(type="array")
      */
@@ -32,6 +33,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+    /**
+     * @var Trainer
+     * @ORM\OneToOne(targetEntity="Trainer", mappedBy="user")
+     */
+    private $trainer;
 
     public function getId(): ?int
     {
@@ -109,5 +115,21 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Trainer
+     */
+    public function getTrainer(): Trainer
+    {
+        return $this->trainer;
+    }
+
+    /**
+     * @param Trainer $trainer
+     */
+    public function setTrainer(Trainer $trainer): void
+    {
+        $this->trainer = $trainer;
     }
 }
