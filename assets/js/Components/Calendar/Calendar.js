@@ -9,7 +9,7 @@ const Calendar = (props) => (
         <BigCalendar
             localizer={localizer}
             views={['month', 'week', 'day']}
-            defaultView={'week'}
+            defaultView={'day'}
             events={props.events}
             min={new Date(new Date().setHours(6, 0))}
             max={new Date(new Date().setHours(23, 0))}
