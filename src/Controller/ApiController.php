@@ -37,10 +37,11 @@ class ApiController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateTrainerPersonalStatement(Request $request, ?UserInterface $user)
+    public function updateTrainerPersonalStatement(Request $request, ?UserInterface $user, Trainer $trainer)
     {
-        if (!user)
+        if (!$user) {
             return;
+        }
 
 
         $em = $this->getDoctrine()->getManager();
@@ -49,9 +50,8 @@ class ApiController extends AbstractController
         $data = json_decode($data, true);
 
 
-
         $trainer->setPersonalStatement($data['personal_statement']);
-            $em->flush();
+        $em->flush();
 
 
         return new JsonResponse($data);
