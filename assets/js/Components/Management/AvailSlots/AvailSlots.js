@@ -45,8 +45,8 @@ class AvailSlots extends React.Component {
         if (date && from && to) {
             this.setState({posting: true});
             // axios.post('someUrl', {
-            //     start: `${date} ${from}`,
-            //     end: `${date} ${to}`
+            //     starts_at: `${date} ${from}`,
+            //     ends_at: `${date} ${to}`
             // }).then(response => {
             this.setState({
                 slots: [...this.state.slots, {
