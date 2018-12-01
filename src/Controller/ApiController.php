@@ -31,7 +31,7 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/trainers/{id}/available_times, name="api_available_times")
+     * @Route("/api/trainers/{id}/available_times", name="api_available_times")
      * @param Trainer $trainer
      * @param AvailableTimesCalculationService $availableTimesCalculationService
      * @return JsonResponse
