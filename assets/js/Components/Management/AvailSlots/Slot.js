@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-class Item extends React.Component {
+class Slot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,13 +47,13 @@ class Item extends React.Component {
         //     'start': `${date} ${from}`,
         //     'end': `${date} ${to}`
         // }).then(response => {
-            this.setState({
-                edit: false,
-                saving: false,
-                date: date,
-                from: from,
-                to: to
-            });
+        this.setState({
+            edit: false,
+            saving: false,
+            date: date,
+            from: from,
+            to: to
+        });
         // }).catch(err => {
         //     this.setState({saving: false, edit: false});
         //     console.log(err)
@@ -119,4 +119,4 @@ class Item extends React.Component {
     }
 };
 
-export default Item;
+export default Slot;
