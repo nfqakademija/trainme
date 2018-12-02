@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import Slot from './Slot';
-import Spinner from '../UI/Spinner';
+import Spinner from '../../UI/Spinner';
 
 class AvailSlots extends React.Component {
     constructor(props) {

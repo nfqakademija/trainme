@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BigCalendar from 'react-big-calendar';
-import Spinner from '../Management/UI/Spinner';
+import Spinner from '../UI/Spinner';
 
 import moment from 'moment';
 import axios from 'axios';
