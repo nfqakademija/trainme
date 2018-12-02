@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AvailabilitySlotRepository")
@@ -20,12 +21,14 @@ class AvailabilitySlot implements \JsonSerializable
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
      */
     private $startsAt;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
      */
     private $endsAt;
 
@@ -33,6 +36,7 @@ class AvailabilitySlot implements \JsonSerializable
      * @var Trainer
      * @ORM\ManyToOne(targetEntity="App\Entity\Trainer", inversedBy="availabilitySlots")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $trainer;
 
@@ -104,8 +108,9 @@ class AvailabilitySlot implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'start' => $this->startsAt->format('Y-m-d H:i:s'),
-            'end' => $this->endsAt->format('Y-m-d H:i:s')
+            'id' => $this->getId(),
+            'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
+            'ends_at' => $this->endsAt->format('Y-m-d H:i:s')
         ];
     }
 }
