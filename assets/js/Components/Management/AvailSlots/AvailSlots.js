@@ -13,7 +13,8 @@ class AvailSlots extends React.Component {
             date: '',
             from: '',
             to: '',
-            posting: false
+            posting: false,
+            deleting: false
         };
     }
 
@@ -24,12 +25,14 @@ class AvailSlots extends React.Component {
     fetchSlots() {
         this.setState({loading: true});
 
-        axios.get('/api/trainers/1/availabilitySlots')
+        axios.get('/api/availability_slot')
             .then(response => {
                 this.setState({
                     slots: response.data,
                     loading: false
                 });
+
+                console.log(response.data);
             })
             .catch(err => {
                 console.log(err);
@@ -44,21 +47,23 @@ class AvailSlots extends React.Component {
 
         if (date && from && to) {
             this.setState({posting: true});
-            // axios.post('someUrl', {
-            //     starts_at: `${date} ${from}`,
-            //     ends_at: `${date} ${to}`
-            // }).then(response => {
-            this.setState({
-                slots: [...this.state.slots, {
-                    start: `${date} ${from}`,
-                    end: `${date} ${to}`
-                }],
-                posting: false
+
+            axios.post('/api/availability_slot', {
+                starts_at: `${date} ${from}`,
+                ends_at: `${date} ${to}`
+            }).then(response => {
+                this.setState({
+                    slots: [...this.state.slots, {
+                        id: response.data.id,
+                        starts_at: response.data.starts_at,
+                        ends_at: response.data.ends_at
+                    }],
+                    posting: false
+                });
+            }).catch(err => {
+                console.log(err);
+                this.setState({posting: false});
             });
-            // }).catch(err => {
-            //     console.log(err);
-            //     this.setState({posting: false});
-            // });
         } else {
             alert('Please fill in all inputs');
         }
@@ -67,9 +72,7 @@ class AvailSlots extends React.Component {
     deleteClicked(id) {
         let box = confirm('Are you sure you want to remove available schedule time?');
         if (box) {
-            console.log('deleted');
-
-            axios.delete('someUrl/' + id)
+            axios.delete(`/api/availability_slot/${id}`)
                 .then(response => {
                     this.setState({
                         slots: [...this.state.slots.filter(slot => slot.id !== id)]
@@ -87,13 +90,13 @@ class AvailSlots extends React.Component {
             if (this.state.slots.length !== 0) {
                 list = this.state.slots.map(slot => (
                     <Slot
-                        // key={slot.id}
-                        key={Math.floor(Math.random() * 9999)}
-                        // id={slot.id}
-                        date={slot.start.split(' ')[0]}
-                        from={slot.start.split(' ')[1].substr(0, 5)}
-                        to={slot.end.split(' ')[1].substr(0, 5)}
+                        key={slot.id}
+                        id={slot.id}
+                        date={slot.starts_at.split(' ')[0]}
+                        from={slot.starts_at.split(' ')[1].substr(0, 5)}
+                        to={slot.ends_at.split(' ')[1].substr(0, 5)}
                         onDelete={id => this.deleteClicked(id)}
+                        deleting={this.state.deleting}
                     />
                 ));
             } else {
@@ -104,7 +107,7 @@ class AvailSlots extends React.Component {
         let addNewButton = <button onClick={() => this.addNewSlot()} className="newSlot">Add new</button>;
 
         if (this.state.posting) {
-            addNewButton = <button className="newSlot newSlot--disabled">Posting</button>;
+            addNewButton = <button className="newSlot newSlot--disabled">Adding</button>;
         }
 
         return (
