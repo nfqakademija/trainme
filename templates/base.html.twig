@@ -35,11 +35,7 @@
             {#<li class="login__item"><a href="#" class="login__link">Log out</a></li>#}
             {#</ul>#}
             {#{% else %}#}
-            <a href="#" class="navbar__item__link">Log In</a>
-            <ul class="login__list sublist u-listNone">
-                <li class="login__item"><a href="#" class="login__link">Trainer</a></li>
-                <li class="login__item"><a href="#" class="login__link">Client</a></li>
-            </ul>
+            <a href="{{ path('app_login') }}" class="navbar__item__link">Log In</a>
             {#{% endif %}#}
         </li>
     </ul>
