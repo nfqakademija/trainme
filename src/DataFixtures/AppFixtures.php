@@ -134,6 +134,12 @@ class AppFixtures extends Fixture
 
         foreach ($scheduledWorkouts as $schedWork) {
             $scheduledWorkout = new ScheduledWorkout();
+            $user = new User();
+            $user->setEmail($faker->email);
+            $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+            $user->setRoles(['ROLE_CUSTOMER']);
+            $manager->persist($user);
+            $scheduledWorkout->setUser($user);
             $scheduledWorkout->setStartsAt(new \DateTime($schedWork['from']));
             $scheduledWorkout->setEndsAt(new \DateTime($schedWork['to']));
             $scheduledWorkout->setTrainer($this->getReference(sprintf("Trainer %s", $schedWork['trainerId'])));
