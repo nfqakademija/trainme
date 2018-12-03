@@ -131,7 +131,7 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('User expected');
             }
 
-            if ($user->getId() !== $scheduledWorkout->getId()) {
+            if ($user->getId() !== $scheduledWorkout->getUser()->getId()) {
                 throw new \Exception('Unauthorized');
             }
 
@@ -174,7 +174,7 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('User expected');
             }
 
-            if ($user->getId() !== $scheduledWorkout->getId()) {
+            if ($user->getId() !== $scheduledWorkout->getUser()->getId()) {
                 throw new \Exception('Unauthorized');
             }
 
