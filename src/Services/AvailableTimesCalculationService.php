@@ -15,6 +15,10 @@ class AvailableTimesCalculationService {
         $this->availabilitySlotsRepository = $availabilitySlotRepository;
     }
 
+    /**
+     * @param Trainer $trainer
+     * @return Interval[]
+     */
     public function getAvailableTimes(Trainer $trainer) {
 
         $scheduleData = $this->availabilitySlotsRepository->getTrainerSlotsWithScheduledWorkoutsArray($trainer);
@@ -44,7 +48,7 @@ class AvailableTimesCalculationService {
     /**
      * @param $mappedTimes
      * @param $availabilityPeriods
-     * @return array|Interval
+     * @return Interval[]
      */
     private function calculateIntervals($mappedTimes, $availabilityPeriods) {
         $availableTimes = [];
