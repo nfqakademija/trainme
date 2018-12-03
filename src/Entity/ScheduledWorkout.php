@@ -106,15 +106,6 @@ class ScheduledWorkout implements \JsonSerializable
 
         return $this;
     }
-
-    public function jsonSerialize()
-    {
-        return [
-            'start' => $this->startsAt->format('Y-m-d H:i:s'),
-            'end' => $this->endsAt->format('Y-m-d H:i:s')
-        ];
-    }
-
     /**
      * @return User
      */
@@ -129,5 +120,16 @@ class ScheduledWorkout implements \JsonSerializable
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
+            'ends_at' => $this->endsAt->format('Y-m-d H:i:s'),
+            'trainer_id' => $this->trainer->getId(),
+            'user_id' => $this->user->getId()
+        ];
     }
 }

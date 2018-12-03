@@ -11,7 +11,6 @@ namespace App\Controller\Api\Trainer;
 
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
-use App\ValueObjects\Interval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,8 +48,7 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->persist($availabilitySlot);
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
-            return new JsonResponse($interval);
+            return new JsonResponse($availabilitySlot);
 
         } catch (\Throwable $exception) {
             return new JsonResponse($exception->getMessage(), 400);
@@ -70,12 +68,7 @@ class AvailabilitySlotsApiController extends AbstractController
             }
             $availabilitySlots = $user->getTrainer()->getAvailabilitySlots();
 
-            $intervals = [];
-
-            foreach ($availabilitySlots as $availabilitySlot) {
-                $intervals[] = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
-            }
-            return new JsonResponse($intervals);
+            return new JsonResponse($availabilitySlots);
 
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
@@ -117,8 +110,7 @@ class AvailabilitySlotsApiController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
-            return new JsonResponse($interval);
+            return new JsonResponse($availabilitySlot);
 
 
         } catch (\Throwable $e) {

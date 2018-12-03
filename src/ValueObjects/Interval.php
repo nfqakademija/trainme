@@ -5,17 +5,11 @@ namespace App\ValueObjects;
 
 class Interval implements \JsonSerializable
 {
-    public function __construct(?int $id, \DateTimeInterface $startsAt, \DateTimeInterface $endsAt)
+    public function __construct(\DateTimeInterface $startsAt, \DateTimeInterface $endsAt)
     {
-        $this->id = $id;
         $this->startsAt = $startsAt;
         $this->endsAt = $endsAt;
     }
-
-    /**
-     * @var integer
-     */
-    private $id;
 
     /**
      * @var \DateTimeInterface
@@ -59,26 +53,9 @@ class Interval implements \JsonSerializable
         $this->startsAt = $startsAt;
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
     public function jsonSerialize()
     {
         return [
-            'id' => $this->getId(),
             'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
             'ends_at' => $this->endsAt->format('Y-m-d H:i:s')
         ];

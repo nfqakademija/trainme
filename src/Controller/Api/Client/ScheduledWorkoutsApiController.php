@@ -8,14 +8,12 @@
 
 namespace App\Controller\Api\Client;
 
-use App\Entity\Trainer;
 use App\Repository\TrainerRepository;
 use App\Services\AvailableTimesCalculationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ScheduledWorkout;
 use App\Entity\User;
-use App\ValueObjects\Interval;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -76,8 +74,7 @@ class ScheduledWorkoutsApiController extends AbstractController
             $this->getDoctrine()->getManager()->persist($scheduledWorkout);
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($scheduledWorkout->getId(), $scheduledWorkout->getStartsAt(), $scheduledWorkout->getEndsAt());
-            return new JsonResponse($interval);
+            return new JsonResponse($scheduledWorkout);
 
         } catch (\Throwable $exception) {
             return new JsonResponse($exception->getMessage(), 400);
@@ -97,12 +94,7 @@ class ScheduledWorkoutsApiController extends AbstractController
             }
             $scheduledWorkouts = $user->getScheduledWorkouts();
 
-            $intervals = [];
-
-            foreach ($scheduledWorkouts as $scheduledWorkout) {
-                $intervals[] = new Interval($scheduledWorkout->getId(), $scheduledWorkout->getStartsAt(), $scheduledWorkout->getEndsAt());
-            }
-            return new JsonResponse($intervals);
+            return new JsonResponse($scheduledWorkouts);
 
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
@@ -144,8 +136,7 @@ class ScheduledWorkoutsApiController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($scheduledWorkout->getId(), $scheduledWorkout->getStartsAt(), $scheduledWorkout->getEndsAt());
-            return new JsonResponse($interval);
+            return new JsonResponse($scheduledWorkout);
 
 
         } catch (\Throwable $e) {

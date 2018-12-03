@@ -82,7 +82,7 @@ class AvailableTimesCalculationService {
             }
 
             if ($last['ends_at'] < $rangeTo) {
-                $availableTimes[] = new Interval(null, $last['ends_at'], $rangeTo);
+                $availableTimes[] = new Interval($last['ends_at'], $rangeTo);
             }
 
         }
