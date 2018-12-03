@@ -22,23 +22,37 @@ class ClientCalendar extends React.Component {
             events: [
                 {
                     starts_at: new Date(),
-                    ends_at: new Date('2018-12-03 14:00:00')
+                    ends_at: new Date('2018-12-03 16:00:00')
+                },
+                {
+                    starts_at: new Date('2018-12-03 11:00:00'),
+                    ends_at: new Date('2018-12-03 12:00:00')
                 }
             ]
         })
     }
 
     render() {
-        return (<BigCalendar
-            localizer={localizer}
-            views={['week', 'day']}
-            defaultView={'day'}
-            startAccessor={'starts_at'}
-            endAccessor={'ends_at'}
-            events={this.state.events}
-            min={new Date(new Date().setHours(6, 0))}
-            max={new Date(new Date().setHours(23, 0))}
-        />);
+        let calendar = <p>You don't have any scheduled workouts yet.</p>
+
+        if (this.state.events.length !== 0) {
+            calendar = (<BigCalendar
+                localizer={localizer}
+                views={['week', 'day']}
+                defaultView={'day'}
+                startAccessor={'starts_at'}
+                endAccessor={'ends_at'}
+                events={this.state.events}
+                min={new Date(new Date().setHours(6, 0))}
+                max={new Date(new Date().setHours(23, 0))}
+            />);
+        }
+
+        return (
+            <React.Fragment>
+                {calendar}
+            </React.Fragment>
+        )
     }
 }
 
