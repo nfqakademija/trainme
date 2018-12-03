@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="heroWorkouts"></div>
+
+    <div class="workoutsContainer">
+        <h1 class="blackTitle u-mgBtm">My workouts</h1>
+        <div class="clientCal" id="clientCal"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/clientCalendar.js') }}"></script>
+{% endblock %}
