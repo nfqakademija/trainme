@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AvailabilitySlotRepository")
  */
-class AvailabilitySlot implements \JsonSerializable
+class AvailabilitySlot
 {
     /**
      * @var int
@@ -103,14 +103,5 @@ class AvailabilitySlot implements \JsonSerializable
         $this->trainer = $trainer;
 
         return $this;
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'id' => $this->getId(),
-            'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
-            'ends_at' => $this->endsAt->format('Y-m-d H:i:s')
-        ];
     }
 }

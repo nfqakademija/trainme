@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Trainer;
 use App\Repository\AvailabilitySlotRepository;
+use App\ValueObjects\Interval;
 
 class AvailableTimesCalculationService {
 
@@ -40,6 +41,11 @@ class AvailableTimesCalculationService {
         return $this->calculateIntervals($mappedTimes, $availabilityPeriods);
     }
 
+    /**
+     * @param $mappedTimes
+     * @param $availabilityPeriods
+     * @return array|Interval
+     */
     private function calculateIntervals($mappedTimes, $availabilityPeriods) {
         $availableTimes = [];
 
@@ -51,10 +57,7 @@ class AvailableTimesCalculationService {
             $last = $value[count($value) - 1];
 
             if ($first['starts_at'] > $rangeFrom) {
-                $availableTimes[] = [
-                    'starts_at' => $rangeFrom,
-                    'ends_at' => $first['starts_at']
-                ];
+                $availableTimes[] = new  Interval(null, $rangeFrom, $first['starts_at']);
             }
             $insert = [
                 'starts_at' => $first['ends_at']
@@ -64,7 +67,7 @@ class AvailableTimesCalculationService {
                  if (!array_key_exists('ends_at', $insert)) {
                     $insert['ends_at'] = $reservedTimes['starts_at'];
                      if ($insert['starts_at'] < $insert['ends_at']) {
-                         $availableTimes[] = $insert;
+                         $availableTimes[] = new Interval(null, $insert['starts_at'], $insert['ends_at']);
                      }
 
                      $insert = [
@@ -75,10 +78,7 @@ class AvailableTimesCalculationService {
             }
 
             if ($last['ends_at'] < $rangeTo) {
-                $availableTimes[] = [
-                    'starts_at' => $last['ends_at'],
-                    'ends_at' => $rangeTo
-                ];
+                $availableTimes[] = new Interval(null, $last['ends_at'], $rangeTo);
             }
 
         }

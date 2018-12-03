@@ -11,6 +11,7 @@ namespace App\Controller\Api\Trainer;
 
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
+use App\ValueObjects\Interval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +49,8 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->persist($availabilitySlot);
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse($availabilitySlot);
+            $interval = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
+            return new JsonResponse($interval);
 
         } catch (\Throwable $exception) {
             return new JsonResponse($exception->getMessage(), 400);
@@ -66,8 +68,14 @@ class AvailabilitySlotsApiController extends AbstractController
             if (!$user instanceof User) {
                 throw new \Exception('User expected');
             }
-            $availabilitySlots = $user->getTrainer()->getAvailabilitySlots()->toArray();
-            return new JsonResponse($availabilitySlots);
+            $availabilitySlots = $user->getTrainer()->getAvailabilitySlots();
+
+            $intervals = [];
+
+            foreach ($availabilitySlots as $availabilitySlot) {
+                $intervals[] = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
+            }
+            return new JsonResponse($intervals);
 
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
@@ -109,7 +117,8 @@ class AvailabilitySlotsApiController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse($availabilitySlot);
+            $interval = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
+            return new JsonResponse($interval);
 
 
         } catch (\Throwable $e) {
