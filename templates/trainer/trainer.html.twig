@@ -41,7 +41,7 @@
 
         <div class="calendarContainer">
             <p class="blackTitle">Available workout times</p>
-            <div id="calendar" class="calendar" data-trainer='{{ trainer.id }}'></div>
+            <div id="trainerCal" class="calendar" data-trainer='{{ trainer.id }}'></div>
         </div>
 
         <button class="button"><a class="button__content" href="{{ path('list') }}">Go Back</a></button>
@@ -53,5 +53,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('build/js/editable.js') }}"></script>
-    <script src="{{ asset('build/js/calendar.js') }}"></script>
+    <script src="{{ asset('build/js/trainerCal.js') }}"></script>
 {% endblock %}
