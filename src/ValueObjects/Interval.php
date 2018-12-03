@@ -2,7 +2,6 @@
 
 namespace App\ValueObjects;
 
-
 class Interval implements \JsonSerializable
 {
     public function __construct(\DateTimeInterface $startsAt, \DateTimeInterface $endsAt)
@@ -60,6 +59,4 @@ class Interval implements \JsonSerializable
             'ends_at' => $this->endsAt->format('Y-m-d H:i:s')
         ];
     }
-
-
 }

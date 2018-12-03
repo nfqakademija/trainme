@@ -36,8 +36,10 @@ class ApiController extends AbstractController
      * @param AvailableTimesCalculationService $availableTimesCalculationService
      * @return JsonResponse
      */
-    public function getAvailableTimes(Trainer $trainer, AvailableTimesCalculationService $availableTimesCalculationService)
-    {
+    public function getAvailableTimes(
+        Trainer $trainer,
+        AvailableTimesCalculationService $availableTimesCalculationService
+    ) {
         return new JsonResponse($availableTimesCalculationService->getAvailableTimes($trainer));
     }
 }

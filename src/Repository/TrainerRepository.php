@@ -45,7 +45,7 @@ class TrainerRepository extends ServiceEntityRepository
                 $qb->expr()->lte('a.startsAt', ':from'),
                 $qb->expr()->gte('a.endsAt', ':to')
             ))
-                ->leftJoin('t.scheduledWorkouts','s', Join::WITH, $qb->expr()->orX(
+                ->leftJoin('t.scheduledWorkouts', 's', Join::WITH, $qb->expr()->orX(
                     $qb->expr()->andX(
                         $qb->expr()->gt('s.startsAt', ':from'),
                         $qb->expr()->lt('s.startsAt', ':to')

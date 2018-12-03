@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ignas
- * Date: 12/1/2018
- * Time: 11:17 AM
- */
 
 namespace App\Controller\Api\Trainer;
-
 
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
@@ -57,7 +50,6 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($availabilitySlot);
-
         } catch (\Throwable $exception) {
             return new JsonResponse($exception->getMessage(), 400);
         }
@@ -77,12 +69,9 @@ class AvailabilitySlotsApiController extends AbstractController
             $availabilitySlots = $user->getTrainer()->getAvailabilitySlots();
 
             return new JsonResponse($availabilitySlots);
-
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
-
-
     }
 
     /**
@@ -126,14 +115,9 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($availabilitySlot);
-
-
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
-
-
-
     }
 
     /**
@@ -162,12 +146,8 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse('SUCCESS');
-
-
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
     }
-
-
 }
