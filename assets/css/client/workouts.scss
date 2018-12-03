@@ -14,3 +14,14 @@
   padding: 40px 0;
 }
 
+.rbc-day-slot .rbc-events-container {
+  margin-right: 0 !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .workoutsContainer {
+    width: 100%;
+    padding: 0 10px 35px 10px;
+  }
+}
+
