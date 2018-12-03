@@ -115,6 +115,7 @@ class AppFixtures extends Fixture
             $trainer->setName($faker->name);
             $trainer->setPersonalStatement($faker->realText());
             $trainer->setPhone($faker->phoneNumber);
+            $trainer->setLocation($faker->city);
             $trainer->setImageUrl($faker->imageUrl(250, 250, 'sports', false, $i % 10 + 1));
             $this->addReference(sprintf("Trainer %s", $i + 1), $trainer);
             $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags) - 1)]);

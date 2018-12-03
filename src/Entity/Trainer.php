@@ -38,6 +38,12 @@ class Trainer
     private $personalStatement;
 
     /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $location;
+
+    /**
      * @var Collection|AvailabilitySlot[]
      * @ORM\OneToMany(targetEntity="App\Entity\AvailabilitySlot", mappedBy="trainer")
      */
@@ -277,5 +283,21 @@ class Trainer
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation(string $location): void
+    {
+        $this->location = $location;
     }
 }
