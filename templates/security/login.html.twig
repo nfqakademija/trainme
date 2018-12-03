@@ -8,10 +8,6 @@
         <h1 class="blackTitle">Log in</h1>
 
         <form method="post" class="loginForm">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
             <div class="loginForm__block">
                 <label for="inputEmail" class="sr-only">Email</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="loginForm__input"
@@ -36,6 +32,10 @@
                 #}
 
                 <button class="button button__content u-w85" type="submit">Log in</button>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
             </div>
 
             <div class="loginForm__block">

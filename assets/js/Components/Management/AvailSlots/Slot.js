@@ -42,22 +42,23 @@ class Slot extends React.Component {
 
         this.setState({saving: true});
 
-        // axios.post('someUrl/' + id, {
-        //     'id': id,
-        //     'start': `${date} ${from}`,
-        //     'end': `${date} ${to}`
-        // }).then(response => {
-        this.setState({
-            edit: false,
-            saving: false,
-            date: date,
-            from: from,
-            to: to
+        axios.put(`/api/availability_slot/${id}`,
+            {
+                'starts_at': `${date} ${from}`,
+                'ends_at': `${date} ${to}`
+            })
+            .then(response => {
+                this.setState({
+                    edit: false,
+                    saving: false,
+                    date: date,
+                    from: from,
+                    to: to
+                });
+            }).catch(err => {
+            this.setState({saving: false, edit: false});
+            console.log(err)
         });
-        // }).catch(err => {
-        //     this.setState({saving: false, edit: false});
-        //     console.log(err)
-        // });
     }
 
     render() {
