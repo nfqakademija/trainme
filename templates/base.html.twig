@@ -28,11 +28,10 @@
                     <li class="login__item"><a href="{{ path('manage') }}" class="login__link">Manage schedule</a></li>
                     <li class="login__item"><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
                 </ul>
-            {% elseif app.user and is_granted('ROLE_CLIENT') %}
+            {% elseif app.user and is_granted('ROLE_CUSTOMER') %}
                 <a href="#" class="navbar__item__link">My account</a>
                 <ul class="login__list u-listNone">
-                    <li class="login__item"><a href="{{ path('client_workouts') }}" class="login__link">Scheduled
-                            workouts</a></li>
+                    <li class="login__item"><a href="#" class="login__link">Workouts</a></li>
                     <li class="login__item"><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
                 </ul>
             {% else %}
