@@ -37,7 +37,7 @@ class ScheduledWorkout implements \JsonSerializable
     private $trainer;
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

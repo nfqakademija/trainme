@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -38,6 +39,12 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity="Trainer", mappedBy="user")
      */
     private $trainer;
+
+    /**
+     * @var ScheduledWorkout[]
+     * @ORM\OneToMany(targetEntity="ScheduledWorkout", mappedBy="user")
+     */
+    private $scheduledWorkouts;
 
     public function getId(): ?int
     {
@@ -131,5 +138,21 @@ class User implements UserInterface
     public function setTrainer(Trainer $trainer): void
     {
         $this->trainer = $trainer;
+    }
+
+    /**
+     * @return Collection|ScheduledWorkout[]
+     */
+    public function getScheduledWorkouts(): Collection
+    {
+        return $this->scheduledWorkouts;
+    }
+
+    /**
+     * @param ScheduledWorkout[] $scheduledWorkouts
+     */
+    public function setScheduledWorkouts(array $scheduledWorkouts): void
+    {
+        $this->scheduledWorkouts = $scheduledWorkouts;
     }
 }
