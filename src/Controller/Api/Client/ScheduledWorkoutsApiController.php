@@ -16,6 +16,7 @@ use App\Entity\ScheduledWorkout;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class ScheduledWorkoutsApiController extends AbstractController
@@ -25,9 +26,10 @@ class ScheduledWorkoutsApiController extends AbstractController
      * @param Request $request
      * @param TrainerRepository $trainerRepository
      * @param AvailableTimesCalculationService $availableTimesCalculationService
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(Request $request, TrainerRepository $trainerRepository, AvailableTimesCalculationService $availableTimesCalculationService)
+    public function createAction(Request $request, TrainerRepository $trainerRepository, AvailableTimesCalculationService $availableTimesCalculationService, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -48,28 +50,32 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('Trainer not found');
             }
 
-            $trainerAvailableTimes = $availableTimesCalculationService->getAvailableTimes($trainer);
-            
-            $availableTimeExists = false;
-            foreach ($trainerAvailableTimes as $availableTime) {
-                if ($availableTime->getStartsAt() <= new \DateTime($data['starts_at']) && $availableTime->getEndsAt() >= new \DateTime($data['ends_at'])){
-                    $availableTimeExists = true;
-                    break;
-                }
-            }
-
-            
-            if (!$availableTimeExists) {
-                throw new \Exception('Trainer does not have available time for this period');
-            }
-            
-            
             $scheduledWorkout = new ScheduledWorkout();
 
             $scheduledWorkout->setStartsAt(new \DateTime($data['starts_at']));
             $scheduledWorkout->setEndsAt(new \DateTime($data['ends_at']));
             $scheduledWorkout->setTrainer($trainer);
             $scheduledWorkout->setUser($user);
+
+            $errors = $validator->validate($scheduledWorkout);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
+            }
+
+            $trainerAvailableTimes = $availableTimesCalculationService->getAvailableTimes($trainer);
+            
+            $availableTimeExists = false;
+            foreach ($trainerAvailableTimes as $availableTime) {
+                if ($availableTime->getStartsAt() <= $scheduledWorkout->getStartsAt() && $availableTime->getEndsAt() >= $scheduledWorkout->getEndsAt()){
+                    $availableTimeExists = true;
+                    break;
+                }
+            }
+
+            if (!$availableTimeExists) {
+                throw new \Exception('Trainer does not have available time for this period');
+            }
 
             $this->getDoctrine()->getManager()->persist($scheduledWorkout);
             $this->getDoctrine()->getManager()->flush();
@@ -107,9 +113,10 @@ class ScheduledWorkoutsApiController extends AbstractController
      * @Route("/api/scheduled_workout/{id}", methods={"PUT"})
      * @param ScheduledWorkout $scheduledWorkout
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function updateAction(ScheduledWorkout $scheduledWorkout, Request $request)
+    public function updateAction(ScheduledWorkout $scheduledWorkout, Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -132,6 +139,12 @@ class ScheduledWorkoutsApiController extends AbstractController
             }
             if (isset($data['ends_at'])) {
                 $scheduledWorkout->setEndsAt(new \DateTime($data['ends_at']));
+            }
+
+            $errors = $validator->validate($scheduledWorkout);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
             }
 
             $this->getDoctrine()->getManager()->flush();

@@ -15,15 +15,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AvailabilitySlotsApiController extends AbstractController
 {
     /**
      * @Route("/api/availability_slot", methods={"POST"})
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -44,6 +46,12 @@ class AvailabilitySlotsApiController extends AbstractController
             $availabilitySlot->setStartsAt(new \DateTime($data['starts_at']));
             $availabilitySlot->setEndsAt(new \DateTime($data['ends_at']));
             $availabilitySlot->setTrainer($trainer);
+
+            $errors = $validator->validate($availabilitySlot);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
+            }
 
             $this->getDoctrine()->getManager()->persist($availabilitySlot);
             $this->getDoctrine()->getManager()->flush();
@@ -81,9 +89,10 @@ class AvailabilitySlotsApiController extends AbstractController
      * @Route("/api/availability_slot/{id}", methods={"PUT"})
      * @param AvailabilitySlot $availabilitySlot
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function updateAction(AvailabilitySlot $availabilitySlot, Request $request)
+    public function updateAction(AvailabilitySlot $availabilitySlot, Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -106,6 +115,12 @@ class AvailabilitySlotsApiController extends AbstractController
             }
             if (isset($data['ends_at'])) {
                 $availabilitySlot->setEndsAt(new \DateTime($data['ends_at']));
+            }
+
+            $errors = $validator->validate($availabilitySlot);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
             }
 
             $this->getDoctrine()->getManager()->flush();
