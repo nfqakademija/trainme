@@ -59,7 +59,7 @@ class AvailableTimesCalculationService
             $rangeFrom = $availabilityPeriods[$key]['starts_at'];
             $rangeTo = $availabilityPeriods[$key]['ends_at'];
 
-            if (count($value) == 0) {
+            if (count($value) == 1 && $value[0]['starts_at'] == null && $value[0]['ends_at'] == null) {
                 $availableTimes[] = new Interval($rangeFrom, $rangeTo);
                 continue;
             }

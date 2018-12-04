@@ -26,7 +26,7 @@ class AvailabilitySlotRepository extends ServiceEntityRepository
 
         $query = $em->createQuery(
             "select a, s from App\Entity\AvailabilitySlot a 
-                 INNER JOIN App\Entity\ScheduledWorkout s 
+                 LEFT JOIN App\Entity\ScheduledWorkout s 
                  WITH s.trainer = a.trainer AND s.startsAt >= a.startsAt AND s.endsAt <= a.endsAt 
                  WHERE a.trainer = :trainer 
                  ORDER BY a.id, s.startsAt"
