@@ -40,6 +40,8 @@ class TrainerApiController extends AbstractController
                 $trainer->setLocation($data['location']);
             }
 
+            $this->getDoctrine()->getManager()->flush();
+
             return new JsonResponse($trainer);
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
