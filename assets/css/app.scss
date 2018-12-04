@@ -12,10 +12,10 @@ html {
   overflow-y: auto;
 }
 
-// the ~ allows you to reference things in node_modules
 //Libs
 @import "~normalize.css";
-@import "lib/fullcalendar.min.css";
+@import "~react-big-calendar/lib/css/react-big-calendar.css";
+@import "~pikaday/css/pikaday.css";
 //Base
 @import "footer";
 @import "navbar";
@@ -26,18 +26,15 @@ html {
 @import "trainerList/filter";
 @import "trainerList/trainers";
 @import "trainerList/pagination";
-@import "../../node_modules/pikaday/css/pikaday.css";
-@import "datePicker/theme";
-@import "timePicker/theme";
+@import "themes/timepickiTheme";
+@import "themes/datepickerTheme";
 //Personal trainer's page
-@import "trainerPage/trainerHero";
-@import "trainerPage/trainerContainer";
-@import "trainerPage/calendar";
-@import "~react-big-calendar/lib/css/react-big-calendar.css";
+@import "trainerPage/trainerPage";
+@import "trainerPage/trainerCal";
 //Trainer work schedule management
 @import "management/management";
 @import "management/spinner";
 //Login page
 @import "login/login";
 //Client's workouts page
-@import "client/workouts";
+@import "customer/workouts";

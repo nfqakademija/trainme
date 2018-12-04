@@ -1,17 +1,6 @@
-.heroWorkouts {
-  background: url(https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bf23e88edf0700891eeac2e0cb3664b8&auto=format&fit=crop&w=750&q=80);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 200px;
-}
-
-.workoutsContainer {
-  width: 80vw;
+.trainerCal {
+  margin: 35px 0;
   max-width: 900px;
-  min-height: 500px;
-  margin: 30px auto 0 auto;
-  padding: 40px 0;
 }
 
 .calModal {
@@ -91,11 +80,3 @@
 .bookMsg--success {
   color: green;
 }
-
-@media only screen and (max-width: 600px) {
-  .workoutsContainer {
-    width: 100%;
-    padding: 0 10px 35px 10px;
-  }
-}
-
