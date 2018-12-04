@@ -62,13 +62,15 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/trainers/{trainer}")
+     * @Route("/trainers/{trainer}", name="trainer_page")
      * @param Trainer $trainer
      * @param null|UserInterface $user
      * @return Response
      */
     public function show(Trainer $trainer, ?UserInterface $user)
     {
-        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user'));
+        $location = $trainer->getLocation();
+        $count = count($trainer->getScheduledWorkouts()->getIterator());
+        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'location', 'count'));
     }
 }

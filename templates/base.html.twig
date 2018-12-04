@@ -24,7 +24,11 @@
             {% if app.user and is_granted('ROLE_TRAINER') %}
                 <a href="#" class="navbar__item__link">My account</a>
                 <ul class="login__list u-listNone">
-                    <li class="login__item"><a href="#" class="login__link">Personal page</a></li>
+                    <li class="login__item">
+                        <a href="{{ path('trainer_page', {trainer : app.user.id}) }}" class="login__link">
+                            Personal page
+                        </a>
+                    </li>
                     <li class="login__item"><a href="{{ path('manage') }}" class="login__link">Manage schedule</a></li>
                     <li class="login__item"><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
                 </ul>
