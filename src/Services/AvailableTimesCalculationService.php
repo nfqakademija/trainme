@@ -53,6 +53,8 @@ class AvailableTimesCalculationService
      */
     private function calculateIntervals($mappedTimes, $availabilityPeriods)
     {
+        $availableTimes = [];
+
         foreach ($mappedTimes as $key => $value) {
             $rangeFrom = $availabilityPeriods[$key]['starts_at'];
             $rangeTo = $availabilityPeriods[$key]['ends_at'];
