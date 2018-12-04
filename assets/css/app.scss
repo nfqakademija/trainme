@@ -6,6 +6,12 @@
   font-family: 'Lato', sans-serif;
 }
 
+body,
+html {
+  height: 100%;
+  overflow-y: auto;
+}
+
 // the ~ allows you to reference things in node_modules
 //Libs
 @import "~normalize.css";

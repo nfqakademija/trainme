@@ -14,8 +14,82 @@
   padding: 40px 0;
 }
 
-.rbc-day-slot .rbc-events-container {
-  margin-right: 0 !important;
+.calModal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+}
+
+.calModal__content {
+  background: white;
+  margin: 20% auto;
+  padding: 20px;
+  width: 40%;
+}
+
+.calModal__close {
+  color: grey;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.calModal__head,
+.calModal__foot,
+.calModal__inputs {
+  display: flex;
+}
+
+.calModal__head {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calModal__foot {
+  justify-content: flex-start;
+}
+
+.calModal__inputs {
+  height: 100px;
+  align-items: center;
+}
+
+.calModal__title {
+  font-weight: bold;
+}
+
+.calModal__bar {
+  color: #eee;
+  background: #eee;
+  height: 1px;
+  margin: 10px auto 0 auto;
+  border: none;
+}
+
+.blackTitle--fSmaller {
+  font-size: 1.3em;
+}
+
+.bookMsg {
+  font-weight: bold;
+  margin: 0 15px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.bookMsg--success {
+  color: green;
 }
 
 @media only screen and (max-width: 600px) {
