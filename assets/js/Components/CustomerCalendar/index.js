@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ClientCalendar from './ClientCalendar';
+import CustomerCalendar from './CustomerCalendar';
 
-ReactDOM.render(<ClientCalendar/>, document.getElementById('clientCal'));
+ReactDOM.render(<CustomerCalendar/>, document.getElementById('customerCal'));

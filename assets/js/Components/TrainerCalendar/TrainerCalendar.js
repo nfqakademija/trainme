@@ -5,6 +5,7 @@ import Spinner from '../UI/Spinner';
 
 import moment from 'moment';
 import axios from 'axios';
+import validateDateInput from "./validation";
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -17,7 +18,9 @@ class TrainerCalendar extends React.Component {
             modalVisible: false,
             currentEvent: '',
             booking: false,
-            success: false
+            success: false,
+            starts_at: '',
+            ends_at: ''
         }
     }
 
@@ -59,7 +62,9 @@ class TrainerCalendar extends React.Component {
             currentEvent: {
                 starts_at: event.starts_at,
                 ends_at: event.ends_at,
-            }
+            },
+            starts_at: event.starts_at,
+            ends_at: event.ends_at,
         });
     };
 
@@ -68,10 +73,19 @@ class TrainerCalendar extends React.Component {
     }
 
     bookWorkout() {
+        const {currentEvent, starts_at, ends_at} = this.state;
+
+        if (!validateDateInput(starts_at, ends_at, currentEvent.starts_at, currentEvent.ends_at)) {
+            const from = starts_at.toLocaleString().split(' ')[1].substr(0, 5);
+            const to = ends_at.toLocaleString().split(' ')[1].substr(0, 5);
+            alert(`Please choose time between ${from} and ${to}`);
+            return;
+        }
+
         this.setState({booking: true});
         axios.post('/api/scheduled_workout', {
-            'starts_at': this.state.currentEvent.starts_at.toLocaleString(),
-            'ends_at': this.state.currentEvent.ends_at.toLocaleString(),
+            'starts_at': currentEvent.starts_at.toLocaleString(),
+            'ends_at': currentEvent.ends_at.toLocaleString(),
             'trainer_id': this.props.id
         }).then(response => {
             this.fetchAvailableTimes();
@@ -83,10 +97,6 @@ class TrainerCalendar extends React.Component {
             console.log(err);
             this.setState({booking: false});
             this.closeModal();
-        });
-        console.log({
-            'starts_at': this.state.currentEvent.starts_at.toLocaleString(),
-            'ends_at': this.state.currentEvent.ends_at.toLocaleString(),
         });
     }
 
