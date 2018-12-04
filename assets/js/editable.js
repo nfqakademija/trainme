@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import axios from 'axios'
+import axios from 'axios';
 
 $(document).ready(() => {
         let oldText, newText;
@@ -12,12 +12,12 @@ $(document).ready(() => {
         $('.btnSave').on('click', () => {
                 newText = $('.textBox').val().replace(/"/g, '"');
                 editable.html(newText);
+                console.log(newText);
                 axios.put('/api/trainer', {
-                    personal_statement: newText
+                    'personal_statement': newText
                 }).then((response) => {
-
                 }).catch((error) => {
-
+                    console.log(error);
                 });
                 editButton.on('click', () => replaceHTML());
                 $('.btnSave, .btnDiscard').css({'opacity': 0});
