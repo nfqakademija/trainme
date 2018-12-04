@@ -1,24 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ignas
- * Date: 12/3/2018
- * Time: 4:15 PM
- */
 
 namespace App\Controller\Api\Client;
 
-use App\Entity\Trainer;
 use App\Repository\TrainerRepository;
 use App\Services\AvailableTimesCalculationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ScheduledWorkout;
 use App\Entity\User;
-use App\ValueObjects\Interval;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ScheduledWorkoutsApiController extends AbstractController
 {
@@ -27,15 +19,20 @@ class ScheduledWorkoutsApiController extends AbstractController
      * @param Request $request
      * @param TrainerRepository $trainerRepository
      * @param AvailableTimesCalculationService $availableTimesCalculationService
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(Request $request, TrainerRepository $trainerRepository, AvailableTimesCalculationService $availableTimesCalculationService)
-    {
+    public function createAction(
+        Request $request,
+        TrainerRepository $trainerRepository,
+        AvailableTimesCalculationService $availableTimesCalculationService,
+        ValidatorInterface $validator
+    ) {
         try {
             $data = json_decode($request->getContent(), true);
 
             if (!isset($data['starts_at']) || !isset($data['ends_at']) || !isset($data['trainer_id'])) {
-                throw new \Exception('Parameters \'starts_at\' or/and \'ends_at\' or/and \'trainer_id\' are not defined');
+                throw new \Exception('Parameters \'starts_at\' or \'ends_at\' or \'trainer_id\' are not defined');
             }
 
             $user = $this->getUser();
@@ -50,22 +47,6 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('Trainer not found');
             }
 
-            $trainerAvailableTimes = $availableTimesCalculationService->getAvailableTimes($trainer);
-            
-            $availableTimeExists = false;
-            foreach ($trainerAvailableTimes as $availableTime) {
-                if ($availableTime->getStartsAt() <= new \DateTime($data['starts_at']) && $availableTime->getEndsAt() >= new \DateTime($data['ends_at'])){
-                    $availableTimeExists = true;
-                    break;
-                }
-            }
-
-            
-            if (!$availableTimeExists) {
-                throw new \Exception('Trainer does not have available time for this period');
-            }
-            
-            
             $scheduledWorkout = new ScheduledWorkout();
 
             $scheduledWorkout->setStartsAt(new \DateTime($data['starts_at']));
@@ -73,12 +54,31 @@ class ScheduledWorkoutsApiController extends AbstractController
             $scheduledWorkout->setTrainer($trainer);
             $scheduledWorkout->setUser($user);
 
+            $errors = $validator->validate($scheduledWorkout);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
+            }
+
+            $trainerAvailableTimes = $availableTimesCalculationService->getAvailableTimes($trainer);
+            
+            $availableTimeExists = false;
+            foreach ($trainerAvailableTimes as $availableTime) {
+                if ($availableTime->getStartsAt() <= $scheduledWorkout->getStartsAt()
+                    && $availableTime->getEndsAt() >= $scheduledWorkout->getEndsAt()) {
+                    $availableTimeExists = true;
+                    break;
+                }
+            }
+
+            if (!$availableTimeExists) {
+                throw new \Exception('Trainer does not have available time for this period');
+            }
+
             $this->getDoctrine()->getManager()->persist($scheduledWorkout);
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($scheduledWorkout->getId(), $scheduledWorkout->getStartsAt(), $scheduledWorkout->getEndsAt());
-            return new JsonResponse($interval);
-
+            return new JsonResponse($scheduledWorkout);
         } catch (\Throwable $exception) {
             return new JsonResponse($exception->getMessage(), 400);
         }
@@ -97,27 +97,20 @@ class ScheduledWorkoutsApiController extends AbstractController
             }
             $scheduledWorkouts = $user->getScheduledWorkouts();
 
-            $intervals = [];
-
-            foreach ($scheduledWorkouts as $scheduledWorkout) {
-                $intervals[] = new Interval($scheduledWorkout->getId(), $scheduledWorkout->getStartsAt(), $scheduledWorkout->getEndsAt());
-            }
-            return new JsonResponse($intervals);
-
+            return new JsonResponse($scheduledWorkouts);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
-
-
     }
 
     /**
      * @Route("/api/scheduled_workout/{id}", methods={"PUT"})
      * @param ScheduledWorkout $scheduledWorkout
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function updateAction(ScheduledWorkout $scheduledWorkout, Request $request)
+    public function updateAction(ScheduledWorkout $scheduledWorkout, Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -142,18 +135,18 @@ class ScheduledWorkoutsApiController extends AbstractController
                 $scheduledWorkout->setEndsAt(new \DateTime($data['ends_at']));
             }
 
+            $errors = $validator->validate($scheduledWorkout);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($scheduledWorkout->getId(), $scheduledWorkout->getStartsAt(), $scheduledWorkout->getEndsAt());
-            return new JsonResponse($interval);
-
-
+            return new JsonResponse($scheduledWorkout);
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
-
-
-
     }
 
     /**
@@ -182,12 +175,8 @@ class ScheduledWorkoutsApiController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse('SUCCESS');
-
-
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
     }
-
-
 }

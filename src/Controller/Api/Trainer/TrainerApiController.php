@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api\Trainer;
 
-
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +15,8 @@ class TrainerApiController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateAction (Request $request) {
+    public function updateAction(Request $request)
+    {
         try {
             $user = $this->getUser();
 
@@ -41,7 +41,6 @@ class TrainerApiController extends AbstractController
             }
 
             return new JsonResponse($trainer);
-
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }

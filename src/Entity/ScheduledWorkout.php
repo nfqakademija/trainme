@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ScheduledWorkoutRepository")
@@ -20,12 +21,14 @@ class ScheduledWorkout implements \JsonSerializable
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
      */
     private $startsAt;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
      */
     private $endsAt;
 
@@ -33,12 +36,14 @@ class ScheduledWorkout implements \JsonSerializable
      * @var Trainer
      * @ORM\ManyToOne(targetEntity="App\Entity\Trainer", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $trainer;
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $user;
 
@@ -106,15 +111,6 @@ class ScheduledWorkout implements \JsonSerializable
 
         return $this;
     }
-
-    public function jsonSerialize()
-    {
-        return [
-            'start' => $this->startsAt->format('Y-m-d H:i:s'),
-            'end' => $this->endsAt->format('Y-m-d H:i:s')
-        ];
-    }
-
     /**
      * @return User
      */
@@ -129,5 +125,16 @@ class ScheduledWorkout implements \JsonSerializable
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
+            'ends_at' => $this->endsAt->format('Y-m-d H:i:s'),
+            'trainer_id' => $this->trainer->getId(),
+            'user_id' => $this->user->getId()
+        ];
     }
 }

@@ -1,30 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ignas
- * Date: 12/1/2018
- * Time: 11:17 AM
- */
 
 namespace App\Controller\Api\Trainer;
 
-
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
-use App\ValueObjects\Interval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AvailabilitySlotsApiController extends AbstractController
 {
     /**
      * @Route("/api/availability_slot", methods={"POST"})
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -46,12 +40,16 @@ class AvailabilitySlotsApiController extends AbstractController
             $availabilitySlot->setEndsAt(new \DateTime($data['ends_at']));
             $availabilitySlot->setTrainer($trainer);
 
+            $errors = $validator->validate($availabilitySlot);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
+            }
+
             $this->getDoctrine()->getManager()->persist($availabilitySlot);
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
-            return new JsonResponse($interval);
-
+            return new JsonResponse($availabilitySlot);
         } catch (\Throwable $exception) {
             return new JsonResponse($exception->getMessage(), 400);
         }
@@ -70,27 +68,20 @@ class AvailabilitySlotsApiController extends AbstractController
             }
             $availabilitySlots = $user->getTrainer()->getAvailabilitySlots();
 
-            $intervals = [];
-
-            foreach ($availabilitySlots as $availabilitySlot) {
-                $intervals[] = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
-            }
-            return new JsonResponse($intervals);
-
+            return new JsonResponse($availabilitySlots);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
-
-
     }
 
     /**
      * @Route("/api/availability_slot/{id}", methods={"PUT"})
      * @param AvailabilitySlot $availabilitySlot
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function updateAction(AvailabilitySlot $availabilitySlot, Request $request)
+    public function updateAction(AvailabilitySlot $availabilitySlot, Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -115,18 +106,18 @@ class AvailabilitySlotsApiController extends AbstractController
                 $availabilitySlot->setEndsAt(new \DateTime($data['ends_at']));
             }
 
+            $errors = $validator->validate($availabilitySlot);
+
+            if (count($errors) > 0) {
+                throw new \Exception('Validation error');
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            $interval = new Interval($availabilitySlot->getId(), $availabilitySlot->getStartsAt(), $availabilitySlot->getEndsAt());
-            return new JsonResponse($interval);
-
-
+            return new JsonResponse($availabilitySlot);
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
-
-
-
     }
 
     /**
@@ -155,12 +146,8 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse('SUCCESS');
-
-
         } catch (\Throwable $e) {
             return new JsonResponse($e->getMessage(), 400);
         }
     }
-
-
 }
