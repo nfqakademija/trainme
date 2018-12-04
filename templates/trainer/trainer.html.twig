@@ -22,8 +22,18 @@
                     <button class="btn btnSave">Save</button>
                     <button class="btn btn--cancel btnDiscard">Discard</button>
                 {% endif %}
-                <p class="trainerInfo__desc">Location: <span class="trainerInfo__desc">{{ location }}</span></p>
-                <p class="trainerInfo__desc">Workouts on TrainMe: <span class="trainerInfo__desc">{{ count }}</span></p>
+                <p class="trainerInfo__desc">
+                    <i class="fas fa-phone"></i>
+                    <span class="infoText">{{ trainer.phone }}</span>
+                </p>
+                <p class="trainerInfo__desc">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="infoText">{{ trainer.location }}</span>
+                </p>
+                <p class="trainerInfo__desc">
+                    <i class="fas fa-dumbbell"></i>
+                    <span class="infoText">{{ count }}</span>
+                </p>
             </div>
         </div>
 

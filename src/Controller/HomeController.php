@@ -69,8 +69,7 @@ class HomeController extends Controller
      */
     public function show(Trainer $trainer, ?UserInterface $user)
     {
-        $location = $trainer->getLocation();
         $count = count($trainer->getScheduledWorkouts()->getIterator());
-        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'location', 'count'));
+        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'count'));
     }
 }
