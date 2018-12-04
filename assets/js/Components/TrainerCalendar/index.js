@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calendar from './Calendar';
 
-ReactDOM.render(<Calendar id={calendar.dataset.trainer}/>, document.getElementById('calendar'));
+import TrainerCalendar from './TrainerCalendar';
+
+const trainerCal = document.getElementById('trainerCal');
+
+ReactDOM.render(<TrainerCalendar id={trainerCal.dataset.trainer}/>, trainerCal);
 
