@@ -112,17 +112,6 @@ class ScheduledWorkout implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
-    {
-        return [
-            'id' => $this->id,
-            'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
-            'ends_at' => $this->endsAt->format('Y-m-d H:i:s'),
-            'trainer_id' => $this->trainer->getId(),
-            'customer_id' => $this->customer->getId()
-        ];
-    }
-
     public function getCustomer(): ?Customer
     {
         return $this->customer;
@@ -133,5 +122,16 @@ class ScheduledWorkout implements \JsonSerializable
         $this->customer = $customer;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
+            'ends_at' => $this->endsAt->format('Y-m-d H:i:s'),
+            'trainer_id' => $this->trainer->getId(),
+            'customer_id' => $this->customer->getId()
+        ];
     }
 }
