@@ -27,7 +27,8 @@ class ScheduledWorkoutsApiController extends AbstractController
         TrainerRepository $trainerRepository,
         AvailableTimesCalculationService $availableTimesCalculationService,
         ValidatorInterface $validator
-    ) {
+    )
+    {
         try {
             $data = json_decode($request->getContent(), true);
 
@@ -67,7 +68,7 @@ class ScheduledWorkoutsApiController extends AbstractController
             }
 
             $trainerAvailableTimes = $availableTimesCalculationService->getAvailableTimes($trainer);
-            
+
             $availableTimeExists = false;
             foreach ($trainerAvailableTimes as $availableTime) {
                 if ($availableTime->getStartsAt() <= $scheduledWorkout->getStartsAt()
@@ -108,7 +109,7 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('Customer data is not available');
             }
 
-            $scheduledWorkouts = $customer->getScheduledWorkouts();
+            $scheduledWorkouts = $customer->getScheduledWorkouts()->toArray();
 
             return new JsonResponse($scheduledWorkouts);
         } catch (\Exception $e) {
