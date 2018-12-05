@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainerRepository")
  */
-class Trainer
+class Trainer implements \JsonSerializable
 {
     /**
      * @var int
@@ -299,5 +299,14 @@ class Trainer
     public function setLocation(string $location): void
     {
         $this->location = $location;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'phone' => $this->phone,
+        ];
     }
 }
