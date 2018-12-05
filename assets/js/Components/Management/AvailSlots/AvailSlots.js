@@ -28,11 +28,9 @@ class AvailSlots extends React.Component {
         axios.get('/api/availability_slot')
             .then(response => {
                 this.setState({
-                    slots: response.data,
+                    slots: Object.keys(response.data).map(slot => response.data[slot]),
                     loading: false
                 });
-
-                console.log(response.data);
             })
             .catch(err => {
                 console.log(err);
@@ -84,24 +82,24 @@ class AvailSlots extends React.Component {
     }
 
     render() {
-        let list = <Spinner/>;
+        let list = <p>You don't have any available time ranges yet.</p>;
 
-        if (!this.state.loading) {
-            if (this.state.slots.length !== 0) {
-                list = this.state.slots.map(slot => (
-                    <Slot
-                        key={slot.id}
-                        id={slot.id}
-                        date={slot.starts_at.split(' ')[0]}
-                        from={slot.starts_at.split(' ')[1].substr(0, 5)}
-                        to={slot.ends_at.split(' ')[1].substr(0, 5)}
-                        onDelete={id => this.deleteClicked(id)}
-                        deleting={this.state.deleting}
-                    />
-                ));
-            } else {
-                list = <p>You don't have any available time ranges yet.</p>;
-            }
+        if (this.state.loading) {
+            list = <Spinner/>;
+        }
+
+        if (this.state.slots.length) {
+            list = this.state.slots.map(slot => (
+                <Slot
+                    key={slot.id}
+                    id={slot.id}
+                    date={slot.starts_at.split(' ')[0]}
+                    from={slot.starts_at.split(' ')[1].substr(0, 5)}
+                    to={slot.ends_at.split(' ')[1].substr(0, 5)}
+                    onDelete={id => this.deleteClicked(id)}
+                    deleting={this.state.deleting}
+                />
+            ));
         }
 
         let addNewButton = <button onClick={() => this.addNewSlot()} className="newSlot">Add new</button>;
@@ -138,7 +136,7 @@ class AvailSlots extends React.Component {
                     {addNewButton}
                 </div>
 
-                <div className={this.state.loading ? "mngList" : null}>{list}</div>
+                <div className={this.state.loading ? "mngList" : null}>{this.state.slots ? list : null}</div>
             </React.Fragment>
         )
     }
