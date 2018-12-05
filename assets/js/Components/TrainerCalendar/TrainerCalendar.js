@@ -125,7 +125,11 @@ class TrainerCalendar extends React.Component {
     }
 
     render() {
-        let calendar = <Spinner/>;
+        let calendar = <p>This trainer has no available workouts.</p>;
+
+        if (this.state.loading) {
+            calendar = <Spinner/>;
+        }
 
         if (this.state.events.length !== 0) {
             calendar = (<BigCalendar
@@ -154,17 +158,17 @@ class TrainerCalendar extends React.Component {
                     <hr className="calModal__bar"/>
 
                     <div className="calModal__inputs">
-                        <div className="top__item">
+                        <div className="modalInputGroup">
                             <label htmlFor="bookDate">Date:</label>
                             <input id="bookDate" type="date" disabled
                                    defaultValue={this.state.currentEvent.starts_at.toLocaleString().split(' ')[0]}/>
                         </div>
-                        <div className="top__item">
+                        <div className="modalInputGroup">
                             <label htmlFor="bookFrom">From:</label>
                             <input id="bookFrom" type="time" onChange={(e) => this.handleFromChange(e)}
                                    defaultValue={this.state.currentEvent.starts_at.toLocaleString().split(' ')[1]}/>
                         </div>
-                        <div className="top__item">
+                        <div className="modalInputGroup">
                             <label htmlFor="bookTo">To:</label>
                             <input id="bookTo" type="time" onChange={(e) => this.handleToChange(e)}
                                    defaultValue={this.state.currentEvent.ends_at.toLocaleString().split(' ')[1]}/>

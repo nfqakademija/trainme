@@ -1,17 +1,6 @@
-.heroWorkouts {
-  background: url(https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bf23e88edf0700891eeac2e0cb3664b8&auto=format&fit=crop&w=750&q=80);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 200px;
-}
-
-.workoutsContainer {
-  width: 80vw;
+.trainerCal {
+  margin: 35px 0;
   max-width: 900px;
-  min-height: 500px;
-  margin: 30px auto 0 auto;
-  padding: 40px 0;
 }
 
 .calModal {
@@ -22,13 +11,16 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .calModal__content {
   background: white;
-  margin: 20% auto;
   padding: 20px;
-  width: 40%;
+  width: 75%;
+  max-width: 650px;
 }
 
 .calModal__close {
@@ -36,6 +28,7 @@
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+  margin-left: 35px;
 
   &:hover {
     text-decoration: none;
@@ -59,7 +52,7 @@
 }
 
 .calModal__inputs {
-  height: 100px;
+  min-height: 100px;
   align-items: center;
 }
 
@@ -92,10 +85,33 @@
   color: green;
 }
 
+.modalInputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10%;
+}
+
 @media only screen and (max-width: 600px) {
-  .workoutsContainer {
-    width: 100%;
-    padding: 0 10px 35px 10px;
+  .modalInputGroup {
+    margin: 0 10px 0 0;
   }
 }
 
+@media only screen and (max-width: 480px) {
+  .calModal__inputs {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calModal__content {
+    width: 90%;
+  }
+
+  .modalInputGroup {
+    margin-bottom: 5px;
+  }
+
+  .calModal__inputs {
+    margin: 15px 0 30px 0;
+  }
+}

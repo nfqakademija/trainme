@@ -22,8 +22,18 @@
                     <button class="btn btnSave">Save</button>
                     <button class="btn btn--cancel btnDiscard">Discard</button>
                 {% endif %}
-                <p class="trainerInfo__desc">Location: <span class="trainerInfo__desc">London</span></p>
-                <p class="trainerInfo__desc">Workouts on TrainMe: <span class="trainerInfo__desc">496</span></p>
+                <p title="Phone" class="trainerInfo__desc">
+                    <i class="fas fa-phone"></i>
+                    <span class="infoText">{{ trainer.phone }}</span>
+                </p>
+                <p title="Location" class="trainerInfo__desc">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="infoText">{{ trainer.location }}</span>
+                </p>
+                <p title="Workouts on TrainMe" class="trainerInfo__desc">
+                    <i class="fas fa-dumbbell"></i>
+                    <span class="infoText">{{ count }}</span>
+                </p>
             </div>
         </div>
 
@@ -44,7 +54,7 @@
                     Click on the desired available time slot to book a workout.
                 </p>
             </section>
-            <div id="trainerCal" class="calendar" data-trainer='{{ trainer.id }}'></div>
+            <div id="trainerCal" class="trainerCal" data-trainer='{{ trainer.id }}'></div>
         </div>
 
         <button class="button"><a class="button__content" href="{{ path('list') }}">Go Back</a></button>
