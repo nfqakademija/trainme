@@ -130,8 +130,8 @@ class ScheduledWorkout implements \JsonSerializable
             'id' => $this->id,
             'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
             'ends_at' => $this->endsAt->format('Y-m-d H:i:s'),
-            'trainer_id' => $this->trainer->getId(),
-            'customer_id' => $this->customer->getId()
+            'trainer' => $this->trainer,
+            'customer' => $this->customer
         ];
     }
 }

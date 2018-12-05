@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
-class Customer
+class Customer implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -118,5 +118,14 @@ class Customer
     public function setName($name): void
     {
         $this->name = $name;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'phone' => $this->phone,
+        ];
     }
 }
