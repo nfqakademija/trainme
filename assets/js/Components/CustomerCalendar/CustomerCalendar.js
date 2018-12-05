@@ -15,9 +15,9 @@ class CustomerCalendar extends React.Component {
             events: '',
             loading: false,
             modalVisible: false,
-            currentWorkout: ''
+            currentWorkout: '',
+            deleting: false
         }
-
     };
 
     componentDidMount() {
@@ -60,6 +60,35 @@ class CustomerCalendar extends React.Component {
 
     closeModal() {
         this.setState({modalVisible: false});
+    }
+
+    cancelWorkout() {
+        const {starts_at, ends_at} = this.state.currentWorkout;
+        const date = starts_at.toLocaleDateString();
+        const from = starts_at.toLocaleTimeString().substr(0, 5);
+        const to = ends_at.toLocaleTimeString().substr(0, 5);
+
+        const warning = confirm(`Are you sure you want to cancel workout on ${date} between ${from} and ${to}?`);
+        if (!warning) {
+            return;
+        }
+
+        this.setState({deleting: true});
+        axios.delete(`/api/scheduled_workout/${this.state.currentWorkout.id}`)
+            .then(response => {
+                this.setState({
+                    events: this.state.events.filter(event => event.id !== this.state.currentWorkout.id),
+                    deleting: false,
+                    modalVisible: false
+                });
+            })
+            .catch(err => {
+                this.setState({
+                    modalVisible: false,
+                    deleting: false
+                });
+                console.log(err);
+            });
     }
 
     render() {
@@ -118,7 +147,11 @@ class CustomerCalendar extends React.Component {
                     <div className="calModal__middle calModal__middle--col">
                         <p className="calModal__info">Name: {currentWorkout.trainer.name}</p>
                         <p className="calModal__info">Phone: {currentWorkout.trainer.phone}</p>
-                        <a className="btn" href={`/trainers/${currentWorkout.trainer.id}`}>View Page</a>
+                    </div>
+                    <div className="calModal__foot">
+                        <a target="_blank" className="btn" href={`/trainers/${currentWorkout.trainer.id}`}>View Page</a>
+                        <span className="btn btn--cancel"
+                              onClick={() => this.cancelWorkout()}>{this.state.deleting ? 'Canceling...' : 'Cancel workout'}</span>
                     </div>
                 </React.Fragment>);
         }
