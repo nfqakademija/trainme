@@ -2,9 +2,11 @@ import React from 'react';
 
 import BigCalendar from 'react-big-calendar';
 import Spinner from '../UI/Spinner';
+import Modal from "../UI/Modal";
 
 import moment from 'moment';
 import axios from 'axios';
+
 import validateDateInput from "./validation";
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -129,6 +131,7 @@ class TrainerCalendar extends React.Component {
 
         if (this.state.loading) {
             calendar = <div className={this.state.loading ? "mngList" : null}><Spinner/></div>;
+
         }
 
         if (this.state.events.length !== 0) {
@@ -150,7 +153,7 @@ class TrainerCalendar extends React.Component {
 
         if (this.state.currentEvent) {
             modalContent = (
-                <div className="calModal__content">
+                <React.Fragment>
                     <div className="calModal__head">
                         <h3 className="blackTitle blackTitle--fSmaller">Book a workout</h3>
                         <span onClick={() => this.closeModal()} className="calModal__close">&times;</span>
@@ -189,15 +192,15 @@ class TrainerCalendar extends React.Component {
                             </div> :
                             null}
                     </div>
-                </div>);
+                </React.Fragment>);
         }
 
         return (<React.Fragment>
             {calendar}
             {this.state.modalVisible ?
-                <div id="calModal" className="calModal">
+                <Modal>
                     {modalContent}
-                </div> : null}
+                </Modal> : null}
         </React.Fragment>)
     }
 }
