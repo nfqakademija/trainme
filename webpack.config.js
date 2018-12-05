@@ -22,6 +22,7 @@ Encore
     .addEntry('js/editable','./assets/js/editable.js')
     .addEntry('js/management','./assets/js/Components/Management/index.js')
     .addEntry('js/customerCal','./assets/js/Components/CustomerCalendar/index.js')
+    .addEntry('js/trainerWorkoutsCal','./assets/js/Components/TrainerCalendar/Workouts/index.js')
     .addStyleEntry('css/app', './assets/css/app.scss')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="heroWorkouts"></div>
+
+    <div class="workoutsContainer">
+        <h1 class="blackTitle u-mgBtm">Scheduled workouts</h1>
+        <section class="info info--customer">
+            <p class="info__text">
+                <i class="fas fa-info-circle u-mgRt fa-info-circle--custom"></i>
+                Click on the workout to view info.
+            </p>
+        </section>
+        <div class="customerCal u-mgTop" data-id="{{ app.user.id }}" id="trainerWorkouts"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/trainerWorkoutsCal.js') }}"></script>
+{% endblock %}
