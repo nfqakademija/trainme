@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\AvailabilitySlot;
+use App\Entity\Customer;
 use App\Entity\ScheduledWorkout;
 use App\Entity\Tag;
 use App\Entity\Trainer;
@@ -136,11 +137,19 @@ class AppFixtures extends Fixture
         foreach ($scheduledWorkouts as $schedWork) {
             $scheduledWorkout = new ScheduledWorkout();
             $user = new User();
+
+            $customer = new Customer();
+            $customer->setName($faker->name);
+            $customer->setPhone($faker->phoneNumber);
+
             $user->setEmail($faker->email);
             $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
             $user->setRoles(['ROLE_CUSTOMER']);
+            $user->setCustomer($customer);
+            $manager->persist($customer);
+
             $manager->persist($user);
-            $scheduledWorkout->setUser($user);
+            $scheduledWorkout->setCustomer($customer);
             $scheduledWorkout->setStartsAt(new \DateTime($schedWork['from']));
             $scheduledWorkout->setEndsAt(new \DateTime($schedWork['to']));
             $scheduledWorkout->setTrainer($this->getReference(sprintf("Trainer %s", $schedWork['trainerId'])));

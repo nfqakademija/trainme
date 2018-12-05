@@ -39,13 +39,13 @@ class ScheduledWorkout implements \JsonSerializable
      * @Assert\NotBlank
      */
     private $trainer;
+
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="scheduledWorkouts")
+     * @var Customer
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
      */
-    private $user;
+    private $customer;
 
     /**
      * @return int|null
@@ -111,21 +111,6 @@ class ScheduledWorkout implements \JsonSerializable
 
         return $this;
     }
-    /**
-     * @return User
-     */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
-    }
 
     public function jsonSerialize()
     {
@@ -134,7 +119,19 @@ class ScheduledWorkout implements \JsonSerializable
             'starts_at' => $this->startsAt->format('Y-m-d H:i:s'),
             'ends_at' => $this->endsAt->format('Y-m-d H:i:s'),
             'trainer_id' => $this->trainer->getId(),
-            'user_id' => $this->user->getId()
+            'customer_id' => $this->customer->getId()
         ];
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
     }
 }

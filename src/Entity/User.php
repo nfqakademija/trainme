@@ -41,10 +41,9 @@ class User implements UserInterface
     private $trainer;
 
     /**
-     * @var ScheduledWorkout[]
-     * @ORM\OneToMany(targetEntity="ScheduledWorkout", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\Entity\Customer", mappedBy="user")
      */
-    private $scheduledWorkouts;
+    private $customer;
 
     public function getId(): ?int
     {
@@ -140,19 +139,20 @@ class User implements UserInterface
         $this->trainer = $trainer;
     }
 
-    /**
-     * @return Collection|ScheduledWorkout[]
-     */
-    public function getScheduledWorkouts(): Collection
+    public function getCustomer(): ?Customer
     {
-        return $this->scheduledWorkouts;
+        return $this->customer;
     }
 
-    /**
-     * @param ScheduledWorkout[] $scheduledWorkouts
-     */
-    public function setScheduledWorkouts(array $scheduledWorkouts): void
+    public function setCustomer(Customer $customer): self
     {
-        $this->scheduledWorkouts = $scheduledWorkouts;
+        $this->customer = $customer;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $customer->getUser()) {
+            $customer->setUser($this);
+        }
+
+        return $this;
     }
 }

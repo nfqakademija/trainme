@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api\Client;
+namespace App\Controller\Api\Customer;
 
 use App\Repository\TrainerRepository;
 use App\Services\AvailableTimesCalculationService;
@@ -37,14 +37,20 @@ class ScheduledWorkoutsApiController extends AbstractController
 
             $user = $this->getUser();
 
-            $trainer = $trainerRepository->find($data['trainer_id']);
-
             if (!$user instanceof User) {
                 throw new \Exception('User expected');
             }
 
+            $trainer = $trainerRepository->find($data['trainer_id']);
+
+            $customer = $user->getCustomer();
+
             if (!$trainer) {
                 throw new \Exception('Trainer not found');
+            }
+
+            if (!$customer) {
+                throw new \Exception('Customer data is not available');
             }
 
             $scheduledWorkout = new ScheduledWorkout();
@@ -52,7 +58,7 @@ class ScheduledWorkoutsApiController extends AbstractController
             $scheduledWorkout->setStartsAt(new \DateTime($data['starts_at']));
             $scheduledWorkout->setEndsAt(new \DateTime($data['ends_at']));
             $scheduledWorkout->setTrainer($trainer);
-            $scheduledWorkout->setUser($user);
+            $scheduledWorkout->setCustomer($customer);
 
             $errors = $validator->validate($scheduledWorkout);
 
@@ -95,7 +101,14 @@ class ScheduledWorkoutsApiController extends AbstractController
             if (!$user instanceof User) {
                 throw new \Exception('User expected');
             }
-            $scheduledWorkouts = $user->getScheduledWorkouts();
+
+            $customer = $user->getCustomer();
+
+            if (!$customer) {
+                throw new \Exception('Customer data is not available');
+            }
+
+            $scheduledWorkouts = $customer->getScheduledWorkouts();
 
             return new JsonResponse($scheduledWorkouts);
         } catch (\Exception $e) {
@@ -124,7 +137,14 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('User expected');
             }
 
-            if ($user->getId() !== $scheduledWorkout->getUser()->getId()) {
+            $customer = $user->getCustomer();
+
+            if (!$customer) {
+                throw new \Exception('Customer data is not available');
+            }
+
+
+            if ($customer->getId() !== $scheduledWorkout->getCustomer()->getId()) {
                 throw new \Exception('Unauthorized');
             }
 
@@ -167,7 +187,13 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('User expected');
             }
 
-            if ($user->getId() !== $scheduledWorkout->getUser()->getId()) {
+            $customer = $user->getCustomer();
+
+            if (!$customer) {
+                throw new \Exception('Customer data is not available');
+            }
+
+            if ($customer->getId() !== $scheduledWorkout->getCustomer()->getId()) {
                 throw new \Exception('Unauthorized');
             }
 
