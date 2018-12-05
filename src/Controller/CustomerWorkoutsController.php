@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class CustomerWorkoutsController extends AbstractController
 {
     /**
-     * @Route("/workouts", name="workouts")
+     * @Route("/workouts", name="customer_workouts")
      */
     public function index()
     {
