@@ -160,7 +160,7 @@ class TrainerCalendar extends React.Component {
                     </div>
                     <hr className="calModal__bar"/>
 
-                    <div className="calModal__inputs">
+                    <div className="calModal__middle calModal__middle--row">
                         <div className="modalInputGroup">
                             <label htmlFor="bookDate">Date:</label>
                             <input id="bookDate" type="date" disabled

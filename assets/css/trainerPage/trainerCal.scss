@@ -38,7 +38,7 @@
 
 .calModal__head,
 .calModal__foot,
-.calModal__inputs {
+.calModal__middle {
   display: flex;
 }
 
@@ -51,8 +51,11 @@
   justify-content: flex-start;
 }
 
-.calModal__inputs {
+.calModal__middle {
   min-height: 100px;
+}
+
+.calModal__middle--row{
   align-items: center;
 }
 
@@ -98,7 +101,7 @@
 }
 
 @media only screen and (max-width: 480px) {
-  .calModal__inputs {
+  .calModal__middle--row {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -111,7 +114,7 @@
     margin-bottom: 5px;
   }
 
-  .calModal__inputs {
+  .calModal__middle {
     margin: 15px 0 30px 0;
   }
 }

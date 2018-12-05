@@ -150,7 +150,6 @@
 
 .info {
   background: #eee;
-  margin-top: 20px;
   padding: 15px;
 
   &:hover {
@@ -158,6 +157,14 @@
       color: #4481ff;
     }
   }
+}
+
+.info--trainer {
+  margin-top: 30px;
+}
+
+.info--customer {
+  margin-bottom: 20px;
 }
 
 .u-mgRt {
