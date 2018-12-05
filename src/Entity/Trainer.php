@@ -39,7 +39,7 @@ class Trainer
 
     /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      */
     private $location;
 
@@ -288,7 +288,7 @@ class Trainer
     /**
      * @return string
      */
-    public function getLocation(): string
+    public function getLocation(): ?string
     {
         return $this->location;
     }
