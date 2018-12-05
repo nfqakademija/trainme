@@ -66,7 +66,7 @@ class AvailabilitySlotsApiController extends AbstractController
             if (!$user instanceof User) {
                 throw new \Exception('User expected');
             }
-            $availabilitySlots = $user->getTrainer()->getAvailabilitySlots();
+            $availabilitySlots = $user->getTrainer()->getAvailabilitySlots()->getIterator();
 
             return new JsonResponse($availabilitySlots);
         } catch (\Exception $e) {
