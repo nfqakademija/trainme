@@ -128,7 +128,7 @@ class TrainerCalendar extends React.Component {
         let calendar = <p>This trainer has no available workouts.</p>;
 
         if (this.state.loading) {
-            calendar = <Spinner/>;
+            calendar = <div className={this.state.loading ? "mngList" : null}><Spinner/></div>;
         }
 
         if (this.state.events.length !== 0) {
