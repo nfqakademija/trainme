@@ -5,5 +5,5 @@ import TrainerCalendar from './TrainerCalendar';
 
 const trainerCal = document.getElementById('trainerCal');
 
-ReactDOM.render(<TrainerCalendar id={trainerCal.dataset.trainer}/>, trainerCal);
+ReactDOM.render(<TrainerCalendar id={trainerCal.dataset.trainer} roles={trainerCal.dataset.roles}/>, trainerCal);
 

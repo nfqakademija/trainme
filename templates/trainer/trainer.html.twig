@@ -48,13 +48,17 @@
 
         <div class="calendarContainer">
             <p class="blackTitle">Available workout times</p>
-            <section class="info info--trainer">
-                <p class="info__text">
-                    <i class="fas fa-info-circle u-mgRt fa-info-circle--custom"></i>
-                    Click on the desired available time slot to book a workout.
-                </p>
-            </section>
-            <div id="trainerCal" class="trainerCal" data-trainer='{{ trainer.id }}'></div>
+
+            {% if user and is_granted('ROLE_CUSTOMER') %}
+                <section class="info info--trainer">
+                    <p class="info__text">
+                        <i class="fas fa-info-circle u-mgRt fa-info-circle--custom"></i>
+                        Click on the desired available time slot to book a workout.
+                    </p>
+                </section>
+            {% endif %}
+            <div id="trainerCal" class="trainerCal" data-trainer='{{ trainer.id }}'
+                 data-roles="{{ user ?  user.roles|json_encode() : "[]" }}"></div>
         </div>
 
         <button class="button"><a class="button__content" href="{{ path('list') }}">Go Back</a></button>

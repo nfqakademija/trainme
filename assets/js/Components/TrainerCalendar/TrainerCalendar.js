@@ -14,8 +14,13 @@ const localizer = BigCalendar.momentLocalizer(moment);
 class TrainerCalendar extends React.Component {
     constructor(props) {
         super(props);
+
+        const userRoles = JSON.parse(props.roles);
+
         this.state = {
             events: [],
+            isCustomer: userRoles.includes('ROLE_CUSTOMER'),
+            isTrainer: userRoles.includes('ROLE_TRAINER'),
             loading: true,
             modalVisible: false,
             currentEvent: '',
@@ -59,6 +64,10 @@ class TrainerCalendar extends React.Component {
     }
 
     onEventClick(event) {
+        if (! this.state.isCustomer) {
+            return;
+        }
+
         this.setState({
             modalVisible: true,
             currentEvent: {
