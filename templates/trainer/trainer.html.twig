@@ -69,6 +69,8 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('build/js/editable.js') }}"></script>
+    {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
+        <script src="{{ asset('build/js/editable.js') }}"></script>
+    {% endif %}
     <script src="{{ asset('build/js/trainerCal.js') }}"></script>
 {% endblock %}

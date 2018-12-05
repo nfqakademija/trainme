@@ -12,7 +12,6 @@ $(document).ready(() => {
         $('.btnSave').on('click', () => {
                 newText = $('.textBox').val().replace(/"/g, '"');
                 editable.html(newText);
-                console.log(newText);
                 axios.put('/api/trainer', {
                     'personal_statement': newText
                 }).then((response) => {
