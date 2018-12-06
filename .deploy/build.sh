@@ -7,7 +7,7 @@ set -e # Stop on error
 set -x # Show commands being executed
 
 # Downloading dependencies and building frontend
-composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
+APP_ENV=prod composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
 yarn
 yarn run encore production
 
@@ -15,4 +15,11 @@ yarn run encore production
 cp .env.dist .env
 
 # Generating deployment artifact (one file with everything you need to be deployed on the server)
-tar czf project.tar.gz * --exclude="node_modules" --exclude=".git" --owner 0 --group 0 --anchored
+tar czf project.tar.gz --owner 0 --group 0 --anchored $( \
+    ls -a | tail -n +3 \
+    | grep -v "node_modules" \
+    | grep -v ".git" \
+    | grep -v ".deploy" \
+    | grep -v ".docker" \
+    | grep -v ".idea" \
+)
