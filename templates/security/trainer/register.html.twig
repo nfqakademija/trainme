@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trainer register{% endblock %}
+{% block title %}Trainer registration{% endblock %}
 
 {% block body %}
-    <div style="padding-top: 50px">
+    <div class="heroLogin"></div>
+    <div class="loginContainer">
+        <h1 class="blackTitle u-mgBtm">Trainer registration</h1>
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
