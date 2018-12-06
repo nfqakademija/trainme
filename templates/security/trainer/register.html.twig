@@ -6,6 +6,8 @@
     <div class="heroLogin"></div>
     <div class="loginContainer">
         <h1 class="blackTitle u-mgBtm">Trainer registration</h1>
+
+        {% form_theme form 'form/trainer.html.twig' %}
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}

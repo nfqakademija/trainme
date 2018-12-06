@@ -31,7 +31,7 @@ class CustomerRegistrationType extends AbstractType
             ))
             ->add('personal_info', CustomerType::class, array(
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regLabel--big']
+                'label_attr' => ['class' => 'regLabel--big rowWrapper--label']
             ))
             ->add('submit', SubmitType::class,
                 ['label' => 'Register',
