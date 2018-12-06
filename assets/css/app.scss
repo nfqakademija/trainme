@@ -9,7 +9,6 @@
 body,
 html {
   height: 100%;
-  overflow-y: auto;
 }
 
 //Libs
@@ -36,7 +35,8 @@ html {
 //Trainer work schedule management
 @import "management/management";
 @import "management/spinner";
-//Login page
-@import "login/login";
+//Auth
+@import "security/login";
+@import "security/registration";
 //Client's workouts page
 @import "customer/workouts";
