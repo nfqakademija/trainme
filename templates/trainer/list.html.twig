@@ -18,23 +18,23 @@
         </div>
         <div class="filters__selection">
             <div class="filters__inputElement">
-                <label class="filters__label" for="datepicker">Date:</label>
+                <label class="filters__label" for="datepickerList">Date:</label>
                 <div>
-                    <input id="datepicker" type="text" class="filters__input"
+                    <input id="datepickerList" type="text" class="filters__input"
                            value="{{ app.request.query.get('date') }}"
                            name="date" autocomplete="off"/>
                 </div>
             </div>
 
             <div class="filters__inputElement">
-                <label class="filters__label" for="from">From:</label>
-                <input class="filters__input" type="text" id="from" name="from"
+                <label class="filters__label" for="fromList">From:</label>
+                <input class="filters__input" type="text" id="fromList" name="from"
                        value="{{ app.request.query.get('from') }}"/>
             </div>
 
             <div class="filters__inputElement">
-                <label class="filters__label" for="to">To:</label>
-                <input class="filters__input" type="text" id="to" name="to"
+                <label class="filters__label" for="toList">To:</label>
+                <input class="filters__input" type="text" id="toList" name="to"
                        value="{{ app.request.query.get('to') }}"/>
             </div>
         </div>
@@ -102,27 +102,4 @@
             </ul>
         {% endif %}
     </div>
-{% endblock %}
-{% block footer %}
-    {{ parent() }}
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/timepicki@2.0.1/js/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/timepicki@2.0.1/js/timepicki.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#from, #to").timepicki({
-                show_meridian: false,
-                min_hour_value: 6,
-                max_hour_value: 22,
-                step_size_minutes: 1,
-                step_size_hours: 1,
-                overflow_minutes: false,
-                increase_direction: 'up',
-                disable_keyboard_mobile: true,
-                start_time: ['08', '00']
-            });
-        });
-    </script>
 {% endblock %}

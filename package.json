@@ -28,6 +28,7 @@
         "prop-types": "^15.6.2",
         "react": "^16.6.3",
         "react-big-calendar": "^0.20.2",
-        "react-dom": "^16.6.3"
+        "react-dom": "^16.6.3",
+        "timepicker": "^1.11.14"
     }
 }

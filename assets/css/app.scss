@@ -16,6 +16,7 @@ html {
 @import "~normalize.css";
 @import "~react-big-calendar/lib/css/react-big-calendar.css";
 @import "~pikaday/css/pikaday.css";
+@import "~timepicker/jquery.timepicker.min.css";
 //Base
 @import "footer";
 @import "navbar";
@@ -26,7 +27,6 @@ html {
 @import "trainerList/filter";
 @import "trainerList/trainers";
 @import "trainerList/pagination";
-@import "themes/timepickiTheme";
 @import "themes/pikadayTheme";
 //Personal trainer's page
 @import "trainerPage/trainerPage";

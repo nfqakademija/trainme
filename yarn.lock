@@ -3064,7 +3064,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jquery@^3.3.1:
+jquery@>=1.7, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -5443,6 +5443,12 @@ thunky@^1.0.2:
 time-stamp@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/time-stamp/-/time-stamp-2.1.0.tgz#6c5c0b2bc835a244616abcfddf81ce13a1975c9f"
+
+timepicker@^1.11.14:
+  version "1.11.14"
+  resolved "https://registry.yarnpkg.com/timepicker/-/timepicker-1.11.14.tgz#a7b8202fabc4d83514e3f591edc108769f0f096b"
+  dependencies:
+    jquery ">=1.7"
 
 timers-browserify@^2.0.4:
   version "2.0.10"
