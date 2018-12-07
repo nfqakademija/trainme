@@ -2,11 +2,6 @@
 
 {% block title %}{{ parent() }} - Trainers List{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/timepicki@2.0.1/css/timepicki.min.css">
-{% endblock %}
-
 {% block body %}
     <div class="hero"></div>
 
@@ -29,13 +24,13 @@
             <div class="filters__inputElement">
                 <label class="filters__label" for="fromList">From:</label>
                 <input class="filters__input" type="text" id="fromList" name="from"
-                       value="{{ app.request.query.get('from') }}"/>
+                       autocomplete="off" value="{{ app.request.query.get('from') }}"/>
             </div>
 
             <div class="filters__inputElement">
                 <label class="filters__label" for="toList">To:</label>
                 <input class="filters__input" type="text" id="toList" name="to"
-                       value="{{ app.request.query.get('to') }}"/>
+                       autocomplete="off" value="{{ app.request.query.get('to') }}"/>
             </div>
         </div>
         <div class="filters__tagContainer">
@@ -103,3 +98,7 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{#{% block javascripts %}#}
+    {#{{ parent() }}#}
+{#{% endblock %}#}
