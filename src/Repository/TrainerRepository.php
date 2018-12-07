@@ -47,20 +47,20 @@ class TrainerRepository extends ServiceEntityRepository
             ))
                 ->leftJoin('t.scheduledWorkouts', 's', Join::WITH, $qb->expr()->orX(
                     $qb->expr()->andX(
-                        $qb->expr()->gt('s.startsAt', ':from'),
-                        $qb->expr()->lt('s.startsAt', ':to')
+                        $qb->expr()->gte('s.startsAt', ':from'),
+                        $qb->expr()->lte('s.startsAt', ':to')
                     ),
                     $qb->expr()->andX(
-                        $qb->expr()->gt('s.endsAt', ':from'),
-                        $qb->expr()->lt('s.endsAt', ':to')
+                        $qb->expr()->gte('s.endsAt', ':from'),
+                        $qb->expr()->lte('s.endsAt', ':to')
                     ),
                     $qb->expr()->andX(
-                        $qb->expr()->gt('s.startsAt', ':from'),
-                        $qb->expr()->lt('s.endsAt', ':to')
+                        $qb->expr()->gte('s.startsAt', ':from'),
+                        $qb->expr()->lte('s.endsAt', ':to')
                     ),
                     $qb->expr()->andX(
-                        $qb->expr()->lt('s.startsAt', ':from'),
-                        $qb->expr()->gt('s.endsAt', ':to')
+                        $qb->expr()->lte('s.startsAt', ':from'),
+                        $qb->expr()->gte('s.endsAt', ':to')
                     )
                 ))->where(
                     $qb->expr()->isNull('s.id')
