@@ -33,10 +33,9 @@
 }
 
 .choiceInput {
-  margin-right: 10%;
-  width: 60%;
-  height: 100px;
   display: block;
+  opacity: 0;
+  width: 60%;
 }
 
 .regTextArea {
@@ -47,6 +46,10 @@
   display: block;
 }
 
+.select2-container {
+  margin-right: 10%;
+}
+
 @media only screen and (max-width: 480px) {
   .rowWrapper {
     flex-direction: column;
@@ -54,6 +57,10 @@
   }
 
   .regTextArea {
+    margin: 0;
+  }
+
+  .regInput {
     margin: 0;
   }
 

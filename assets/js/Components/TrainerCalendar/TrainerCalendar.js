@@ -86,7 +86,7 @@ class TrainerCalendar extends React.Component {
             $('#bookFrom').timepicker({
                 timeFormat: 'HH:mm ',
                 interval: 5,
-                minTime: '7',
+                minTime: '6',
                 maxTime: '23',
                 defaultTime: event.starts_at,
                 dynamic: false,
@@ -103,7 +103,7 @@ class TrainerCalendar extends React.Component {
             $('#bookTo').timepicker({
                 timeFormat: 'HH:mm ',
                 interval: 5,
-                minTime: '7',
+                minTime: '6',
                 maxTime: '23',
                 dynamic: false,
                 defaultTime: event.ends_at,
