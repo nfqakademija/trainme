@@ -23,11 +23,13 @@ class TrainerCalendar extends React.Component {
             isTrainer: userRoles.includes('ROLE_TRAINER'),
             loading: true,
             modalVisible: false,
-            currentEvent: '',
             booking: false,
             success: false,
+            showSuccessMessage: false,
             starts_at: '',
-            ends_at: ''
+            ends_at: '',
+            bookFromValue: '',
+            bookToValue: ''
         }
     }
 
@@ -64,18 +66,50 @@ class TrainerCalendar extends React.Component {
     }
 
     onEventClick(event) {
-        if (! this.state.isCustomer) {
+        if (!this.state.isCustomer) {
             return;
         }
 
         this.setState({
+            showSuccessMessage: false,
             modalVisible: true,
-            currentEvent: {
-                starts_at: event.starts_at,
-                ends_at: event.ends_at,
-            },
             starts_at: event.starts_at,
             ends_at: event.ends_at,
+        }, () => {
+            $('#bookFrom').timepicker({
+                timeFormat: 'HH:mm ',
+                interval: 5,
+                minTime: '7',
+                maxTime: '23',
+                defaultTime: event.starts_at,
+                dynamic: false,
+                dropdown: true,
+                scrollbar: false,
+                change: (time) => {
+                    const date = event.starts_at.toLocaleDateString();
+                    const timeVal = time.toLocaleTimeString();
+
+                    this.setState({bookFromValue: new Date(`${date} ${timeVal}`)})
+                }
+            });
+
+            $('#bookTo').timepicker({
+                timeFormat: 'HH:mm ',
+                interval: 5,
+                minTime: '7',
+                maxTime: '23',
+                dynamic: false,
+                defaultTime: event.ends_at,
+                dropdown: true,
+                scrollbar: false,
+                change: (time) => {
+                    const date = event.ends_at.toLocaleDateString();
+                    const timeVal = time.toLocaleTimeString();
+
+                    this.setState({bookToValue: new Date(`${date} ${timeVal}`)})
+                }
+            });
+
         });
     };
 
@@ -84,19 +118,19 @@ class TrainerCalendar extends React.Component {
     }
 
     bookWorkout() {
-        const {currentEvent, starts_at, ends_at} = this.state;
+        const {starts_at, ends_at, bookFromValue, bookToValue} = this.state;
 
-        if (!validateDateInput(starts_at, ends_at, currentEvent.starts_at, currentEvent.ends_at)) {
-            const from = starts_at.toLocaleString().split(' ')[1].substr(0, 5);
-            const to = ends_at.toLocaleString().split(' ')[1].substr(0, 5);
+        if (!validateDateInput(starts_at, ends_at, bookFromValue, bookToValue)) {
+            const from = starts_at.toLocaleTimeString();
+            const to = ends_at.toLocaleTimeString();
             alert(`Please choose time between ${from} and ${to}`);
             return;
         }
 
         this.setState({booking: true});
         axios.post('/api/scheduled_workout', {
-            'starts_at': currentEvent.starts_at.toLocaleString(),
-            'ends_at': currentEvent.ends_at.toLocaleString(),
+            'starts_at': moment(this.state.bookFromValue).format('YYYY-MM-DD HH:mm:ss'),
+            'ends_at': moment(this.state.bookToValue).format('YYYY-MM-DD HH:mm:ss'),
             'trainer_id': this.props.id
         }).then(response => {
             this.fetchAvailableTimes();
@@ -104,6 +138,8 @@ class TrainerCalendar extends React.Component {
                 success: true,
                 booking: false
             });
+
+            this.setState({showSuccessMessage: true})
         }).catch(err => {
             console.log(err);
             this.setState({booking: false});
@@ -111,31 +147,19 @@ class TrainerCalendar extends React.Component {
         });
     }
 
-    handleFromChange(e) {
-        const {currentEvent} = this.state;
-        const date = `${currentEvent.starts_at.toLocaleString().split(' ')[0]} `;
-
-        this.setState({
-            currentEvent: {
-                starts_at: new Date(date + e.target.value),
-                ends_at: currentEvent.ends_at
-            }
-        })
-    }
-
-    handleToChange(e) {
-        const {currentEvent} = this.state;
-        const date = `${currentEvent.starts_at.toLocaleString().split(' ')[0]} `;
-
-        this.setState({
-            currentEvent: {
-                starts_at: currentEvent.starts_at,
-                ends_at: new Date(date + e.target.value)
-            }
-        })
-    }
-
     render() {
+
+        let successMessage = '';
+
+        if (this.state.showSuccessMessage) {
+            successMessage = (<section className="info info--trainer">
+                <p className="info__text">
+                    <i className="fas fa-info-circle u-mgRt fa-info-circle--custom"></i>
+                    You successfully booked a workout! Trainer will contact you soon.
+                </p>
+            </section>);
+        }
+
         let calendar = <p>This trainer has no available workouts.</p>;
 
         if (this.state.loading) {
@@ -151,7 +175,7 @@ class TrainerCalendar extends React.Component {
                 startAccessor={'starts_at'}
                 endAccessor={'ends_at'}
                 events={this.state.events}
-                min={new Date(new Date().setHours(6, 0))}
+                min={new Date(new Date().setHours(7, 0))}
                 max={new Date(new Date().setHours(23, 0))}
                 selectable={true}
                 onSelectEvent={event => this.onEventClick(event)}
@@ -160,7 +184,7 @@ class TrainerCalendar extends React.Component {
 
         let modalContent = null;
 
-        if (this.state.currentEvent) {
+        if (this.state.starts_at && this.state.ends_at) {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
@@ -173,17 +197,17 @@ class TrainerCalendar extends React.Component {
                         <div className="modalInputGroup">
                             <label htmlFor="bookDate">Date:</label>
                             <input id="bookDate" type="date" disabled
-                                   defaultValue={this.state.currentEvent.starts_at.toLocaleString().split(' ')[0]}/>
+                                   defaultValue={moment(this.state.starts_at).format("YYYY-MM-DD")}/>
                         </div>
                         <div className="modalInputGroup">
                             <label htmlFor="bookFrom">From:</label>
-                            <input id="bookFrom" type="time" onChange={(e) => this.handleFromChange(e)}
-                                   defaultValue={this.state.currentEvent.starts_at.toLocaleString().split(' ')[1]}/>
+                            <input id="bookFrom" type="text"/>
+                            <input type="hidden" value={this.state.bookFromValue}/>
                         </div>
                         <div className="modalInputGroup">
                             <label htmlFor="bookTo">To:</label>
-                            <input id="bookTo" type="time" onChange={(e) => this.handleToChange(e)}
-                                   defaultValue={this.state.currentEvent.ends_at.toLocaleString().split(' ')[1]}/>
+                            <input id="bookTo" type="text"/>
+                            <input type="hidden" value={this.state.bookToValue}/>
                         </div>
                     </div>
 
@@ -205,6 +229,7 @@ class TrainerCalendar extends React.Component {
         }
 
         return (<React.Fragment>
+            {successMessage}
             {calendar}
             {this.state.modalVisible ?
                 <Modal>
