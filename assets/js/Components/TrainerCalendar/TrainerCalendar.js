@@ -6,8 +6,16 @@ import Modal from "../UI/Modal";
 
 import moment from 'moment';
 import axios from 'axios';
+import $ from 'jquery'
 
 import validateDateInput from "./validation";
+
+const width = $(window).width();
+let views = ['week', 'day'];
+
+if (width < 600) {
+    views = ['day'];
+}
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -64,7 +72,7 @@ class TrainerCalendar extends React.Component {
     }
 
     onEventClick(event) {
-        if (! this.state.isCustomer) {
+        if (!this.state.isCustomer) {
             return;
         }
 
@@ -146,7 +154,7 @@ class TrainerCalendar extends React.Component {
         if (this.state.events.length !== 0) {
             calendar = (<BigCalendar
                 localizer={localizer}
-                views={['week', 'day']}
+                views={views}
                 defaultView={'day'}
                 startAccessor={'starts_at'}
                 endAccessor={'ends_at'}
