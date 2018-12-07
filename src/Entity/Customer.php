@@ -29,7 +29,7 @@ class Customer implements \JsonSerializable
     private $phone;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\scheduledWorkout", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="App\Entity\ScheduledWorkout", mappedBy="customer")
      */
     private $scheduledWorkouts;
 
