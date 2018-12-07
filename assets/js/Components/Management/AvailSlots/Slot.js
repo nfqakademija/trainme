@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Pikaday from "pikaday";
+import moment from 'moment';
 
 class Slot extends React.Component {
     constructor(props) {
@@ -17,7 +19,46 @@ class Slot extends React.Component {
     }
 
     editClicked() {
-        this.setState({edit: true});
+        this.setState({edit: true}, () => {
+            const picker = new Pikaday({
+                field: $('#mngEditDate')[0],
+                firstDay: 1,
+                defaultDate: this.props.date,
+                onSelect: (date) => {
+                    this.setState({dateInput: date});
+                }
+            });
+
+            $('#mngEditFrom').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 5,
+                minTime: '6',
+                maxTime: '23',
+                dynamic: false,
+                defaultTime: new Date(`${this.props.date} ${this.props.from}`),
+                dropdown: true,
+                scrollbar: false,
+                change: (time) => {
+                    const timeVal = moment(time).format('HH:mm');
+                    this.setState({fromInput: timeVal});
+                }
+            });
+
+            $('#mngEditTo').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 5,
+                minTime: '6',
+                maxTime: '23',
+                dynamic: false,
+                defaultTime: new Date(`${this.props.date} ${this.props.to}`),
+                dropdown: true,
+                scrollbar: false,
+                change: (time) => {
+                    const timeVal = moment(time).format('HH:mm');
+                    this.setState({toInput: timeVal});
+                }
+            });
+        });
     };
 
     cancelClicked() {
@@ -31,13 +72,13 @@ class Slot extends React.Component {
         let to = this.props.to;
 
         if (dateInput) {
-            date = dateInput;
+            date = moment(dateInput).format('YYYY-MM-DD');
         }
         if (fromInput) {
             from = fromInput;
         }
         if (toInput) {
-            to = toInput
+            to = toInput;
         }
 
         this.setState({saving: true});
@@ -57,7 +98,7 @@ class Slot extends React.Component {
                 });
             }).catch(err => {
             this.setState({saving: false, edit: false});
-            console.log(err)
+            console.log(err);
         });
     }
 
@@ -67,17 +108,21 @@ class Slot extends React.Component {
         let to = <p>{this.state.to}</p>;
 
         if (this.state.edit) {
-            date = <input type='date' onChange={(e) => {
-                this.setState({dateInput: e.target.value})
-            }} defaultValue={this.props.date}/>;
+            date = (<React.Fragment>
+                    <input type='hidden' value={this.state.dateInput}/>
+                    <input type='text' defaultValue={this.props.date} id='mngEditDate'/>
+                </React.Fragment>
+            );
 
-            from = <input type='time' onChange={(e) => {
-                this.setState({fromInput: e.target.value})
-            }} defaultValue={this.props.from}/>;
+            from = (<React.Fragment>
+                <input type='hidden' value={this.state.fromInput}/>
+                <input type='text' defaultValue={this.props.from} id='mngEditFrom'/>
+            </React.Fragment>);
 
-            to = <input type='time' onChange={(e) => {
-                this.setState({toInput: e.target.value})
-            }} defaultValue={this.props.to}/>;
+            to = (<React.Fragment>
+                <input type='hidden' value={this.state.toInput}/>
+                <input type='text' defaultValue={this.props.to} id='mngEditTo'/>
+            </React.Fragment>);
         }
 
         return (

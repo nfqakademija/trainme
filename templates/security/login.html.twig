@@ -7,45 +7,51 @@
     <section class="loginContainer">
         <h1 class="blackTitle">Log in</h1>
 
-        <form method="post" class="loginForm">
+        <section class="loginForm">
             <div class="loginForm__block">
-                <label for="inputEmail" class="sr-only">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="loginForm__input"
-                       placeholder="Email" required autofocus autocomplete="off">
+                <form method="post">
+                    <label for="inputEmail" class="sr-only">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                           class="loginForm__input"
+                           placeholder="Email" required autofocus autocomplete="off">
 
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="password" id="inputPassword" class="loginForm__input"
-                       placeholder="Password"
-                       required>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="loginForm__input"
+                           placeholder="Password"
+                           required>
 
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
+                    {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
-                #}
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                    #}
 
-                <button class="button button__content u-w85" type="submit">Log in</button>
+                    <button class="button button__content u-w85" type="submit">Log in</button>
 
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                </form>
             </div>
 
             <div class="loginForm__block">
                 <div class="register">
                     <h3 class="register__heading">New member?</h3>
-                    <button class="button u-w100">
-                        <a href="#" class="button__content">Register</a>
-                    </button>
+                    <div class="register__bottom">
+                        <button class="button u-w100">
+                            <a href="{{ path('app_customer_register') }}" class="button__content">Register</a>
+                        </button>
+                        <a href="{{ path('app_trainer_register') }}" class="btn">Trainers registration</a>
+                    </div>
                 </div>
             </div>
-        </form>
+        </section>
     </section>
 {% endblock %}

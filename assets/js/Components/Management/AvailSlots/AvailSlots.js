@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Pikaday from "pikaday";
+import moment from 'moment';
 
 import Slot from './Slot';
 import Spinner from '../../UI/Spinner';
@@ -13,6 +15,8 @@ class AvailSlots extends React.Component {
             date: '',
             from: '',
             to: '',
+            mngFromValue: '',
+            mngToValue: '',
             posting: false,
             deleting: false
         };
@@ -20,6 +24,41 @@ class AvailSlots extends React.Component {
 
     componentDidMount() {
         this.fetchSlots();
+
+        const picker = new Pikaday({
+            field: $('#mngDate')[0],
+            firstDay: 1,
+            onSelect: (date) => {
+                this.setState({date})
+            }
+        });
+
+        $('#mngFrom').timepicker({
+            timeFormat: 'HH:mm ',
+            interval: 5,
+            minTime: '6',
+            maxTime: '23',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: false,
+            change: (time) => {
+                this.setState({mngFromValue: time})
+            }
+        });
+
+        $('#mngTo').timepicker({
+            timeFormat: 'HH:mm ',
+            interval: 5,
+            minTime: '6',
+            maxTime: '23',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: false,
+            change: (time) => {
+                this.setState({mngToValue: time})
+            }
+        });
+
     }
 
     fetchSlots() {
@@ -41,14 +80,18 @@ class AvailSlots extends React.Component {
     };
 
     addNewSlot() {
-        const {date, from, to} = this.state;
+        const {date, mngFromValue, mngToValue} = this.state;
 
-        if (date && from && to) {
+        if (date && mngFromValue && mngToValue) {
+            const dateStr = moment(date).format("YYYY-MM-DD");
+            const from = moment(mngFromValue).format("HH:mm:ss");
+            const to = moment(mngToValue).format("HH:mm:ss");
+
             this.setState({posting: true});
 
             axios.post('/api/availability_slot', {
-                starts_at: `${date} ${from}`,
-                ends_at: `${date} ${to}`
+                starts_at: `${dateStr} ${from}`,
+                ends_at: `${dateStr} ${to}`
             }).then(response => {
                 this.setState({
                     slots: [...this.state.slots, {
@@ -93,9 +136,9 @@ class AvailSlots extends React.Component {
                 <Slot
                     key={slot.id}
                     id={slot.id}
-                    date={slot.starts_at.split(' ')[0]}
-                    from={slot.starts_at.split(' ')[1].substr(0, 5)}
-                    to={slot.ends_at.split(' ')[1].substr(0, 5)}
+                    date={moment(slot.starts_at).format('YYYY-MM-DD')}
+                    from={moment(slot.starts_at).format('HH:mm')}
+                    to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
                     deleting={this.state.deleting}
                 />
@@ -114,23 +157,20 @@ class AvailSlots extends React.Component {
                     <div className="top">
                         <div className="top__item">
                             <label htmlFor="mngDate">Date:</label>
-                            <input onChange={(e) => {
-                                this.setState({date: e.target.value})
-                            }} type="date" id="mngDate"/>
+                            <input type="text" id="mngDate"/>
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngFrom">From:</label>
-                            <input onChange={(e) => {
-                                this.setState({from: e.target.value})
-                            }} type="time" id="mngFrom"/>
+                            <input type="text" id="mngFrom"/>
+                            <input type="hidden" value={this.state.mngFromValue}/>
+
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngTo">To:</label>
-                            <input onChange={(e) => {
-                                this.setState({to: e.target.value})
-                            }} type="time" id="mngTo"/>
+                            <input type="text" id="mngTo"/>
+                            <input type="hidden" value={this.state.mngToValue}/>
                         </div>
                     </div>
                     {addNewButton}

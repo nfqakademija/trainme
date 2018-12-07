@@ -4,9 +4,16 @@ const toggle = $('.navbar__arrow');
 const menu = $('.navbar__menu');
 let state = false;
 
+$(window).resize(() => {
+    if ($(window).width() >= 480) {
+        menu.css({opacity: 1});
+    }
+});
+
 toggle.on('click', () => {
     if (state) {
         menu.animate({
+            top: '-160px',
             opacity: 0
         }, 200, () => {
             state = false;
@@ -18,6 +25,7 @@ toggle.on('click', () => {
         })
     } else {
         menu.animate({
+            top: '60px',
             opacity: 1
         }, 200, () => state = true);
 

@@ -6,6 +6,14 @@ import Modal from "../../UI/Modal";
 
 import moment from 'moment';
 import axios from 'axios';
+import $ from 'jquery';
+
+const width = $(window).width();
+let views = ['week', 'day'];
+
+if (width < 600) {
+    views = ['day'];
+}
 
 const localizer = BigCalendar.momentLocalizer(moment);
 

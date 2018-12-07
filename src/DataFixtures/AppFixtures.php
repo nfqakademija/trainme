@@ -27,66 +27,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
-        $availabilitySlots = [
-            [
-                'from' => '2018-11-10 10:00:00',
-                'to' => '2018-11-10 12:00:00',
-                'trainerId' => 1
-            ],
-            [
-                'from' => '2018-11-10 14:00:00',
-                'to' => '2018-11-10 16:00:00',
-                'trainerId' => 1
-            ],
-            [
-                'from' => '2018-11-10 13:00:00',
-                'to' => '2018-11-10 15:00:00',
-                'trainerId' => 2
-            ],
-            [
-                'from' => '2018-11-10 09:00:00',
-                'to' => '2018-11-10 17:00:00',
-                'trainerId' => 3
-            ]
-        ];
 
-        $scheduledWorkouts = [
-            [
-                'from' => '2018-11-10 10:00:00',
-                'to' => '2018-11-10 10:30:00',
-                'trainerId' => 1
-            ],
-            [
-                'from' => '2018-11-10 11:00:00',
-                'to' => '2018-11-10 12:00:00',
-                'trainerId' => 1
-            ],
-            [
-                'from' => '2018-11-10 14:00:00',
-                'to' => '2018-11-10 15:00:00',
-                'trainerId' => 1
-            ],
-            [
-                'from' => '2018-11-10 15:00:00',
-                'to' => '2018-11-10 16:00:00',
-                'trainerId' => 1
-            ],
-            [
-                'from' => '2018-11-10 12:00:00',
-                'to' => '2018-11-10 13:00:00',
-                'trainerId' => 2
-            ],
-            [
-                'from' => '2018-11-10 10:00:00',
-                'to' => '2018-11-10 14:00:00',
-                'trainerId' => 3
-            ],
-            [
-                'from' => '2018-11-10 14:00:00',
-                'to' => '2018-11-10 16:00:00',
-                'trainerId' => 3
-            ]
-        ];
+
         $tags = [
             'Indoors' => 'Tag 1 description',
             'Outdoors' => 'Tag 2 description',
@@ -122,38 +64,110 @@ class AppFixtures extends Fixture
             $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags) - 1)]);
             $trainer->setUser($user);
             $manager->persist($trainer);
-        }
+
+            for ($day = 8; $day < 30; $day++) {
+                $availabilitySlot = new AvailabilitySlot();
+
+                $dateFrom = new \DateTime();
+                $dateTo = new \DateTime();
+
+                $dateFrom->setDate(2018, 12, $day);
+                $dateTo->setDate(2018, 12, $day);
+                $dateFrom->setTime(12, 0, 0);
+                $dateTo->setTime(13, 0, 0);
 
 
-        foreach ($availabilitySlots as $availabSl) {
-            $availabilitySlot = new AvailabilitySlot();
-            $availabilitySlot->setStartsAt(new \DateTime($availabSl['from']));
-            $availabilitySlot->setEndsAt(new \DateTime($availabSl['to']));
+                $availabilitySlot->setStartsAt($dateFrom);
+                $availabilitySlot->setEndsAt($dateTo);
+                $availabilitySlot->setTrainer($trainer);
 
-            $availabilitySlot->setTrainer($this->getReference(sprintf("Trainer %s", $availabSl['trainerId'])));
-            $manager->persist($availabilitySlot);
-        }
+                $customer = new Customer();
+                $user = new User();
 
-        foreach ($scheduledWorkouts as $schedWork) {
-            $scheduledWorkout = new ScheduledWorkout();
-            $user = new User();
+                $user->setEmail($faker->email);
+                $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+                $user->setRoles(['ROLE_CUSTOMER']);
+                $manager->persist($user);
+                $customer->setUser($user);
+                $customer->setPhone($faker->phoneNumber);
+                $customer->setName($faker->name);
+                $manager->persist($customer);
 
-            $customer = new Customer();
-            $customer->setName($faker->name);
-            $customer->setPhone($faker->phoneNumber);
+                $scheduledWorkout = new ScheduledWorkout();
+                $scheduledWorkout->setTrainer($trainer);
+                $scheduledWorkout->setCustomer($customer);
 
-            $user->setEmail($faker->email);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
-            $user->setRoles(['ROLE_CUSTOMER']);
-            $user->setCustomer($customer);
-            $manager->persist($customer);
+                if ($day % 2 == 0) {
+                    $scheduledWorkout->setStartsAt(clone $availabilitySlot->getStartsAt());
+                    $scheduledWorkout->setEndsAt(clone $availabilitySlot->getEndsAt());
+                } else {
+                    $newStartDate = $availabilitySlot->getStartsAt();
+                    $newEndDate =  $availabilitySlot->getEndsAt();
 
-            $manager->persist($user);
-            $scheduledWorkout->setCustomer($customer);
-            $scheduledWorkout->setStartsAt(new \DateTime($schedWork['from']));
-            $scheduledWorkout->setEndsAt(new \DateTime($schedWork['to']));
-            $scheduledWorkout->setTrainer($this->getReference(sprintf("Trainer %s", $schedWork['trainerId'])));
-            $manager->persist($scheduledWorkout);
+                    if ($i % 2 == 0) {
+                        $newStartDate->modify('+30 minutes');
+                    } else {
+                        $newEndDate->modify('-30 minutes');
+                    }
+
+                    $scheduledWorkout->setStartsAt(clone $newStartDate);
+                    $scheduledWorkout->setEndsAt(clone $newEndDate);
+                }
+
+                $manager->persist($scheduledWorkout);
+                $manager->persist($availabilitySlot);
+
+                $date = new \DateTime();
+
+                $date->setDate(2018, 12, $day);
+
+                $availabilitySlot = new AvailabilitySlot();
+
+                if ($i % 2 == 0) {
+                    $date->setTime(8, 30, 0);
+                } else {
+                    $date->setTime(15, 00, 0);
+                }
+
+                $availabilitySlot->setStartsAt(clone $date);
+
+                if ($i % 2 == 0) {
+                    $date->setTime(11, 0, 0);
+                } else {
+                    $date->setTime(16, 45, 0);
+                }
+
+                $availabilitySlot->setEndsAt(clone $date);
+
+                $availabilitySlot->setTrainer($trainer);
+
+                if ($day % 4 == 0) {
+                    $scheduledWorkout = new ScheduledWorkout();
+                    $scheduledWorkout->setTrainer($trainer);
+                    $scheduledWorkout->setCustomer($customer);
+
+                    if ($i % 3 == 0) {
+                        $scheduledWorkout->setStartsAt(clone $availabilitySlot->getStartsAt());
+                        $scheduledWorkout->setEndsAt(clone $availabilitySlot->getEndsAt());
+                    } else {
+                        $newStartDate = clone $availabilitySlot->getStartsAt();
+                        $newEndDate = clone $availabilitySlot->getEndsAt();
+
+                        if ($i % 2 == 0) {
+                            $newStartDate->modify('+15 minutes');
+                        } else {
+                            $newEndDate->modify('+20 minutes');
+                            $newEndDate->modify('-10 minutes');
+                        }
+
+                        $scheduledWorkout->setStartsAt(clone $newStartDate);
+                        $scheduledWorkout->setEndsAt(clone $newEndDate);
+                    }
+
+                    $manager->persist($scheduledWorkout);
+                }
+                $manager->persist($availabilitySlot);
+            }
         }
 
         $manager->flush();
