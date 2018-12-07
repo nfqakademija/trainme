@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import Pikaday from "pikaday";
+import moment from 'moment';
 
 import Slot from './Slot';
 import Spinner from '../../UI/Spinner';
-import Pikaday from "pikaday";
-import moment from 'moment'
 
 class AvailSlots extends React.Component {
     constructor(props) {
@@ -36,7 +36,7 @@ class AvailSlots extends React.Component {
         $('#mngFrom').timepicker({
             timeFormat: 'HH:mm ',
             interval: 5,
-            minTime: '7',
+            minTime: '6',
             maxTime: '23',
             dynamic: false,
             dropdown: true,
@@ -49,7 +49,7 @@ class AvailSlots extends React.Component {
         $('#mngTo').timepicker({
             timeFormat: 'HH:mm ',
             interval: 5,
-            minTime: '7',
+            minTime: '6',
             maxTime: '23',
             dynamic: false,
             dropdown: true,
@@ -136,9 +136,9 @@ class AvailSlots extends React.Component {
                 <Slot
                     key={slot.id}
                     id={slot.id}
-                    date={slot.starts_at.split(' ')[0]}
-                    from={slot.starts_at.split(' ')[1].substr(0, 5)}
-                    to={slot.ends_at.split(' ')[1].substr(0, 5)}
+                    date={moment(slot.starts_at).format('YYYY-MM-DD')}
+                    from={moment(slot.starts_at).format('HH:mm')}
+                    to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
                     deleting={this.state.deleting}
                 />
@@ -162,7 +162,7 @@ class AvailSlots extends React.Component {
 
                         <div className="top__item">
                             <label htmlFor="mngFrom">From:</label>
-                            <input  type="text" id="mngFrom"/>
+                            <input type="text" id="mngFrom"/>
                             <input type="hidden" value={this.state.mngFromValue}/>
 
                         </div>

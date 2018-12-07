@@ -84,7 +84,7 @@ class TrainerCalendar extends React.Component {
             ends_at: event.ends_at,
         }, () => {
             $('#bookFrom').timepicker({
-                timeFormat: 'HH:mm ',
+                timeFormat: 'HH:mm',
                 interval: 5,
                 minTime: '6',
                 maxTime: '23',
@@ -93,15 +93,15 @@ class TrainerCalendar extends React.Component {
                 dropdown: true,
                 scrollbar: false,
                 change: (time) => {
-                    const date = event.starts_at.toLocaleDateString();
-                    const timeVal = time.toLocaleTimeString();
+                    const date = moment(event.ends_at).format('YYYY-MM-DD');
+                    const timeVal = moment(time).format('HH:mm:ss');
 
                     this.setState({bookFromValue: new Date(`${date} ${timeVal}`)})
                 }
             });
 
             $('#bookTo').timepicker({
-                timeFormat: 'HH:mm ',
+                timeFormat: 'HH:mm',
                 interval: 5,
                 minTime: '6',
                 maxTime: '23',
@@ -110,8 +110,8 @@ class TrainerCalendar extends React.Component {
                 dropdown: true,
                 scrollbar: false,
                 change: (time) => {
-                    const date = event.ends_at.toLocaleDateString();
-                    const timeVal = time.toLocaleTimeString();
+                    const date = moment(event.ends_at).format('YYYY-MM-DD');
+                    const timeVal = moment(time).format('HH:mm:ss');
 
                     this.setState({bookToValue: new Date(`${date} ${timeVal}`)})
                 }
@@ -156,7 +156,7 @@ class TrainerCalendar extends React.Component {
 
     render() {
 
-        let successMessage = '';
+        let successMessage = null;
 
         if (this.state.showSuccessMessage) {
             successMessage = (<section className="info info--trainer">
