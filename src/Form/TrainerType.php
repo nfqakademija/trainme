@@ -7,6 +7,8 @@ use App\Repository\TagRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,13 +26,30 @@ class TrainerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('phone', TelType::class)
-            ->add('location')
-            ->add('personalStatement')
-            ->add('image_url', UrlType::class)
+            ->add('name', TextType::class, [
+                'attr' => ['class' => 'regInput'],
+                'label_attr' => ['class' => 'regLabel']
+            ])
+            ->add('phone', TelType::class, [
+                'attr' => ['class' => 'regInput'],
+                'label_attr' => ['class' => 'regLabel']
+            ])
+            ->add('location', TextType::class, [
+                'attr' => ['class' => 'regInput'],
+                'label_attr' => ['class' => 'regLabel']
+            ])
+            ->add('personalStatement', TextareaType::class, [
+                'attr' => ['class' => 'regTextArea'],
+                'label_attr' => ['class' => 'u-mgTop']
+            ])
+            ->add('image_url', UrlType::class, [
+                'attr' => ['class' => 'regInput'],
+                'label_attr' => ['class' => 'regLabel']
+            ])
             ->add('tags', ChoiceType::class, [
                 'choices' => $this->tagRepository->findAll(),
+                'label_attr' => ['class' => 'regLabel'],
+                'attr' => ['class' => 'choiceInput'],
                 'choice_label' => function (Tag $tag) {
                     return $tag->getName();
                 },

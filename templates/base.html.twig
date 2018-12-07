@@ -47,7 +47,7 @@
             {% endif %}
         </li>
     </ul>
-    <div class="navbar__toggle"><i class="navbar__arrow">&#128899</i></div>
+    <div class="navbar__toggle"><i class="fas fa-caret-down navbar__arrow"></i></div>
 </nav>
 {% block body %}{% endblock %}
 {% block footer %}
@@ -59,7 +59,7 @@
                     <li class="u-listNone"><a class="footer__link" href="#">About Us</a></li>
                     <li class="u-listNone"><a class="footer__link" href="{{ path('list') }}">Our trainers</a></li>
                     <li class="u-listNone"><a class="footer__link" href="#">FAQ</a></li>
-                    <li class="u-listNone"><a class="footer__link" href="#">Login / Signup</a></li>
+                    <li class="u-listNone"><a class="footer__link" href="{{ path('app_login') }}">Login</a></li>
                 </ul>
 
                 <div class="media">

@@ -18,9 +18,7 @@ class CustomerRegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class,
-                ['attr' => ['class' => 'regInput']]
-            )
+            ->add('email', EmailType::class, ['attr' => ['class' => 'regInput']])
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
@@ -31,11 +29,11 @@ class CustomerRegistrationType extends AbstractType
             ))
             ->add('personal_info', CustomerType::class, array(
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regLabel--big']
+                'label_attr' => ['class' => 'regLabel--big rowWrapper--label']
             ))
-            ->add('submit', SubmitType::class,
-                ['label' => 'Register',
-                    'attr' => ['class' => 'button button__content u-mgTop']
-                ]);
+            ->add('submit', SubmitType::class, [
+                'label' => 'Register',
+                'attr' => ['class' => 'button button__content u-mgTop']
+            ]);
     }
 }

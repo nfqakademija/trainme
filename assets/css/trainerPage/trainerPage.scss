@@ -132,6 +132,8 @@
   cursor: pointer;
   outline: none;
   padding: 5px 5px 5px 0;
+  text-decoration: none;
+  transition: all .3s ease-in-out;
 
   &:hover {
     text-decoration: underline;

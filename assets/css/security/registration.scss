@@ -3,11 +3,22 @@
   justify-content: space-between;
   max-width: 500px;
   margin: 10px 0;
-  align-items: center;
 
-  &:nth-of-type(4) {
+  &:nth-child(4) {
     display: block;
   }
+}
+
+.rowWrapper--customer {
+  align-items: center;
+}
+
+.rowWrapper--trainer {
+  align-items: flex-start;
+}
+
+.regLabel {
+  display: block;
 }
 
 .regLabel--big {
@@ -15,9 +26,25 @@
 }
 
 .regInput {
-  margin-right: 10%;
   width: 60%;
   height: 30px;
+  display: block;
+  margin: 0 10% 0 10px;
+}
+
+.choiceInput {
+  margin-right: 10%;
+  width: 60%;
+  height: 100px;
+  display: block;
+}
+
+.regTextArea {
+  margin: 0 10% 0 30%;
+  width: 60%;
+  height: 80px;
+  resize: none;
+  display: block;
 }
 
 @media only screen and (max-width: 480px) {
@@ -26,8 +53,17 @@
     align-items: flex-start;
   }
 
-  .regInput {
+  .regTextArea {
+    margin: 0;
+  }
+
+  .regInput,
+  .regTextArea {
     margin-top: 5px;
-    width: 80%;
+    width: 90%;
+  }
+
+  .choiceInput {
+    width: 90%;
   }
 }
