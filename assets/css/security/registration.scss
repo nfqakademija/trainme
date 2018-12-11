@@ -1,35 +1,25 @@
-.rowWrapper {
-  display: flex;
-  justify-content: space-between;
-  max-width: 500px;
-  margin: 10px 0;
-
-  &:nth-child(4) {
-    display: block;
-  }
+input,
+textarea {
+  border-radius: 0;
+  border: 1px solid silver;
 }
 
-.rowWrapper--customer {
-  align-items: center;
-}
-
-.rowWrapper--trainer {
-  align-items: flex-start;
-}
-
-.regLabel {
+.regSecLabel {
+  font-size: 1.3em;
+  margin-bottom: 10px;
   display: block;
 }
 
-.regLabel--big {
-  font-size: 1.3em;
+.regInput,
+.regTextArea {
+  width: 100%;
+  padding: 0 10px;
+  display: block;
+  margin: 2px 0 5px 0;
 }
 
 .regInput {
-  width: 60%;
   height: 30px;
-  display: block;
-  margin: 0 10% 0 10px;
 }
 
 .choiceInput {
@@ -39,38 +29,38 @@
 }
 
 .regTextArea {
-  margin: 0 10% 0 30%;
-  width: 60%;
   height: 80px;
   resize: none;
-  display: block;
 }
 
 .select2-container {
   margin-right: 10%;
+  margin-bottom: 15px;
+  width: 100% !important;
+}
+
+.formWrapper {
+  width: 40%;
+  min-width: 180px;
+  max-width: 300px;
+}
+
+@media only screen and (max-width: 600px) {
+  .formWrapper {
+    width: 70%;
+  }
 }
 
 @media only screen and (max-width: 480px) {
-  .rowWrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .regTextArea {
     margin: 0;
   }
 
-  .regInput {
-    margin: 0;
-  }
-
-  .regInput,
   .regTextArea {
     margin-top: 5px;
-    width: 90%;
   }
 
   .choiceInput {
-    width: 90%;
+    width: 100%;
   }
 }

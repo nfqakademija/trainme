@@ -7,9 +7,11 @@
     <div class="loginContainer">
         <h1 class="blackTitle u-mgBtm">Customer registration</h1>
 
-        {% form_theme form 'form/customer.html.twig' %}
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
+        {% form_theme form 'form/template.html.twig' %}
+        <div class="formWrapper">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

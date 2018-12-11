@@ -14,8 +14,14 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['attr' => ['class' => 'regInput']])
-            ->add('phone', TelType::class, ['attr' => ['class' => 'regInput']]);
+            ->add('name', TextType::class, ['attr' => [
+                'class' => 'regInput',
+                'autocomplete' => 'off'
+            ]])
+            ->add('phone', TelType::class, ['attr' => [
+                'class' => 'regInput',
+                'autocomplete' => 'off'
+            ]]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
