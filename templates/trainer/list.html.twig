@@ -99,6 +99,17 @@
     </div>
 {% endblock %}
 
-{#{% block javascripts %}#}
-    {#{{ parent() }}#}
-{#{% endblock %}#}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#fromList, #toList').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 5,
+            minTime: '7',
+            maxTime: '23',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: false
+        });
+    </script>
+{% endblock %}
