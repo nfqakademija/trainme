@@ -7,11 +7,10 @@ import BigCalendar from 'react-big-calendar';
 import Spinner from "../UI/Spinner";
 import Modal from "../UI/Modal";
 
-const width = $(window).width();
 let views = ['week', 'day'];
 
-if (width < 600) {
-    views = 'day';
+if ($(window).width() < 600) {
+    views = ['day'];
 }
 
 const localizer = BigCalendar.momentLocalizer(moment);

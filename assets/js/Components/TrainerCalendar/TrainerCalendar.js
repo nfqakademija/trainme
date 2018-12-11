@@ -9,10 +9,9 @@ import axios from 'axios';
 
 import validateDateInput from "./validation";
 
-const width = $(window).width();
 let views = ['week', 'day'];
 
-if (width < 600) {
+if ($(window).width() < 600) {
     views = ['day'];
 }
 

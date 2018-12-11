@@ -8,10 +8,9 @@ import moment from 'moment';
 import axios from 'axios';
 import $ from 'jquery';
 
-const width = $(window).width();
 let views = ['week', 'day'];
 
-if (width < 600) {
+if ($(window).width() < 600) {
     views = ['day'];
 }
 
@@ -37,7 +36,6 @@ class TrainerWorkoutsCalendar extends React.Component {
     }
 
     fetchWorkouts() {
-        console.log(this.props.id);
         this.setState({loading: true});
         axios.get(`/api/trainers/${this.props.id}/scheduledWorkouts`)
             .then(response => {
@@ -85,7 +83,7 @@ class TrainerWorkoutsCalendar extends React.Component {
         if (this.state.events.length !== 0) {
             calendar = (<BigCalendar
                 localizer={localizer}
-                views={['week', 'day']}
+                views={views}
                 defaultView={'day'}
                 startAccessor={'starts_at'}
                 endAccessor={'ends_at'}
