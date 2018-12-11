@@ -27,23 +27,20 @@ class TrainerType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr' => ['class' => 'regInput'],
-                'label_attr' => ['class' => 'regLabel']
+                'attr' => ['class' => 'regInput', 'autocomplete' => 'off']
             ])
             ->add('phone', TelType::class, [
-                'attr' => ['class' => 'regInput'],
-                'label_attr' => ['class' => 'regLabel']
+                'attr' => ['class' => 'regInput', 'autocomplete' => 'off']
             ])
             ->add('location', TextType::class, [
-                'attr' => ['class' => 'regInput'],
-                'label_attr' => ['class' => 'regLabel']
+                'attr' => ['class' => 'regInput', 'autocomplete' => 'off']
             ])
             ->add('personalStatement', TextareaType::class, [
-                'attr' => ['class' => 'regTextArea'],
+                'attr' => ['class' => 'regTextArea', 'autocomplete' => 'off'],
                 'label_attr' => ['class' => 'u-mgTop']
             ])
             ->add('image_url', UrlType::class, [
-                'attr' => ['class' => 'regInput'],
+                'attr' => ['class' => 'regInput', 'autocomplete' => 'off'],
                 'label_attr' => ['class' => 'regLabel']
             ])
             ->add('tags', ChoiceType::class, [

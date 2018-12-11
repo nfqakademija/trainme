@@ -24,12 +24,18 @@ class CustomerRegistrationType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field regInput')),
                 'required' => true,
-                'first_options' => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options' => ['label' => 'Password', 'attr' => [
+                    'class' => 'regInput'
+                ]],
+                'second_options' => ['label' => 'Repeat password', 'attr' => [
+                    'class' => 'regInput'
+                ]],
             ))
             ->add('personal_info', CustomerType::class, array(
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regLabel--big rowWrapper--label']
+                'label_attr'=>[
+                    'class'=>'regSecLabel'
+                ]
             ))
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',

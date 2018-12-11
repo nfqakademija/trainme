@@ -155,6 +155,11 @@ class TrainerCalendar extends React.Component {
     }
 
     render() {
+        if (this.state.modalVisible) {
+            $('body').css({overflowY: 'hidden'});
+        } else {
+            $('body').css({overflowY: 'auto'});
+        }
 
         let successMessage = null;
 
