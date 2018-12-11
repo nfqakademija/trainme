@@ -13,7 +13,7 @@
         </div>
         <div class="filters__selection">
             <div class="filters__inputElement">
-                <label class="filters__label" for="datepickerList">Date:</label>
+                <label for="datepickerList">Date:</label>
                 <div>
                     <input id="datepickerList" type="text" class="filters__input"
                            value="{{ app.request.query.get('date') }}"
@@ -22,13 +22,13 @@
             </div>
 
             <div class="filters__inputElement">
-                <label class="filters__label" for="fromList">From:</label>
+                <label for="fromList">From:</label>
                 <input class="filters__input" type="text" id="fromList" name="from"
                        autocomplete="off" value="{{ app.request.query.get('from') }}"/>
             </div>
 
             <div class="filters__inputElement">
-                <label class="filters__label" for="toList">To:</label>
+                <label for="toList">To:</label>
                 <input class="filters__input" type="text" id="toList" name="to"
                        autocomplete="off" value="{{ app.request.query.get('to') }}"/>
             </div>
