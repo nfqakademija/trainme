@@ -46,7 +46,7 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
 }
 
 .login__link {
-  padding: 10px 25px;
+  padding: 15px 25px;
 }
 
 .navbar__item__link,
@@ -58,6 +58,10 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
   &:hover {
     background: $navlink-hover;
   }
+}
+
+.link--active {
+  font-weight: bold;
 }
 
 .navbar__toggle {
