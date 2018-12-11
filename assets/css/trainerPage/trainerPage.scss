@@ -108,6 +108,11 @@
   background: black;
   padding: 15px 20px;
   max-height: 55px;
+  transition: all .2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, .78);
+  }
 }
 
 .textBox {
@@ -181,6 +186,14 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .button__content {
+    transition: none;
+
+    &:hover {
+      background: black;
+    }
+  }
+
   .trainerInfo {
     flex-direction: column;
   }

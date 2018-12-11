@@ -10,43 +10,29 @@
         <section class="loginForm">
             <div class="loginForm__block">
                 <form method="post">
-                    <label for="inputEmail" class="sr-only">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
-                           class="loginForm__input"
-                           placeholder="Email" required autofocus autocomplete="off">
-
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="loginForm__input"
-                           placeholder="Password"
-                           required>
-
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                    {#
-                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                    See https://symfony.com/doc/current/security/remember_me.html
-
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" name="_remember_me"> Remember me
-                        </label>
-                    </div>
-                    #}
-
-                    <button class="button button__content u-w85" type="submit">Log in</button>
-
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
+                    <label for="inputEmail" class="label">Email:</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                           class="loginForm__input" required autofocus autocomplete="off">
+
+                    <label for="inputPassword" class="label">Password:</label>
+                    <input type="password" name="password" id="inputPassword" class="loginForm__input" required>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button class="button button__content u-w85" type="submit">Log in</button>
                 </form>
             </div>
 
             <div class="loginForm__block">
                 <div class="register">
                     <h3 class="register__heading">New member?</h3>
+                    <p class="register__text">Register as:</p>
                     <div class="register__bottom">
-                        <a href="{{ path('app_customer_register') }}" class="button button__content">Register</a>
-                        <a href="{{ path('app_trainer_register') }}" class="btn">Trainers registration</a>
+                        <a href="{{ path('app_customer_register') }}" class="button button__content u-mgRt">Customer</a>
+                        <a href="{{ path('app_trainer_register') }}" class="button button__content">Trainer</a>
                     </div>
                 </div>
             </div>
