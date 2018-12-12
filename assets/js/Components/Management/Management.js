@@ -90,7 +90,7 @@ class Management extends React.Component {
             const to = moment(mngToValue).format("HH:mm");
 
             if (!validateSlot(slots, date, mngFromValue, mngToValue)) {
-                alert(`You are already available on ${dateStr} between ${from} and ${to}`);
+                alert(`You are already available in this period of time!`);
                 return;
             }
 
@@ -101,11 +101,11 @@ class Management extends React.Component {
                 ends_at: `${dateStr} ${to}`
             }).then(response => {
                 this.setState({
-                    slots: [...this.state.slots, {
+                    slots: [{
                         id: response.data.id,
                         starts_at: response.data.starts_at,
                         ends_at: response.data.ends_at
-                    }],
+                    }, ...this.state.slots],
                     posting: false
                 });
             }).catch(err => {
