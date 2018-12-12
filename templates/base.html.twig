@@ -19,33 +19,57 @@
 <nav class="navbar">
     <a class="navbar__brand u-listNone" href="{{ path('home') }}">TrainMe</a>
     <ul class="navbar__menu u-listNone">
-        <li class="navbar__item"><a href="#" class="navbar__item__link">About</a></li>
-        <li class="navbar__item"><a href="{{ path('list') }}" class="navbar__item__link">Trainers</a></li>
+        <li class="navbar__item"><a href="{{ path('list') }}"
+                                    class="navbar__item__link{{ app.request.pathInfo == path('list')?" link--active" : null }}">Trainers</a>
+        </li>
         <li class="navbar__item sublist">
             {% if app.user and is_granted('ROLE_TRAINER') %}
-                <a href="#" class="navbar__item__link">My account</a>
-                <ul class="login__list u-listNone">
-                    <li class="login__item">
-                        <a href="{{ path('trainer_page', {trainer : app.user.trainer.id}) }}" class="login__link">
-                            Personal page
-                        </a>
-                    </li>
-                    <li class="login__item"><a href="{{ path('trainer_workouts') }}" class="login__link">Scheduled
-                            workouts</a></li>
-                    <li class="login__item"><a href="{{ path('manage') }}" class="login__link">Manage schedule</a></li>
-                    <li class="login__item"><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
-                </ul>
+            <a href="#" class="navbar__item__link">{{ app.user.trainer.name }}</a>
+            <ul class="login__list u-listNone">
+                <li>
+                    <a href="{{ path('trainer_page', {trainer : app.user.trainer.id}) }}"
+                       class="login__link{{ app.request.pathInfo == path('trainer_page', {trainer : app.user.trainer.id})?" link--active" : null }}">
+                        Personal page
+                    </a>
+                </li>
+                <li><a href="{{ path('trainer_workouts') }}"
+                       class="login__link{{ app.request.pathInfo == path('trainer_workouts')?" link--active" : null }}">Workouts</a>
+                </li>
+                <li><a href="{{ path('manage') }}"
+                       class="login__link{{ app.request.pathInfo == path('manage')?" link--active" : null }}">Manage
+                        schedule</a></li>
+                <li><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
+            </ul>
             {% elseif app.user and is_granted('ROLE_CUSTOMER') %}
-                <a href="#" class="navbar__item__link">My account</a>
-                <ul class="login__list u-listNone">
-                    <li class="login__item"><a href="{{ path('customer_workouts') }}" class="login__link">Workouts</a>
-                    </li>
-                    <li class="login__item"><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
-                </ul>
+            <a href="#" class="navbar__item__link">{{ app.user.customer.name }}</a>
+            <ul class="login__list u-listNone">
+                <li>
+                    <a href="{{ path('customer_workouts') }}"
+                       class="login__link{{ app.request.pathInfo == path('customer_workouts')?" link--active" : null }}">
+                        My workouts
+                    </a>
+                </li>
+                <li><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
+            </ul>
             {% else %}
-                <a href="{{ path('app_login') }}" class="navbar__item__link">Log In</a>
-            {% endif %}
+            <a href="#" class="navbar__item__link">Register</a>
+            <ul class="login__list u-listNone">
+                <li><a href="{{ path('app_customer_register') }}"
+                       class="login__link{{ app.request.pathInfo == path('app_customer_register')?" link--active" : null }}">
+                        Customer</a>
+                </li>
+                <li><a href="{{ path('app_trainer_register') }}"
+                       class="login__link{{ app.request.pathInfo == path('app_trainer_register')?" link--active" : null }}">
+                        Trainer</a>
+                </li>
+            </ul>
         </li>
+        <li class="navbar__item sublist">
+            <a href="{{ path('app_login') }}"
+               class="navbar__item__link{{ app.request.pathInfo == path('app_login')?" link--active" : null }}">Log
+                in</a>
+        </li>
+        {% endif %}
     </ul>
     <div class="navbar__toggle"><i class="fas fa-caret-down navbar__arrow"></i></div>
 </nav>
@@ -56,10 +80,12 @@
             <div class="footer__container">
                 <ul class="linkList">
                     <li class="u-listNone"><a class="footer__link" href="{{ path('home') }}">Home</a></li>
-                    <li class="u-listNone"><a class="footer__link" href="#">About Us</a></li>
                     <li class="u-listNone"><a class="footer__link" href="{{ path('list') }}">Our trainers</a></li>
-                    <li class="u-listNone"><a class="footer__link" href="#">FAQ</a></li>
                     <li class="u-listNone"><a class="footer__link" href="{{ path('app_login') }}">Login</a></li>
+                    <li class="u-listNone"><a class="footer__link"
+                                              href="{{ path('app_customer_register') }}">Register</a></li>
+                    <li class="u-listNone"><a class="footer__link"
+                                              href="{{ path('app_trainer_register') }}">Trainer registration</a></li>
                 </ul>
 
                 <div class="media">
@@ -88,32 +114,12 @@
     <footer class="copyright">All rights reserved at © TrainMe 2018</footer>
 {% endblock %}
 {% block javascripts %}
-
     <script src="{{ asset('build/js/app.js') }}"></script>
-    <script>
-        console.log('called');
-    </script>
-
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-
-    <script>
-        $('#fromList, #toList').timepicker({
-            timeFormat: 'HH:mm ',
-            interval: 5,
-            minTime: '7',
-            maxTime: '23',
-            dynamic: false,
-            dropdown: true,
-            scrollbar: false
-        });
-    </script>
-
 {% endblock %}
-
-
 </body>
 </html>

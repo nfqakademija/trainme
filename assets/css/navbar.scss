@@ -46,7 +46,7 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
 }
 
 .login__link {
-  padding: 10px 25px;
+  padding: 15px 25px;
 }
 
 .navbar__item__link,
@@ -58,6 +58,10 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
   &:hover {
     background: $navlink-hover;
   }
+}
+
+.link--active {
+  font-weight: bold;
 }
 
 .navbar__toggle {
@@ -86,7 +90,7 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
 @media only screen and (max-width: 480px) {
   .navbar__menu {
     display: block;
-    height: 100px;
+    height: 110px;
     width: 100%;
     opacity: 0;
     position: absolute;
@@ -96,7 +100,7 @@ $navlink-hover: rgba(0, 0, 0, 0.9);
   }
 
   .navbar__item__link {
-    padding: 4px 15px;
+    padding: 15px;
   }
 
   .navbar__toggle {

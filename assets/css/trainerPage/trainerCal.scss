@@ -5,7 +5,7 @@
 
 .calModal {
   position: fixed;
-  z-index: 1;
+  z-index: 5;
   left: 0;
   top: 0;
   width: 100%;
@@ -55,7 +55,7 @@
   min-height: 100px;
 }
 
-.calModal__middle--row{
+.calModal__middle--row {
   align-items: center;
 }
 
@@ -75,23 +75,12 @@
   font-size: 1.3em;
 }
 
-.bookMsg {
-  font-weight: bold;
-  margin: 0 15px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-}
-
-.bookMsg--success {
-  color: green;
-}
-
 .modalInputGroup {
   display: flex;
   flex-direction: column;
-  margin-right: 10%;
+  margin-right: 20px;
+  width: 30%;
+  max-width: 160px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -112,6 +101,7 @@
 
   .modalInputGroup {
     margin-bottom: 5px;
+    width: 100%;
   }
 
   .calModal__middle {
