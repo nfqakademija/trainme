@@ -160,8 +160,16 @@
   padding: 15px;
 
   &:hover {
-    .fa-info-circle--custom {
+    .fa-info-circle--info {
       color: #4481ff;
+    }
+
+    .fa-info-circle--danger {
+      color: #a9000f;
+    }
+
+    .fa-info-circle--success {
+      color: #008000;
     }
   }
 }
@@ -175,11 +183,19 @@
   margin-bottom: 20px;
 }
 
+.info--danger {
+  background: #ffb3b3;
+}
+
+.info--success {
+  background: rgba(119, 255, 3, 0.42);
+}
+
 .u-mgRt {
   margin-right: 15px;
 }
 
-.fa-info-circle--custom {
+.fa-info-circle {
   font-size: 1.4em;
   transition: all .3s ease-in-out;
   color: black;

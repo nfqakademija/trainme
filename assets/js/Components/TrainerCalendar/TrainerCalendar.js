@@ -30,7 +30,6 @@ class TrainerCalendar extends React.Component {
             loading: true,
             modalVisible: false,
             booking: false,
-            success: false,
             showSuccessMessage: false,
             starts_at: '',
             ends_at: '',
@@ -142,10 +141,9 @@ class TrainerCalendar extends React.Component {
             this.fetchAvailableTimes();
             this.setState({
                 success: true,
-                booking: false
+                booking: false,
+                showSuccessMessage: true
             });
-
-            this.setState({showSuccessMessage: true})
         }).catch(err => {
             console.log(err);
             this.setState({booking: false});
@@ -154,7 +152,12 @@ class TrainerCalendar extends React.Component {
     }
 
     render() {
-        if (this.state.modalVisible) {
+        const {
+            modalVisible, showSuccessMessage, loading, events, starts_at, ends_at, bookFromValue, bookToValue,
+            booking, isCustomer
+        } = this.state;
+
+        if (modalVisible) {
             $('body').css({overflowY: 'hidden'});
         } else {
             $('body').css({overflowY: 'auto'});
@@ -162,10 +165,10 @@ class TrainerCalendar extends React.Component {
 
         let successMessage = null;
 
-        if (this.state.showSuccessMessage) {
-            successMessage = (<section className="info info--trainer">
+        if (showSuccessMessage) {
+            successMessage = (<section className="info info--trainer info--success">
                 <p className="info__text">
-                    <i className="fas fa-info-circle u-mgRt fa-info-circle--custom"></i>
+                    <i className="fas fa-info-circle u-mgRt fa-info-circle--success"></i>
                     You successfully booked a workout! Trainer will contact you soon.
                 </p>
             </section>);
@@ -173,19 +176,18 @@ class TrainerCalendar extends React.Component {
 
         let calendar = <p>This trainer has no available workouts.</p>;
 
-        if (this.state.loading) {
-            calendar = <div className={this.state.loading ? "mngList" : null}><Spinner/></div>;
-
+        if (loading) {
+            calendar = <div className={loading ? "mngList" : null}><Spinner/></div>;
         }
 
-        if (this.state.events.length !== 0) {
+        if (events.length !== 0) {
             calendar = (<BigCalendar
                 localizer={localizer}
                 views={views}
                 defaultView={'day'}
                 startAccessor={'starts_at'}
                 endAccessor={'ends_at'}
-                events={this.state.events}
+                events={events}
                 min={new Date(new Date().setHours(7, 0))}
                 max={new Date(new Date().setHours(23, 0))}
                 selectable={true}
@@ -195,7 +197,7 @@ class TrainerCalendar extends React.Component {
 
         let modalContent = null;
 
-        if (this.state.starts_at && this.state.ends_at) {
+        if (starts_at && ends_at) {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
@@ -208,41 +210,55 @@ class TrainerCalendar extends React.Component {
                         <div className="modalInputGroup">
                             <label htmlFor="bookDate">Date:</label>
                             <input id="bookDate" type="date" disabled
-                                   defaultValue={moment(this.state.starts_at).format("YYYY-MM-DD")}/>
+                                   defaultValue={moment(starts_at).format("YYYY-MM-DD")}/>
                         </div>
                         <div className="modalInputGroup">
                             <label htmlFor="bookFrom">From:</label>
                             <input id="bookFrom" type="text"/>
-                            <input type="hidden" value={this.state.bookFromValue}/>
+                            <input type="hidden" value={bookFromValue}/>
                         </div>
                         <div className="modalInputGroup">
                             <label htmlFor="bookTo">To:</label>
                             <input id="bookTo" type="text"/>
-                            <input type="hidden" value={this.state.bookToValue}/>
+                            <input type="hidden" value={bookToValue}/>
                         </div>
                     </div>
 
                     <div className="calModal__foot">
-                        {this.state.booking ?
+                        {booking ?
                             <button disabled
                                     className="button button__content">Booking...
                             </button> :
                             <button onClick={() => this.bookWorkout()}
                                     className="button button__content">Book
                             </button>}
-                        {this.state.success ?
-                            <div className="bookMsg bookMsg--success">
-                                <p>Success!</p>
-                            </div> :
-                            null}
                     </div>
                 </React.Fragment>);
         }
 
+        let info = null;
+
+        if (!loading && isCustomer && events.length !== 0) {
+            info = <section className="info info--trainer">
+                <p className="info__text">
+                    <i className="fas fa-info-circle u-mgRt fa-info-circle--info"></i>
+                    Click on the desired available time slot to book a workout.
+                </p>
+            </section>
+        } else if (!loading && events.length !== 0) {
+            info = <section className="info info--trainer info--danger">
+                <p className="info__text">
+                    <i className="fas fa-info-circle u-mgRt fa-info-circle--danger"></i>
+                    Only logged in customers can book workouts!
+                </p>
+            </section>
+        }
+
         return (<React.Fragment>
             {successMessage}
+            {info}
             {calendar}
-            {this.state.modalVisible ?
+            {modalVisible ?
                 <Modal>
                     {modalContent}
                 </Modal> : null}
