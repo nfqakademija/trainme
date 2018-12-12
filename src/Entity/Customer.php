@@ -39,9 +39,15 @@ class Customer implements \JsonSerializable
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="customer")
+     */
+    private $ratings;
+
     public function __construct()
     {
         $this->scheduledWorkouts = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,5 +133,36 @@ class Customer implements \JsonSerializable
             'name' => $this->name,
             'phone' => $this->phone,
         ];
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->contains($rating)) {
+            $this->ratings->removeElement($rating);
+            // set the owning side to null (unless already changed)
+            if ($rating->getCustomer() === $this) {
+                $rating->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 }

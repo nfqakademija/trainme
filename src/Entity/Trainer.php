@@ -73,6 +73,11 @@ class Trainer implements \JsonSerializable
     private $user;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="trainer")
+     */
+    private $ratings;
+
+    /**
      * Trainer constructor.
      */
     public function __construct()
@@ -80,6 +85,7 @@ class Trainer implements \JsonSerializable
         $this->availabilitySlots = new ArrayCollection();
         $this->scheduledWorkouts = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
     /**
@@ -308,5 +314,36 @@ class Trainer implements \JsonSerializable
             'name' => $this->name,
             'phone' => $this->phone,
         ];
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setTrainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->contains($rating)) {
+            $this->ratings->removeElement($rating);
+            // set the owning side to null (unless already changed)
+            if ($rating->getTrainer() === $this) {
+                $rating->setTrainer(null);
+            }
+        }
+
+        return $this;
     }
 }
