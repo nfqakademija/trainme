@@ -6,6 +6,7 @@ import $ from 'jquery'
 import BigCalendar from 'react-big-calendar';
 import Spinner from "../UI/Spinner";
 import Modal from "../UI/Modal";
+import Message from "../UI/Message";
 
 let views = ['week', 'day'];
 
@@ -23,7 +24,9 @@ class CustomerCalendar extends React.Component {
             loading: false,
             modalVisible: false,
             currentWorkout: '',
-            deleting: false
+            deleting: false,
+            deleteSuccessMessage: false,
+            error: false
         }
     };
 
@@ -56,6 +59,8 @@ class CustomerCalendar extends React.Component {
     onWorkoutClick(event) {
         this.setState({
             modalVisible: true,
+            deleteSuccessMessage: false,
+            error: false,
             currentWorkout: {
                 starts_at: event.starts_at,
                 ends_at: event.ends_at,
@@ -81,25 +86,35 @@ class CustomerCalendar extends React.Component {
         }
 
         this.setState({deleting: true});
-        axios.delete(`/api/scheduled_workout/${this.state.currentWorkout.id}`)
+        axios.delete(`/api/scheduled_workou/${this.state.currentWorkout.id}`)
             .then(response => {
                 this.setState({
                     events: this.state.events.filter(event => event.id !== this.state.currentWorkout.id),
                     deleting: false,
-                    modalVisible: false
+                    modalVisible: false,
+                    deleteSuccessMessage: true
                 });
             })
             .catch(err => {
                 this.setState({
                     modalVisible: false,
-                    deleting: false
+                    deleting: false,
+                    error: true
                 });
                 console.log(err);
             });
     }
 
     render() {
-        const {events, loading, currentWorkout, deleting, modalVisible} = this.state;
+        const {events, error, loading, currentWorkout, deleting, modalVisible, deleteSuccessMessage} = this.state;
+
+        let successMessage = null;
+
+        if (deleteSuccessMessage) {
+            successMessage = <Message type="success">Workout canceled successfully.</Message>;
+        } else if (error) {
+            successMessage = <Message type="danger">Oops, something went wrong!</Message>;
+        }
 
         let calendar = <p>You don't have any scheduled workouts yet.</p>;
 
@@ -124,12 +139,7 @@ class CustomerCalendar extends React.Component {
         let info = null;
 
         if (!loading && events.length !== 0) {
-            info = <section className="info info--customer">
-                <p className="info__text">
-                    <i className="fas fa-info-circle u-mgRt fa-info-circle--info"></i>
-                    Click on the workout to view info or to cancel it.
-                </p>
-            </section>
+            info = <Message type="info">Click on the workout to view info or to cancel it.</Message>;
         }
 
         let modalContent = null;
@@ -183,6 +193,7 @@ class CustomerCalendar extends React.Component {
 
         return (
             <React.Fragment>
+                {successMessage}
                 {info}
                 {calendar}
                 {modalVisible ? <Modal>{modalContent}</Modal> : null}
