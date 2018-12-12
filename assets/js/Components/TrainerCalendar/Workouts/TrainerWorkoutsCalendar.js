@@ -3,6 +3,7 @@ import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import Spinner from '../../UI/Spinner';
 import Modal from "../../UI/Modal";
+import Message from '../../UI/Message';
 
 import moment from 'moment';
 import axios from 'axios';
@@ -74,20 +75,22 @@ class TrainerWorkoutsCalendar extends React.Component {
     }
 
     render() {
+        const {loading, events, modalVisible, currentEvent} = this.state;
+
         let calendar = <p>You have no scheduled workouts.</p>;
 
-        if (this.state.loading) {
-            calendar = <div className={this.state.loading ? "mngList" : null}><Spinner/></div>;
+        if (loading) {
+            calendar = <div className={loading ? "mngList" : null}><Spinner/></div>;
         }
 
-        if (this.state.events.length !== 0) {
+        if (events.length !== 0) {
             calendar = (<BigCalendar
                 localizer={localizer}
                 views={views}
                 defaultView={'day'}
                 startAccessor={'starts_at'}
                 endAccessor={'ends_at'}
-                events={this.state.events}
+                events={events}
                 min={new Date(new Date().setHours(6, 0))}
                 max={new Date(new Date().setHours(23, 0))}
                 selectable={true}
@@ -97,7 +100,7 @@ class TrainerWorkoutsCalendar extends React.Component {
 
         let modalContent = null;
 
-        if (this.state.currentEvent) {
+        if (currentEvent) {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
@@ -107,15 +110,28 @@ class TrainerWorkoutsCalendar extends React.Component {
                     <hr className="calModal__bar"/>
 
                     <div className="calModal__middle calModal__middle--col">
-                        <p className="info--customer">Name: {this.state.currentEvent.customer.name}</p>
-                        <p className="info--customer">Phone: {this.state.currentEvent.customer.phone}</p>
+                        <p className="info--customer">Name: {currentEvent.customer.name}</p>
+                        <p className="info--customer">Phone: {currentEvent.customer.phone}</p>
                     </div>
                 </React.Fragment>);
         }
 
+        if (modalVisible) {
+            $('body').css({overflowY: 'hidden'});
+        } else {
+            $('body').css({overflowY: 'auto'});
+        }
+
+        let info = null;
+
+        if (!loading && events.length !== 0) {
+            info = <Message type="info">Click on the workout to view info.</Message>;
+        }
+
         return (<React.Fragment>
+            {info}
             {calendar}
-            {this.state.modalVisible ?
+            {modalVisible ?
                 <Modal>
                     {modalContent}
                 </Modal> : null}

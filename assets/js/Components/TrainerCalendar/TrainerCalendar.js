@@ -8,6 +8,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 import validateDateInput from "./validation";
+import Message from "../UI/Message";
 
 let views = ['week', 'day'];
 
@@ -166,12 +167,8 @@ class TrainerCalendar extends React.Component {
         let successMessage = null;
 
         if (showSuccessMessage) {
-            successMessage = (<section className="info info--trainer info--success">
-                <p className="info__text">
-                    <i className="fas fa-info-circle u-mgRt fa-info-circle--success"></i>
-                    You successfully booked a workout! Trainer will contact you soon.
-                </p>
-            </section>);
+            successMessage =
+                <Message type="success">You've successfully booked a workout! Trainer will contact you soon.</Message>;
         }
 
         let calendar = <p>This trainer has no available workouts.</p>;
@@ -239,19 +236,9 @@ class TrainerCalendar extends React.Component {
         let info = null;
 
         if (!loading && isCustomer && events.length !== 0) {
-            info = <section className="info info--trainer">
-                <p className="info__text">
-                    <i className="fas fa-info-circle u-mgRt fa-info-circle--info"></i>
-                    Click on the desired available time slot to book a workout.
-                </p>
-            </section>
+            info = <Message type="info">Click on the desired available time slot to book a workout.</Message>;
         } else if (!loading && events.length !== 0) {
-            info = <section className="info info--trainer info--danger">
-                <p className="info__text">
-                    <i className="fas fa-info-circle u-mgRt fa-info-circle--danger"></i>
-                    Only logged in customers can book workouts!
-                </p>
-            </section>
+            info = <Message type="danger">Only logged in customers can book workouts!</Message>;
         }
 
         return (<React.Fragment>
