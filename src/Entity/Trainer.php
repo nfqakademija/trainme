@@ -313,6 +313,9 @@ class Trainer implements \JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
+            'personalStatement' => $this->personalStatement,
+            'imageUrl' => $this->image_url,
+            'location' => $this->location
         ];
     }
 

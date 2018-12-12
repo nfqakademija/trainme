@@ -22,7 +22,33 @@
 
 .trainerInfo__right {
   width: 50%;
-  padding-left: 15px;
+  padding: 15px 0 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.trainerInfo__right--admin {
+  transition: all .3s ease-in;
+
+  &:hover {
+
+    .btn:first-of-type {
+      color: white;
+      font-size: .85em;
+      background: grey;
+      border-radius: 5px;
+      padding: 10px 15px;
+    }
+  }
+}
+
+.btn--editingInfo {
+  color: white !important;
+  font-size: .85em !important;
+  background: grey !important;
+  border-radius: 5px !important;
+  padding: 10px 15px !important;
 }
 
 .trainerInfo__left {
@@ -50,20 +76,22 @@
 }
 
 .trainerInfo__count {
-  font-size: .9em;
+  font-size: .8em;
   font-style: italic;
   margin-left: 10px;
 }
 
 .fa-star--big {
-  font-size: 2em;
+  font-size: 1.3em;
 }
 
 .trainerInfo__desc {
-  max-width: 330px;
   margin: 20px 0 10px 0;
   font-size: 1em;
   overflow-wrap: break-word;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .infoText {
@@ -115,17 +143,27 @@
   }
 }
 
-.textBox {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #eeeeee;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
+.trainerTextarea,
+.trainerInput {
   border-radius: 2px;
-  box-sizing: content-box;
+  background: none;
+  border: 1px solid #eeeeee;
+  width: 100%;
+}
+
+.trainerTextarea {
+  padding: 5px;
+  min-height: 150px;
+  margin: 10px 0;
   resize: none;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.trainerInput {
+  height: 30px;
+  padding: 3px 0 3px 5px;
+  margin-left: 20px;
 }
 
 .btn {
@@ -149,10 +187,8 @@
   color: red;
 }
 
-.btnSave,
-.btnDiscard {
-  opacity: 0;
-  transition: opacity .3s;
+.buttonContainer {
+  display: flex;
 }
 
 .info {

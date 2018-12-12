@@ -12,28 +12,10 @@
                 <img class="trainerInfo__image" src="{{ trainer.imageUrl }}" alt="Trainer"/>
             </div>
 
-            <div class="trainerInfo__right">
-                <p class="trainerInfo__rating"><i class="fas fa-star fa-star--yellow fa-star--big"></i> 4.8</p>
-                <span class="trainerInfo__count"> 486 rating(s)</span>
-                <p class="trainerInfo__desc justify editable">{{ trainer.personalStatement }}</p>
-
-                {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
-                    <button class="btn editButton">Edit</button>
-                    <button class="btn btnSave">Save</button>
-                    <button class="btn btn--cancel btnDiscard">Discard</button>
-                {% endif %}
-                <p title="Phone" class="trainerInfo__desc">
-                    <i class="fas fa-phone"></i>
-                    <span class="infoText">{{ trainer.phone }}</span>
-                </p>
-                <p title="Location" class="trainerInfo__desc">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span class="infoText">{{ trainer.location }}</span>
-                </p>
-                <p title="Workouts on TrainMe" class="trainerInfo__desc">
-                    <i class="fas fa-dumbbell"></i>
-                    <span class="infoText">{{ count }}</span>
-                </p>
+            <div id="trainerInfo" data-trainer="{{ trainer|json_encode() }}"
+                 data-user="{{ user ? user.roles|json_encode() : "[]" }}"
+                 data-count="{{ count }}"
+                 class="trainerInfo__right {{ user and 'ROLE_TRAINER' in user.roles ? "trainerInfo__right--admin" : null }}">
             </div>
         </div>
 
@@ -49,19 +31,17 @@
         <div class="calendarContainer">
             <p class="blackTitle">Available workout times</p>
             <div id="trainerCal" class="trainerCal" data-trainer='{{ trainer.id }}'
-                 data-roles="{{ user ?  user.roles|json_encode() : "[]" }}"></div>
+                 data-roles="{{ user ? user.roles|json_encode() : "[]" }}"></div>
         </div>
 
         <button class="button"><a class="button__content" href="{{ path('list') }}">Go Back</a></button>
     </section>
 {% endblock %}
-{% block footer %}
-    {{ parent() }}
-{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
-        <script src="{{ asset('build/js/editable.js') }}"></script>
+        <script src="{{ asset('build/js/trainerInfo.js') }}"></script>
     {% endif %}
     <script src="{{ asset('build/js/trainerCal.js') }}"></script>
 {% endblock %}
