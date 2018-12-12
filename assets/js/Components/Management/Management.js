@@ -6,6 +6,8 @@ import moment from 'moment';
 import Slot from './Slot';
 import Spinner from '../UI/Spinner';
 
+import validateSlot from './validateSlot';
+
 class Management extends React.Component {
     constructor(props) {
         super(props);
@@ -80,12 +82,17 @@ class Management extends React.Component {
     };
 
     addNewSlot() {
-        const {date, mngFromValue, mngToValue} = this.state;
+        const {date, mngFromValue, mngToValue, slots} = this.state;
 
         if (date && mngFromValue && mngToValue) {
             const dateStr = moment(date).format("YYYY-MM-DD");
-            const from = moment(mngFromValue).format("HH:mm:ss");
-            const to = moment(mngToValue).format("HH:mm:ss");
+            const from = moment(mngFromValue).format("HH:mm");
+            const to = moment(mngToValue).format("HH:mm");
+
+            if (!validateSlot(slots, date, mngFromValue, mngToValue)) {
+                alert(`You are already available on ${dateStr} between ${from} and ${to}`);
+                return;
+            }
 
             this.setState({posting: true});
 
