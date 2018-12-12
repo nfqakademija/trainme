@@ -99,30 +99,42 @@ class CustomerCalendar extends React.Component {
     }
 
     render() {
+        const {events, loading, currentWorkout, deleting, modalVisible} = this.state;
+
         let calendar = <p>You don't have any scheduled workouts yet.</p>;
 
-        if (this.state.events.length !== 0) {
+        if (events.length !== 0) {
             calendar = (<BigCalendar
                 localizer={localizer}
                 views={views}
                 defaultView={'day'}
                 startAccessor={'starts_at'}
                 endAccessor={'ends_at'}
-                events={this.state.events}
+                events={events}
                 min={new Date(new Date().setHours(6, 0))}
                 max={new Date(new Date().setHours(23, 0))}
                 onSelectEvent={event => this.onWorkoutClick(event)}
             />);
         }
 
-        if (this.state.loading) {
-            calendar = <div className={this.state.loading ? "mngList" : null}><Spinner/></div>;
+        if (loading) {
+            calendar = <div className={loading ? "mngList" : null}><Spinner/></div>;
+        }
+
+        let info = null;
+
+        if (!loading && events.length !== 0) {
+            info = <section className="info info--customer">
+                <p className="info__text">
+                    <i className="fas fa-info-circle u-mgRt fa-info-circle--info"></i>
+                    Click on the workout to view info or to cancel it.
+                </p>
+            </section>
         }
 
         let modalContent = null;
 
-        if (this.state.currentWorkout) {
-            const {currentWorkout} = this.state;
+        if (currentWorkout) {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
@@ -158,15 +170,22 @@ class CustomerCalendar extends React.Component {
                     <div className="calModal__foot">
                         <a target="_blank" className="btn" href={`/trainers/${currentWorkout.trainer.id}`}>View Page</a>
                         <span className="btn btn--cancel"
-                              onClick={() => this.cancelWorkout()}>{this.state.deleting ? 'Canceling...' : 'Cancel workout'}</span>
+                              onClick={() => this.cancelWorkout()}>{deleting ? 'Canceling...' : 'Cancel workout'}</span>
                     </div>
                 </React.Fragment>);
         }
 
+        if (modalVisible) {
+            $('body').css({overflowY: 'hidden'});
+        } else {
+            $('body').css({overflowY: 'auto'});
+        }
+
         return (
             <React.Fragment>
+                {info}
                 {calendar}
-                {this.state.modalVisible ? <Modal>{modalContent}</Modal> : null}
+                {modalVisible ? <Modal>{modalContent}</Modal> : null}
             </React.Fragment>
         )
     }
