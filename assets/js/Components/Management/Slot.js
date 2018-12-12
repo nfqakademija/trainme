@@ -3,6 +3,8 @@ import axios from 'axios';
 import Pikaday from "pikaday";
 import moment from 'moment';
 
+import validateSlot from "./validateSlot";
+
 class Slot extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +25,7 @@ class Slot extends React.Component {
             const picker = new Pikaday({
                 field: $('#mngEditDate')[0],
                 firstDay: 1,
-                defaultDate: this.props.date,
+                defaultDate: this.state.date,
                 onSelect: (date) => {
                     this.setState({dateInput: date});
                 }
@@ -35,7 +37,7 @@ class Slot extends React.Component {
                 minTime: '6',
                 maxTime: '23',
                 dynamic: false,
-                defaultTime: new Date(`${this.props.date} ${this.props.from}`),
+                defaultTime: new Date(`${this.state.date} ${this.state.from}`),
                 dropdown: true,
                 scrollbar: false,
                 change: (time) => {
@@ -50,7 +52,7 @@ class Slot extends React.Component {
                 minTime: '6',
                 maxTime: '23',
                 dynamic: false,
-                defaultTime: new Date(`${this.props.date} ${this.props.to}`),
+                defaultTime: new Date(`${this.state.date} ${this.state.to}`),
                 dropdown: true,
                 scrollbar: false,
                 change: (time) => {
@@ -67,9 +69,9 @@ class Slot extends React.Component {
 
     saveClicked(id) {
         const {dateInput, fromInput, toInput} = this.state;
-        let date = this.props.date;
-        let from = this.props.from;
-        let to = this.props.to;
+        let date = this.state.date;
+        let from = this.state.from;
+        let to = this.state.to;
 
         if (dateInput) {
             date = moment(dateInput).format('YYYY-MM-DD');
@@ -79,6 +81,11 @@ class Slot extends React.Component {
         }
         if (toInput) {
             to = toInput;
+        }
+
+        if (!validateSlot(this.props.slots, new Date(date), new Date(`${date} ${fromInput}`), new Date(`${date} ${toInput}`))) {
+            alert(`You are already available in this period of time!`);
+            return;
         }
 
         this.setState({saving: true});
@@ -103,25 +110,27 @@ class Slot extends React.Component {
     }
 
     render() {
-        let date = <p>{this.state.date}</p>;
-        let from = <p>{this.state.from}</p>;
-        let to = <p>{this.state.to}</p>;
+        const {date, from, to, dateInput, fromInput, toInput, edit, saving} = this.state;
 
-        if (this.state.edit) {
-            date = (<React.Fragment>
-                    <input type='hidden' value={this.state.dateInput}/>
-                    <input type='text' defaultValue={this.props.date} id='mngEditDate'/>
+        let dateField = <p>{date}</p>;
+        let fromField = <p>{from}</p>;
+        let toField = <p>{to}</p>;
+
+        if (edit) {
+            dateField = (<React.Fragment>
+                    <input type='hidden' value={dateInput}/>
+                    <input type='text' defaultValue={this.state.date} id='mngEditDate'/>
                 </React.Fragment>
             );
 
-            from = (<React.Fragment>
-                <input type='hidden' value={this.state.fromInput}/>
-                <input type='text' defaultValue={this.props.from} id='mngEditFrom'/>
+            fromField = (<React.Fragment>
+                <input type='hidden' value={fromInput}/>
+                <input type='text' defaultValue={this.state.from} id='mngEditFrom'/>
             </React.Fragment>);
 
-            to = (<React.Fragment>
-                <input type='hidden' value={this.state.toInput}/>
-                <input type='text' defaultValue={this.props.to} id='mngEditTo'/>
+            toField = (<React.Fragment>
+                <input type='hidden' value={toInput}/>
+                <input type='text' defaultValue={this.state.to} id='mngEditTo'/>
             </React.Fragment>);
         }
 
@@ -131,26 +140,26 @@ class Slot extends React.Component {
                     <div className="top">
                         <div className="top__item">
                             <p>Date:</p>
-                            {date}
+                            {dateField}
                         </div>
 
                         <div className="top__item">
                             <p>From:</p>
-                            {from}
+                            {fromField}
                         </div>
 
                         <div className="top__item">
                             <p>To:</p>
-                            {to}
+                            {toField}
                         </div>
                     </div>
                     <div className="functionsBlock">
                         <button onClick={() => this.editClicked()}
-                                className="btn editButton">{this.state.saving ? 'Saving...' : 'Edit'}</button>
-                        {this.state.edit ?
+                                className="btn editButton">{saving ? 'Saving...' : 'Edit'}</button>
+                        {edit ?
                             <React.Fragment>
                                 <button style={{'opacity': 1}} onClick={() => this.saveClicked(this.props.id)}
-                                        className="btn btnSave">Save
+                                        className="btn btnSave">{saving ? null : 'Save'}
                                 </button>
                                 <button style={{'opacity': 1}} onClick={() => this.cancelClicked()}
                                         className="btn btn--cancel btnDiscard">Cancel

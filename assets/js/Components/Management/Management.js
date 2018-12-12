@@ -20,7 +20,6 @@ class Management extends React.Component {
             mngFromValue: '',
             mngToValue: '',
             posting: false,
-            deleting: false
         };
     }
 
@@ -123,10 +122,10 @@ class Management extends React.Component {
             axios.delete(`/api/availability_slot/${id}`)
                 .then(response => {
                     this.setState({
-                        slots: [...this.state.slots.filter(slot => slot.id !== id)]
+                        slots: [...this.state.slots.filter(slot => slot.id !== id)],
                     });
                 }).catch(err => {
-                console.log(err)
+                console.log(err);
             });
         }
     }
@@ -147,7 +146,7 @@ class Management extends React.Component {
                     from={moment(slot.starts_at).format('HH:mm')}
                     to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
-                    deleting={this.state.deleting}
+                    slots={this.state.slots}
                 />
             ));
         }
