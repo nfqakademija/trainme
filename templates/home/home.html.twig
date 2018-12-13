@@ -2,10 +2,30 @@
 
 {% block title %}Homepage - {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-rating-svg@3.5.0/src/css/star-rating-svg.min.css">
+{% endblock %}
+
 {% block body %}
     <div class="homeHero"></div>
     <div class="homeHeadingContainer">
         <h1 class="blackTitle">Join TrainMe - start training now!</h1>
+    </div>
+
+    <div class="calModal ratingModal">
+        <div class="calModal__content">
+            <div class="calModal__head">
+                <h3 class="blackTitle blackTitle--fSmaller blackTitle--modal">Leave feedback</h3>
+                <span class="calModal__close">&times;</span>
+            </div>
+            <hr class="calModal__bar"/>
+
+            <div class="rating">
+                <p class="rating__text">Please rate your experience with the last workout.</p>
+                <div class="rating__widget"></div>
+            </div>
+        </div>
     </div>
 
     <main class="homeContainer">
@@ -39,4 +59,32 @@
             <div class="article__image article__image--2"></div>
         </article>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/star-rating-svg@3.5.0/dist/jquery.star-rating-svg.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.rating__widget').starRating({
+                starSize: 40,
+                useGradient: false,
+                callback: function (rating) {
+                    $.post('url', rating, function () {
+                        //TODO
+                    });
+                }
+            });
+
+            $('body').css({overflowY: 'hidden'});
+            $('.ratingModal').animate({display: 'block', opacity: 1}, 300);
+
+            $('.calModal__close').on('click', function () {
+                $('.ratingModal').animate({opacity: 0}, 300, function () {
+                    $(this).css({display: 'none'});
+                    $('body').css({overflowY: 'auto'});
+                });
+            });
+        });
+    </script>
 {% endblock %}

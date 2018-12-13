@@ -60,6 +60,19 @@
   text-align: justify;
 }
 
+.rating {
+  padding: 20px 0;
+}
+
+.rating__text {
+  margin-bottom: 15px;
+}
+
+.ratingModal {
+  opacity: 0;
+  display: none;
+}
+
 @media only screen and (max-width: 768px) {
   .article {
     flex-direction: column;

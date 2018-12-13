@@ -27,7 +27,6 @@
         "normalize.css": "^8.0.0",
         "pikaday": "^1.8.0",
         "prop-types": "^15.6.2",
-        "rater-js": "^0.5.8",
         "react": "^16.6.3",
         "react-big-calendar": "^0.20.2",
         "react-dom": "^16.6.3",
