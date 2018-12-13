@@ -86,7 +86,7 @@ class CustomerCalendar extends React.Component {
         }
 
         this.setState({deleting: true});
-        axios.delete(`/api/scheduled_workou/${this.state.currentWorkout.id}`)
+        axios.delete(`/api/scheduled_workout/${this.state.currentWorkout.id}`)
             .then(response => {
                 this.setState({
                     events: this.state.events.filter(event => event.id !== this.state.currentWorkout.id),
@@ -148,7 +148,7 @@ class CustomerCalendar extends React.Component {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
-                        <h3 className="blackTitle blackTitle--fSmaller">Workout info</h3>
+                        <h3 className="blackTitle blackTitle--fSmaller blackTitle--modal">Workout info</h3>
                         <span onClick={() => this.closeModal()} className="calModal__close">&times;</span>
                     </div>
                     <hr className="calModal__bar"/>
@@ -169,7 +169,7 @@ class CustomerCalendar extends React.Component {
                     </div>
 
                     <div className="calModal__head">
-                        <h3 className="blackTitle blackTitle--fSmaller">Trainer info</h3>
+                        <h3 className="blackTitle blackTitle--fSmaller blackTitle--modal">Trainer's info</h3>
                     </div>
                     <hr className="calModal__bar"/>
 

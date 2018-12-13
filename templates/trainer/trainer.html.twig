@@ -18,8 +18,9 @@
                  class="trainerInfo__right {{ user and 'ROLE_TRAINER' in user.roles ? "trainerInfo__right--admin" : null }}">
 
                 {% if not user or not is_granted('ROLE_TRAINER') or user != trainer.user %}
-                    <p class="trainerInfo__rating"><i class="fas fa-star fa-star--yellow fa-star--big"></i> 4.8</p>
-                    <span class="trainerInfo__count"> 486 rating(s)</span>
+                    <p class="trainerInfo__rating"><i class="fas fa-star fa-star--yellow fa-star--big"></i> 4.8
+                        <span class="trainerInfo__count"> 486 rating(s)</span>
+                    </p>
                     <p class="trainerInfo__desc justify editable">{{ trainer.personalStatement }}</p>
 
                     <p title="Phone" class="trainerInfo__desc">
@@ -54,7 +55,7 @@
                  data-roles="{{ user ? user.roles|json_encode() : "[]" }}"></div>
         </div>
 
-        <button class="button"><a class="button__content" href="{{ path('list') }}">Go Back</a></button>
+        <div style="width:100px"><a class="btnPrimary" href="{{ path('list') }}">Go Back</a></div>
     </section>
 {% endblock %}
 

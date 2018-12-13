@@ -198,7 +198,7 @@ class TrainerCalendar extends React.Component {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
-                        <h3 className="blackTitle blackTitle--fSmaller">Book a workout</h3>
+                        <h3 className="blackTitle blackTitle--fSmaller blackTitle--modal">Book a workout</h3>
                         <span onClick={() => this.closeModal()} className="calModal__close">&times;</span>
                     </div>
                     <hr className="calModal__bar"/>
@@ -206,17 +206,17 @@ class TrainerCalendar extends React.Component {
                     <div className="calModal__middle calModal__middle--row">
                         <div className="modalInputGroup">
                             <label htmlFor="bookDate">Date:</label>
-                            <input id="bookDate" type="date" disabled
+                            <input className="bookInput" id="bookDate" type="date" disabled
                                    defaultValue={moment(starts_at).format("YYYY-MM-DD")}/>
                         </div>
                         <div className="modalInputGroup">
                             <label htmlFor="bookFrom">From:</label>
-                            <input id="bookFrom" type="text"/>
+                            <input className="bookInput" id="bookFrom" type="text"/>
                             <input type="hidden" value={bookFromValue}/>
                         </div>
                         <div className="modalInputGroup">
                             <label htmlFor="bookTo">To:</label>
-                            <input id="bookTo" type="text"/>
+                            <input className="bookInput" id="bookTo" type="text"/>
                             <input type="hidden" value={bookToValue}/>
                         </div>
                     </div>
@@ -224,10 +224,10 @@ class TrainerCalendar extends React.Component {
                     <div className="calModal__foot">
                         {booking ?
                             <button disabled
-                                    className="button button__content">Booking...
+                                    className="btnPrimary" style={{width: '100px'}}>Booking...
                             </button> :
                             <button onClick={() => this.bookWorkout()}
-                                    className="button button__content">Book
+                                    className="btnPrimary u-w85">Book
                             </button>}
                     </div>
                 </React.Fragment>);

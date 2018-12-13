@@ -22,7 +22,9 @@
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                    <button class="button button__content u-w85" type="submit">Log in</button>
+                    <div class="u-w85">
+                        <button class="btnPrimary" type="submit">Log in</button>
+                    </div>
                 </form>
             </div>
 
@@ -31,8 +33,10 @@
                     <h3 class="register__heading">New member?</h3>
                     <p class="register__text">Register as:</p>
                     <div class="register__bottom">
-                        <a href="{{ path('app_customer_register') }}" class="button button__content u-mgRt">Customer</a>
-                        <a href="{{ path('app_trainer_register') }}" class="button button__content">Trainer</a>
+                        <div class="u-mgRt">
+                            <a href="{{ path('app_customer_register') }}" class="btnPrimary">Customer</a>
+                        </div>
+                        <div><a href="{{ path('app_trainer_register') }}" class="btnPrimary">Trainer</a></div>
                     </div>
                 </div>
             </div>

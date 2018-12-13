@@ -6,11 +6,7 @@
     <div class="hero"></div>
 
     <form method="GET" action="{{ path('list') }}" class="filters">
-        <div class="filters__head">
-            <h1 class="blackTitle">Our trainers</h1>
-            <input class="filters__name" type="text" placeholder="Search by name..." name="name"
-                   value="{{ app.request.query.get('name') }}"/>
-        </div>
+        <h1 class="blackTitle">Our trainers</h1>
         <div class="filters__selection">
             <div class="filters__inputElement">
                 <label for="datepickerList">Date:</label>
@@ -32,6 +28,12 @@
                 <input class="filters__input" type="text" id="toList" name="to"
                        autocomplete="off" value="{{ app.request.query.get('to') }}"/>
             </div>
+
+            <div class="filters__inputElement filters__inputElement--long">
+                <label for="toList">Trainer's name:</label>
+                <input class="filters__input" type="text" name="name"
+                       autocomplete="off" value="{{ app.request.query.get('name') }}"/>
+            </div>
         </div>
         <div class="filters__tagContainer">
             <ul class="filters__tags u-listNone">
@@ -50,7 +52,9 @@
                 {% endfor %}
             </ul>
 
-            <input class="button button__content u-mRight" type="submit" value="Go"/>
+            <div class="filters__btnWrap">
+                <input class="btnPrimary" type="submit" value="Go"/>
+            </div>
         </div>
     </form>
 

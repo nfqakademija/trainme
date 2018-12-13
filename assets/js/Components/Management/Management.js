@@ -151,10 +151,12 @@ class Management extends React.Component {
             ));
         }
 
-        let addNewButton = <button onClick={() => this.addNewSlot()} className="newSlot">Add new</button>;
+        let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
+                                   className="btnPrimary">Add new</button>;
 
         if (this.state.posting) {
-            addNewButton = <button className="newSlot newSlot--disabled">Adding</button>;
+            addNewButton =
+                <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
         }
 
         return (
@@ -163,19 +165,19 @@ class Management extends React.Component {
                     <div className="top">
                         <div className="top__item">
                             <label htmlFor="mngDate">Date:</label>
-                            <input type="text" id="mngDate"/>
+                            <input className="mngInput" type="text" id="mngDate"/>
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngFrom">From:</label>
-                            <input type="text" id="mngFrom"/>
+                            <input className="mngInput" type="text" id="mngFrom"/>
                             <input type="hidden" value={this.state.mngFromValue}/>
 
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngTo">To:</label>
-                            <input type="text" id="mngTo"/>
+                            <input className="mngInput" type="text" id="mngTo"/>
                             <input type="hidden" value={this.state.mngToValue}/>
                         </div>
                     </div>

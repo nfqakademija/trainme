@@ -119,18 +119,18 @@ class Slot extends React.Component {
         if (edit) {
             dateField = (<React.Fragment>
                     <input type='hidden' value={dateInput}/>
-                    <input type='text' defaultValue={this.state.date} id='mngEditDate'/>
+                    <input className="mngInput" type='text' defaultValue={this.state.date} id='mngEditDate'/>
                 </React.Fragment>
             );
 
             fromField = (<React.Fragment>
                 <input type='hidden' value={fromInput}/>
-                <input type='text' defaultValue={this.state.from} id='mngEditFrom'/>
+                <input className="mngInput" type='text' defaultValue={this.state.from} id='mngEditFrom'/>
             </React.Fragment>);
 
             toField = (<React.Fragment>
                 <input type='hidden' value={toInput}/>
-                <input type='text' defaultValue={this.state.to} id='mngEditTo'/>
+                <input className="mngInput" type='text' defaultValue={this.state.to} id='mngEditTo'/>
             </React.Fragment>);
         }
 

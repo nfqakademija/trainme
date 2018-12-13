@@ -39,7 +39,7 @@ class CustomerRegistrationType extends AbstractType
             ))
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',
-                'attr' => ['class' => 'button button__content u-mgTop']
+                'attr' => ['class' => 'btnPrimary u-mgTop']
             ]);
     }
 }

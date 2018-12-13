@@ -123,24 +123,27 @@
   }
 }
 
-.button {
-  padding: 0;
+.btnPrimary {
   border: none;
-}
-
-.button__content {
-  display: block;
   color: white;
   cursor: pointer;
   text-decoration: none;
-  background: black;
+  background: rgba(0, 0, 0, .78);
+  text-align: center;
   padding: 15px 20px;
   max-height: 55px;
   transition: all .2s;
+  border-radius: 3px;
+  display: block;
 
   &:hover {
-    background: rgba(0, 0, 0, .78);
+    background: black;
   }
+}
+
+.filters__btnWrap {
+  margin-top: 15px;
+  width: 80px;
 }
 
 .trainerTextarea,
@@ -194,6 +197,7 @@
 .info {
   background: #eee;
   padding: 15px;
+  border-radius: 5px;
 
   &:hover {
     .fa-info-circle--info {

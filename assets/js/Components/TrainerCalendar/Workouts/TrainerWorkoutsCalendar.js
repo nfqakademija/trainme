@@ -104,7 +104,7 @@ class TrainerWorkoutsCalendar extends React.Component {
             modalContent = (
                 <React.Fragment>
                     <div className="calModal__head">
-                        <h3 className="blackTitle blackTitle--fSmaller">Workout info</h3>
+                        <h3 className="blackTitle blackTitle--fSmaller blackTitle--modal">Workout info</h3>
                         <span onClick={() => this.closeModal()} className="calModal__close">&times;</span>
                     </div>
                     <hr className="calModal__bar"/>
