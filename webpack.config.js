@@ -19,7 +19,6 @@ Encore
      */
     .addEntry('js/app', './assets/js/app.js')
     .addEntry('js/trainerCal','./assets/js/Components/TrainerCalendar/index.js')
-    .addEntry('js/editable','./assets/js/editable.js')
     .addEntry('js/management','./assets/js/Components/Management/index.js')
     .addEntry('js/customerCal','./assets/js/Components/CustomerCalendar/index.js')
     .addEntry('js/trainerWorkoutsCal','./assets/js/Components/TrainerCalendar/Workouts/index.js')
