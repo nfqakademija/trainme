@@ -40,13 +40,15 @@
             </div>
         </div>
 
-        <div class="tagsContainer">
+        <div id="trainerTags" class="tagsContainer">
             <p class="blackTitle">Tags</p>
-            <ul class="filters__tags u-listNone u-marginTop">
-                {% for tag in trainer.tags %}
-                    <li class="filters__tag filters__tag--big filters__tag--noInteraction">{{ tag.name }}</li>
-                {% endfor %}
-            </ul>
+            {% if not user or not is_granted('ROLE_TRAINER') or user != trainer.user %}
+                <ul class="filters__tags u-listNone u-marginTop">
+                    {% for tag in trainer.tags %}
+                        <li class="filters__tag filters__tag--big filters__tag--noInteraction">{{ tag.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
         <div class="calendarContainer">
@@ -63,6 +65,7 @@
     {{ parent() }}
     {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
         <script src="{{ asset('build/js/trainerInfo.js') }}"></script>
+        <script src="{{ asset('build/js/trainerTags.js') }}"></script>
     {% endif %}
     <script src="{{ asset('build/js/trainerCal.js') }}"></script>
 {% endblock %}

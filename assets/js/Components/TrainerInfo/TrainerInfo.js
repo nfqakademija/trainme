@@ -83,13 +83,12 @@ class TrainerInfo extends React.Component {
             editButtons = <div className="buttonContainer">
                 {!editing ? <button className="btn"
                                     onClick={() => this.editClicked()}>Edit
-                </button> : null}
-                {editing ? <React.Fragment>
+                </button> : <React.Fragment>
                     <button className="btn btnSave btn--editingInfo"
                             onClick={() => this.saveClicked()}>{saving ? 'Saving...' : 'Save'}</button>
                     <button className="btn btn--cancel btnDiscard" onClick={() => this.discardClicked()}>Discard
                     </button>
-                </React.Fragment> : null}
+                </React.Fragment>}
             </div>
         }
 

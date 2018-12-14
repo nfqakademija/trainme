@@ -101,6 +101,17 @@
 .tagsContainer {
   margin: 35px 0;
   max-width: 400px;
+  min-height: 165px;
+
+  &:hover {
+    .btn:first-of-type {
+      color: white;
+      font-size: .85em;
+      background: grey;
+      border-radius: 5px;
+      padding: 10px 15px;
+    }
+  }
 }
 
 .u-marginTop {
@@ -240,6 +251,10 @@
   font-size: 1.4em;
   transition: all .3s ease-in-out;
   color: black;
+}
+
+.filters__tags--edit {
+  margin: 15px 0;
 }
 
 @media only screen and (max-width: 600px) {
