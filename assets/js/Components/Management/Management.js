@@ -21,7 +21,6 @@ class Management extends React.Component {
             mngFromValue: '',
             mngToValue: '',
             posting: false,
-            editValid: true
         };
     }
 
@@ -37,7 +36,7 @@ class Management extends React.Component {
         });
 
         $('#mngFrom').timepicker({
-            timeFormat: 'HH:mm ',
+            timeFormat: 'HH:mm',
             interval: 5,
             minTime: '6',
             maxTime: '23',
@@ -50,7 +49,7 @@ class Management extends React.Component {
         });
 
         $('#mngTo').timepicker({
-            timeFormat: 'HH:mm ',
+            timeFormat: 'HH:mm',
             interval: 5,
             minTime: '6',
             maxTime: '23',
@@ -91,7 +90,7 @@ class Management extends React.Component {
             const to = moment(mngToValue).format("HH:mm");
 
             if (!validateSlot(slots, date, mngFromValue, mngToValue)) {
-                alert(`You are already available in this period of time!`);
+                alert('You are already available in this period of time!');
                 return;
             }
 
@@ -132,13 +131,8 @@ class Management extends React.Component {
         }
     }
 
-    validateEdit(id, date, from, to) {
-        const slots = this.state.slots.filter(slot => slot.id !== id);
-        this.setState({editValid: !validateSlot(slots, date, from, to)});
-    }
-
     render() {
-        const {loading, slots, posting, mngFromValue, mngToValue, editValid} = this.state;
+        const {loading, slots, posting, mngFromValue, mngToValue} = this.state;
 
         let list = <p>You don't have any available time ranges yet.</p>;
 
@@ -155,8 +149,7 @@ class Management extends React.Component {
                     from={moment(slot.starts_at).format('HH:mm')}
                     to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
-                    onCheck={(slotId, date, from, to) => this.validateEdit(slotId, date, from, to)}
-                    valid={editValid}
+                    slots={slots}
                 />
             ));
         }

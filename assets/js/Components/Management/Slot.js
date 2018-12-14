@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Pikaday from "pikaday";
 import moment from 'moment';
+import validateSlot from "./validateSlot";
 
 class Slot extends React.Component {
     constructor(props) {
@@ -81,10 +82,10 @@ class Slot extends React.Component {
             to = toInput;
         }
 
-        this.props.onCheck(id, new Date(date), new Date(`${date} ${from}`), new Date(`${date} ${to}`));
-
-        if (!this.props.valid && !(date === this.state.date && from === this.state.from && to === this.state.to)) {
-            alert('You are already available in this period!');
+        const slots = this.props.slots.filter(slot => slot.id !== id);
+        if (!validateSlot(slots, new Date(date), new Date(`${date} ${from}`), new Date(`${date} ${to}`)) &&
+            !(date === this.state.date && from === this.state.from && to === this.state.to)) {
+            alert('You are already available in this period of time!');
             return;
         }
 
