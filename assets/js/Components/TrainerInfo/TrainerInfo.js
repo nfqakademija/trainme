@@ -76,16 +76,16 @@ class TrainerInfo extends React.Component {
     }
 
     render() {
-        const {trainer, isTrainer, count, editing, statement, phone, location, saving} = this.state;
+        const {isTrainer, count, editing, statement, phone, location, saving} = this.state;
         let editButtons = null;
 
         if (isTrainer) {
             editButtons = <div className="buttonContainer">
-                <button className={`btn editButton ${editing ? 'btn--editingInfo' : null}`}
-                        onClick={() => this.editClicked()}>Edit
-                </button>
+                {!editing ? <button className="btn"
+                                    onClick={() => this.editClicked()}>Edit
+                </button> : null}
                 {editing ? <React.Fragment>
-                    <button className="btn btnSave"
+                    <button className="btn btnSave btn--editingInfo"
                             onClick={() => this.saveClicked()}>{saving ? 'Saving...' : 'Save'}</button>
                     <button className="btn btn--cancel btnDiscard" onClick={() => this.discardClicked()}>Discard
                     </button>
