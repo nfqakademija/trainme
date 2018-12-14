@@ -10,13 +10,13 @@ import axios from 'axios';
 import validateDateInput from "./validation";
 import Message from "../UI/Message";
 
+import {formats, localizer} from "../config/formats";
+
 let views = ['week', 'day'];
 
 if ($(window).width() < 600) {
     views = ['day'];
 }
-
-const localizer = BigCalendar.momentLocalizer(moment);
 
 class TrainerCalendar extends React.Component {
     constructor(props) {
@@ -189,6 +189,7 @@ class TrainerCalendar extends React.Component {
                 max={new Date(new Date().setHours(23, 0))}
                 selectable={true}
                 onSelectEvent={event => this.onEventClick(event)}
+                formats={formats}
             />);
         }
 

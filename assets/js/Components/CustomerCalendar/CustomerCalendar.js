@@ -8,13 +8,13 @@ import Spinner from "../UI/Spinner";
 import Modal from "../UI/Modal";
 import Message from "../UI/Message";
 
+import {formats, localizer} from "../config/formats";
+
 let views = ['week', 'day'];
 
 if ($(window).width() < 600) {
     views = ['day'];
 }
-
-const localizer = BigCalendar.momentLocalizer(moment);
 
 class CustomerCalendar extends React.Component {
     constructor(props) {
@@ -129,6 +129,7 @@ class CustomerCalendar extends React.Component {
                 min={new Date(new Date().setHours(6, 0))}
                 max={new Date(new Date().setHours(23, 0))}
                 onSelectEvent={event => this.onWorkoutClick(event)}
+                formats={formats}
             />);
         }
 

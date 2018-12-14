@@ -1,21 +1,19 @@
 import React from 'react';
+import axios from 'axios';
+import $ from 'jquery';
 
 import BigCalendar from 'react-big-calendar';
 import Spinner from '../../UI/Spinner';
 import Modal from "../../UI/Modal";
 import Message from '../../UI/Message';
 
-import moment from 'moment';
-import axios from 'axios';
-import $ from 'jquery';
+import {formats, localizer} from "../../config/formats";
 
 let views = ['week', 'day'];
 
 if ($(window).width() < 600) {
     views = ['day'];
 }
-
-const localizer = BigCalendar.momentLocalizer(moment);
 
 class TrainerWorkoutsCalendar extends React.Component {
     constructor(props) {
@@ -95,6 +93,8 @@ class TrainerWorkoutsCalendar extends React.Component {
                 max={new Date(new Date().setHours(23, 0))}
                 selectable={true}
                 onSelectEvent={event => this.onEventClick(event)}
+                formats={formats}
+                onSelecting={() => false}
             />);
         }
 
