@@ -7,6 +7,7 @@ import Slot from './Slot';
 import Spinner from '../UI/Spinner';
 
 import validateSlot from './validateSlot';
+import Message from "../UI/Message";
 
 class Management extends React.Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class Management extends React.Component {
             mngFromValue: '',
             mngToValue: '',
             posting: false,
+            editValid: true
         };
     }
 
@@ -130,15 +132,22 @@ class Management extends React.Component {
         }
     }
 
+    validateEdit(id, date, from, to) {
+        const slots = this.state.slots.filter(slot => slot.id !== id);
+        this.setState({editValid: !validateSlot(slots, date, from, to)});
+    }
+
     render() {
+        const {loading, slots, posting, mngFromValue, mngToValue, editValid} = this.state;
+
         let list = <p>You don't have any available time ranges yet.</p>;
 
-        if (this.state.loading) {
+        if (loading) {
             list = <Spinner/>;
         }
 
-        if (this.state.slots.length) {
-            list = this.state.slots.map(slot => (
+        if (slots.length) {
+            list = slots.map(slot => (
                 <Slot
                     key={slot.id}
                     id={slot.id}
@@ -146,7 +155,8 @@ class Management extends React.Component {
                     from={moment(slot.starts_at).format('HH:mm')}
                     to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
-                    slots={this.state.slots}
+                    onCheck={(slotId, date, from, to) => this.validateEdit(slotId, date, from, to)}
+                    valid={editValid}
                 />
             ));
         }
@@ -154,13 +164,15 @@ class Management extends React.Component {
         let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
                                    className="btnPrimary">Add new</button>;
 
-        if (this.state.posting) {
+        if (posting) {
             addNewButton =
                 <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
         }
 
         return (
             <React.Fragment>
+                <Message type="info">You can add, edit or remove your availability periods here.</Message>
+
                 <div className="newSlotContainer">
                     <div className="top">
                         <div className="top__item">
@@ -171,20 +183,20 @@ class Management extends React.Component {
                         <div className="top__item">
                             <label htmlFor="mngFrom">From:</label>
                             <input className="mngInput" type="text" id="mngFrom"/>
-                            <input type="hidden" value={this.state.mngFromValue}/>
+                            <input type="hidden" value={mngFromValue}/>
 
                         </div>
 
                         <div className="top__item">
                             <label htmlFor="mngTo">To:</label>
                             <input className="mngInput" type="text" id="mngTo"/>
-                            <input type="hidden" value={this.state.mngToValue}/>
+                            <input type="hidden" value={mngToValue}/>
                         </div>
                     </div>
                     {addNewButton}
                 </div>
 
-                <div className={this.state.loading ? "mngList" : null}>{this.state.slots ? list : null}</div>
+                <div className={loading ? "mngList" : null}>{slots ? list : null}</div>
             </React.Fragment>
         )
     }
