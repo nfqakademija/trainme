@@ -3,39 +3,50 @@ import 'select2';
 import $ from 'jquery';
 import axios from 'axios';
 
+import EditButtons from "../../UI/EditButtons";
+
 class TrainerTags extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             tags: this.props.tags,
-            editing: false
+            isEditing: false,
+            isSaving: false
         };
         this.selectBox = null;
     }
 
     editClicked() {
         const selectedTags = this.state.tags.map(tag => tag.id);
-        this.setState({editing: true}, () => {
+        this.setState({isEditing: true}, () => {
             this.selectBox = $('#select2Edit').select2({data: this.state.tags}).val(selectedTags).trigger('change');
         });
     }
 
     discardClicked() {
-        this.setState({editing: false});
+        this.setState({isEditing: false});
         this.selectBox.select2('destroy');
     }
 
     saveClicked() {
         const selectedTagIds = this.selectBox.select2('val');
         const selectedTags = this.props.allTags.filter(tag => selectedTagIds.includes(tag.id));
+        this.setState({isSaving: true});
         axios.post('url', {
             'ids': selectedTagIds
         }).then(response => {
-            this.setState({editing: false, tags: selectedTags}, () => {
+            this.setState({
+                isEditing: false,
+                tags: selectedTags,
+                isSaving: false
+            }, () => {
                 this.selectBox.select2('destroy');
             });
         }).catch(err => {
-            this.setState({editing: false}, () => {
+            this.setState({
+                isEditing: false,
+                isSaving: false
+            }, () => {
                 this.selectBox.select2('destroy');
             });
             console.log(err);
@@ -45,7 +56,8 @@ class TrainerTags extends React.Component {
     render() {
         const {
             tags,
-            editing
+            isEditing,
+            isSaving
         } = this.state;
         let tagList = null;
         let select = null;
@@ -59,19 +71,7 @@ class TrainerTags extends React.Component {
             </ul>
         }
 
-        const editButtons = <div className="buttonContainer">
-            {!editing ? <button className="btn"
-                                onClick={() => this.editClicked()}>Edit
-            </button> : <React.Fragment>
-                <button className="btn btnSave btn--editingInfo"
-                        onClick={() => this.saveClicked()}>Save
-                </button>
-                <button className="btn btn--cancel btnDiscard" onClick={() => this.discardClicked()}>Discard
-                </button>
-            </React.Fragment>}
-        </div>;
-
-        if (editing) {
+        if (isEditing) {
             select = <select id="select2Edit" multiple="multiple">
                 {this.props.allTags.map(tag => (
                     <option key={tag.id} value={tag.id}>{tag.text}</option>
@@ -84,7 +84,11 @@ class TrainerTags extends React.Component {
                 <p className="blackTitle">Tags</p>
                 {tagList}
                 {select}
-                {editButtons}
+                <EditButtons onEdit={() => this.editClicked()}
+                             isEditing={isEditing}
+                             isSaving={isSaving}
+                             onSave={() => this.saveClicked()}
+                             onDiscard={() => this.discardClicked()}/>
             </React.Fragment>)
     }
 }
