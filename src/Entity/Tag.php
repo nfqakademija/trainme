@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  */
-class Tag
+class Tag implements \JsonSerializable
 {
     /**
      * @var int
@@ -123,5 +123,14 @@ class Tag
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'trainer_id' => $this->trainer->getId()
+        ];
     }
 }
