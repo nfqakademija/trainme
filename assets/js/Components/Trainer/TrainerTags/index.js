@@ -7,29 +7,29 @@ const tags = document.getElementById('trainerTags');
 const trainerTags = [
     {
         'id': '1',
-        'name': 'Running'
+        'text': 'Running'
     }, {
         'id': '2',
-        'name': 'Yoga'
+        'text': 'Yoga'
     }, {
         'id': '3',
-        'name': 'Crossfit'
+        'text': 'Crossfit'
     }
 ];
 
 const allTags = [
     {
         'id': '1',
-        'name': 'Running'
+        'text': 'Running'
     }, {
         'id': '2',
-        'name': 'Yoga'
+        'text': 'Yoga'
     }, {
         'id': '3',
-        'name': 'Crossfit'
+        'text': 'Crossfit'
     }, {
         'id': '4',
-        'name': 'Weight lifting'
+        'text': 'Weight lifting'
     }
 ];
 
