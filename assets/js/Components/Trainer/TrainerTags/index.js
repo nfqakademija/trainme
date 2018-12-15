@@ -33,4 +33,6 @@ const allTags = [
     }
 ];
 
+console.log(JSON.parse(tags.dataset.tags));
+
 ReactDOM.render(<TrainerTags allTags={allTags} tags={trainerTags}/>, tags);
