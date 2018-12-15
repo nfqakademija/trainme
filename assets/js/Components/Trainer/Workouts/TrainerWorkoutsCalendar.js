@@ -2,27 +2,20 @@ import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
 
-import BigCalendar from 'react-big-calendar';
 import Spinner from '../../UI/Spinner';
 import Modal from "../../UI/Modal";
 import Message from '../../UI/Message';
-
-import {formats, localizer} from "../../config/formats";
-
-let views = ['week', 'day'];
-
-if ($(window).width() < 600) {
-    views = ['day'];
-}
+import Calendar from "../../hoc/Calendar";
+import ModalHead from "../../UI/ModalHead";
+import ModalContent from "../../UI/ModalContent";
 
 class TrainerWorkoutsCalendar extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             events: [],
-            loading: true,
-            modalVisible: false,
+            isLoading: true,
+            isModalVisible: false,
             currentEvent: '',
             starts_at: '',
             ends_at: '',
@@ -35,7 +28,7 @@ class TrainerWorkoutsCalendar extends React.Component {
     }
 
     fetchWorkouts() {
-        this.setState({loading: true});
+        this.setState({isLoading: true});
         axios.get(`/api/trainers/${this.props.id}/scheduledWorkouts`)
             .then(response => {
                 this.setState({
@@ -46,12 +39,12 @@ class TrainerWorkoutsCalendar extends React.Component {
                             customer: event.customer
                         }
                     }),
-                    loading: false,
+                    isLoading: false,
                 });
             })
             .catch(err => {
                 this.setState({
-                    loading: false,
+                    isLoading: false,
                 });
                 console.log(err);
             });
@@ -59,7 +52,7 @@ class TrainerWorkoutsCalendar extends React.Component {
 
     onEventClick(event) {
         this.setState({
-            modalVisible: true,
+            isModalVisible: true,
             currentEvent: {
                 starts_at: event.starts_at,
                 ends_at: event.ends_at,
@@ -69,72 +62,51 @@ class TrainerWorkoutsCalendar extends React.Component {
     };
 
     closeModal() {
-        this.setState({modalVisible: false});
+        this.setState({isModalVisible: false});
     }
 
     render() {
-        const {loading, events, modalVisible, currentEvent} = this.state;
-
+        const {
+            isLoading,
+            events,
+            isModalVisible,
+            currentEvent
+        } = this.state;
         let calendar = <p>You have no scheduled workouts.</p>;
+        let modal = null;
+        let info = null;
+        const BODY = $('body').css({overflowY: 'auto'});
 
-        if (loading) {
-            calendar = <div className={loading ? "mngList" : null}><Spinner/></div>;
+        if (isLoading) {
+            calendar = <Spinner/>;
         }
 
-        if (events.length !== 0) {
-            calendar = (<BigCalendar
-                localizer={localizer}
-                views={views}
-                defaultView={'day'}
-                startAccessor={'starts_at'}
-                endAccessor={'ends_at'}
+        if (events.length) {
+            calendar = (<Calendar
                 events={events}
-                min={new Date(new Date().setHours(6, 0))}
-                max={new Date(new Date().setHours(23, 0))}
                 selectable={true}
                 onSelectEvent={event => this.onEventClick(event)}
-                formats={formats}
-                onSelecting={() => false}
             />);
         }
 
-        let modalContent = null;
-
-        if (currentEvent) {
-            modalContent = (
-                <React.Fragment>
-                    <div className="calModal__head">
-                        <h3 className="blackTitle blackTitle--fSmaller blackTitle--modal">Workout info</h3>
-                        <span onClick={() => this.closeModal()} className="calModal__close">&times;</span>
-                    </div>
-                    <hr className="calModal__bar"/>
-
-                    <div className="calModal__middle calModal__middle--col">
-                        <p className="info--customer">Name: {currentEvent.customer.name}</p>
-                        <p className="info--customer">Phone: {currentEvent.customer.phone}</p>
-                    </div>
-                </React.Fragment>);
+        if (currentEvent && isModalVisible) {
+            BODY.css({overflowY: 'hidden'});
+            modal = (
+                <Modal>
+                    <ModalHead onCloseClick={() => this.closeModal()}>Scheduled workouts</ModalHead>
+                    <ModalContent col trainerWorkout customerName={currentEvent.customer.name}
+                                  customerPhone={currentEvent.customer.phone}/>
+                </Modal>);
         }
 
-        if (modalVisible) {
-            $('body').css({overflowY: 'hidden'});
-        } else {
-            $('body').css({overflowY: 'auto'});
-        }
-
-        let info = null;
-
-        if (!loading && events.length !== 0) {
+        if (!isLoading && events.length) {
             info = <Message type="info">Click on the workout to view info.</Message>;
         }
 
         return (<React.Fragment>
             {info}
             {calendar}
-            {modalVisible ?
-                <Modal>
-                    {modalContent}
-                </Modal> : null}
+            {modal}
         </React.Fragment>)
     }
 }
