@@ -368,7 +368,7 @@ class Trainer implements \JsonSerializable
             'personalStatement' => $this->personalStatement,
             'imageUrl' => $this->image_url,
             'location' => $this->location,
-            'tags' => $this->tags->toArray()
+            'tags' => json_encode($this->tags->toArray())
         ];
     }
 }
