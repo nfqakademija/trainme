@@ -97,8 +97,10 @@ class TrainerInfo extends React.Component {
         let statementField = <p className="trainerInfo__desc justify">{statement}</p>;
         let phoneField = <span className="infoText">{phone}</span>;
         let locationField = <span className="infoText">{location}</span>;
+        let classNames = 'trainerInfo__desc';
 
         if (editing) {
+            classNames = 'trainerInfo__desc u-between';
             statementField = <textarea className="trainerTextarea"
                                        onChange={(e) => this.onStatementChange(e)} defaultValue={statement}/>;
             phoneField = <input className="trainerInput" onChange={(e) => this.onPhoneChange(e)} type="phone"
@@ -109,16 +111,16 @@ class TrainerInfo extends React.Component {
 
         return <React.Fragment>
             {statementField}
-            <p title="Phone" className="trainerInfo__desc">
-                <i className="fas fa-phone"></i>
+            <p title="Phone" className={classNames}>
+                <i className="fas fa-phone trainer__icon"></i>
                 {phoneField}
             </p>
-            <p title="Location" className="trainerInfo__desc">
-                <i className="fas fa-map-marker-alt"></i>
+            <p title="Location" className={classNames}>
+                <i className="fas fa-map-marker-alt trainer__icon"></i>
                 {locationField}
             </p>
             <p title="Workouts on TrainMe" className="trainerInfo__desc">
-                <i className="fas fa-dumbbell"></i>
+                <i className="fas fa-dumbbell trainer__icon"></i>
                 <span className="infoText">{count}</span>
             </p>
             {editButtons}
