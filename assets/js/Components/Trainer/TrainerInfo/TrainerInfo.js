@@ -48,7 +48,9 @@ class TrainerInfo extends React.Component {
 
         this.setState({saving: true});
         axios.put('/api/trainer', {
-            'personal_statement': statement
+            'personal_statement': statement,
+            'phone': phone,
+            'location': location
         }).then((response) => {
             this.setState({
                 editing: false,
@@ -106,12 +108,7 @@ class TrainerInfo extends React.Component {
         }
 
         return <React.Fragment>
-            <p className="trainerInfo__rating">
-                <i className="fas fa-star fa-star--yellow fa-star--big"></i> 4.8
-                <span className="trainerInfo__count"> 486 rating(s)</span>
-            </p>
             {statementField}
-
             <p title="Phone" className="trainerInfo__desc">
                 <i className="fas fa-phone"></i>
                 {phoneField}
