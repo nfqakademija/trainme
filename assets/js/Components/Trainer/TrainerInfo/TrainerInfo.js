@@ -1,17 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 
+import EditButtons from "../../UI/EditButtons";
+import InputField from "./InputField";
+
 class TrainerInfo extends React.Component {
     constructor(props) {
         super(props);
-
         const trainer = JSON.parse(this.props.trainer);
-
         this.state = {
             trainer: trainer,
             count: JSON.parse(this.props.count),
             isTrainer: JSON.parse(this.props.user).includes('ROLE_TRAINER'),
-            editing: false,
+            isEditing: false,
             primaryInfo: {
                 statement: trainer.personalStatement,
                 phone: trainer.phone,
@@ -20,19 +21,18 @@ class TrainerInfo extends React.Component {
             statement: trainer.personalStatement,
             phone: trainer.phone,
             location: trainer.location,
-            saving: false
+            isSaving: false
         };
     }
 
     editClicked() {
-        this.setState({editing: true});
+        this.setState({isEditing: true});
     }
 
     discardClicked() {
         const {primaryInfo} = this.state;
-
         this.setState({
-            editing: false,
+            isEditing: false,
             statement: primaryInfo.statement,
             phone: primaryInfo.phone,
             location: primaryInfo.location
@@ -40,27 +40,30 @@ class TrainerInfo extends React.Component {
     }
 
     saveClicked() {
-        const {statement, location, phone} = this.state;
+        const {
+            statement,
+            location,
+            phone
+        } = this.state;
         if (!(statement && location && phone)) {
             alert('Fields cannot be empty');
             return;
         }
-
-        this.setState({saving: true});
+        this.setState({isSaving: true});
         axios.put('/api/trainer', {
             'personal_statement': statement,
             'phone': phone,
             'location': location
         }).then((response) => {
             this.setState({
-                editing: false,
-                saving: false
+                isEditing: false,
+                isSaving: false
             });
         }).catch((error) => {
             console.log(error);
             this.setState({
-                editing: false,
-                saving: false
+                isEditing: false,
+                isSaving: false
             });
         });
     }
@@ -78,27 +81,20 @@ class TrainerInfo extends React.Component {
     }
 
     render() {
-        const {isTrainer, count, editing, statement, phone, location, saving} = this.state;
-        let editButtons = null;
-
-        if (isTrainer) {
-            editButtons = <div className="buttonContainer">
-                {!editing ? <button className="btn"
-                                    onClick={() => this.editClicked()}>Edit
-                </button> : <React.Fragment>
-                    <button className="btn btnSave btn--editingInfo"
-                            onClick={() => this.saveClicked()}>{saving ? 'Saving...' : 'Save'}</button>
-                    <button className="btn btn--cancel btnDiscard" onClick={() => this.discardClicked()}>Discard
-                    </button>
-                </React.Fragment>}
-            </div>
-        }
-
+        const {
+            isTrainer,
+            count,
+            isEditing,
+            statement,
+            phone,
+            location,
+            isSaving
+        } = this.state;
         let statementField = <p className="trainerInfo__desc justify">{statement}</p>;
         let phoneField = <span className="infoText">{phone}</span>;
         let locationField = <span className="infoText">{location}</span>;
 
-        if (editing) {
+        if (isEditing) {
             statementField = <textarea className="trainerTextarea"
                                        onChange={(e) => this.onStatementChange(e)} defaultValue={statement}/>;
             phoneField = <input className="trainerInput" onChange={(e) => this.onPhoneChange(e)} type="phone"
@@ -107,22 +103,22 @@ class TrainerInfo extends React.Component {
                                    defaultValue={location}/>
         }
 
-        return <React.Fragment>
-            {statementField}
-            <p title="Phone" className="trainerInfo__desc">
-                <i className="fas fa-phone"></i>
-                {phoneField}
-            </p>
-            <p title="Location" className="trainerInfo__desc">
-                <i className="fas fa-map-marker-alt"></i>
-                {locationField}
-            </p>
-            <p title="Workouts on TrainMe" className="trainerInfo__desc">
-                <i className="fas fa-dumbbell"></i>
-                <span className="infoText">{count}</span>
-            </p>
-            {editButtons}
-        </React.Fragment>
+        return (
+            <React.Fragment>
+                {statementField}
+                <InputField isEditing={isEditing} title="Phone" phone>{phoneField}</InputField>
+                <InputField isEditing={isEditing} title="Location" location>{locationField}</InputField>
+                <InputField isEditing={isEditing} className="trainerInfo__desc" title="Workouts on TrainMe" workouts>
+                    <span className="infoText">{count}</span>
+                </InputField>
+                {isTrainer &&
+                <EditButtons
+                    isEditing={isEditing}
+                    isSaving={isSaving} onEdit={() => this.editClicked()}
+                    onSave={() => this.saveClicked()}
+                    onDiscard={() => this.discardClicked()}
+                />}
+            </React.Fragment>);
     }
 }
 

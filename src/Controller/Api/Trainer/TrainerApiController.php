@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Trainer;
 
+use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,6 +41,23 @@ class TrainerApiController extends AbstractController
                 $trainer->setLocation($data['location']);
             }
 
+            if (isset($data['tags'])) {
+                $tagsRepository = $this->getDoctrine()->getRepository(Tag::class);
+
+                $tags = $trainer->getTags();
+                foreach ($tags as $tag) {
+                    $trainer->removeTag($tag);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+
+                foreach ($data['tags'] as $tagId) {
+                    $tag = $tagsRepository->find($tagId);
+                    if ($tag) {
+                        $trainer->addTag($tag);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                }
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($trainer);

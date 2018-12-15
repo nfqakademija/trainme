@@ -21,6 +21,7 @@ const Calendar = props => (
         selectable={props.selectable}
         onSelectEvent={props.onSelectEvent}
         formats={formats}
+        onSelecting={() => false}
     />
 );
 

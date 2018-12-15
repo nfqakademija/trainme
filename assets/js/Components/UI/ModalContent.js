@@ -45,6 +45,14 @@ const ModalContent = props => {
             <p className="calModal__info">Phone: {props.trainerPhone}</p>
         </React.Fragment>
     }
+
+    if (props.trainerWorkout) {
+        modal = <React.Fragment>
+            <p className="info--customer">Name: {props.customerName}</p>
+            <p className="info--customer">Phone: {props.customerPhone}</p>
+        </React.Fragment>
+    }
+
     return (<div className={`calModal__middle ${props.col ? 'calModal__middle--col' : 'calModal__middle--row'}`}>
         {modal}
     </div>)

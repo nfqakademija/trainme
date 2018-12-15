@@ -1,42 +1,68 @@
 import React from 'react';
 import 'select2';
 import $ from 'jquery';
+import axios from 'axios';
+
+import EditButtons from "../../UI/EditButtons";
 
 class TrainerTags extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             tags: this.props.tags,
-            editing: false
+            isEditing: false,
+            isSaving: false
         };
-
         this.selectBox = null;
     }
 
     editClicked() {
-        this.setState({editing: true}, () => {
-            const selectedTagNames = this.state.tags.map(tag => tag.name);
-            this.selectBox = $('#select2Edit').select2().val(selectedTagNames).trigger('change');
+        const selectedTags = this.state.tags.map(tag => tag.id);
+        this.setState({isEditing: true}, () => {
+            this.selectBox = $('#select2Edit').select2({data: this.state.tags}).val(selectedTags).trigger('change');
         });
     }
 
     discardClicked() {
-        this.setState({editing: false});
+        this.setState({isEditing: false});
         this.selectBox.select2('destroy');
     }
 
     saveClicked() {
-        const selectedTagNames = this.selectBox.select2('val');
-        const selectedTags = this.props.allTags.filter(tag => selectedTagNames.includes(tag.name));
-        this.setState({editing: false, tags: selectedTags});
-        this.selectBox.select2('destroy');
+        const selectedTagIds = this.selectBox.select2('val');
+        const intIds = selectedTagIds.map(id => parseInt(id));
+        const selectedTags = this.props.allTags.filter(tag => selectedTagIds.includes(tag.id));
+        this.setState({isSaving: true});
+        axios.put('/api/trainer', {
+            'tags': intIds
+        }).then(response => {
+            this.setState({
+                isEditing: false,
+                tags: JSON.parse(response.data.tags),
+                isSaving: false
+            }, () => {
+                this.selectBox.select2('destroy');
+            });
+        }).catch(err => {
+            this.setState({
+                isEditing: false,
+                isSaving: false
+            }, () => {
+                this.selectBox.select2('destroy');
+            });
+            console.log(err);
+        });
     }
 
     render() {
-        const {tags, editing} = this.state;
-
+        const {
+            tags,
+            isEditing,
+            isSaving
+        } = this.state;
         let tagList = null;
+        let select = null;
+
         if (tags) {
             tagList = <ul className="filters__tags filters__tags--edit u-listNone">
                 {tags.map(tag => (
@@ -46,23 +72,10 @@ class TrainerTags extends React.Component {
             </ul>
         }
 
-        const editButtons = <div className="buttonContainer">
-            {!editing ? <button className="btn"
-                                onClick={() => this.editClicked()}>Edit
-            </button> : <React.Fragment>
-                <button className="btn btnSave btn--editingInfo"
-                        onClick={() => this.saveClicked()}>Save
-                </button>
-                <button className="btn btn--cancel btnDiscard" onClick={() => this.discardClicked()}>Discard
-                </button>
-            </React.Fragment>}
-        </div>;
-
-        let select = null;
-        if (editing) {
+        if (isEditing) {
             select = <select id="select2Edit" multiple="multiple">
                 {this.props.allTags.map(tag => (
-                    <option key={tag.id} value={tag.name}>{tag.name}</option>
+                    <option key={tag.id} value={tag.id}>{tag.name}</option>
                 ))}
             </select>;
         }
@@ -72,7 +85,11 @@ class TrainerTags extends React.Component {
                 <p className="blackTitle">Tags</p>
                 {tagList}
                 {select}
-                {editButtons}
+                <EditButtons onEdit={() => this.editClicked()}
+                             isEditing={isEditing}
+                             isSaving={isSaving}
+                             onSave={() => this.saveClicked()}
+                             onDiscard={() => this.discardClicked()}/>
             </React.Fragment>)
     }
 }

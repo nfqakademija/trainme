@@ -23,16 +23,17 @@
 .trainerInfo__right {
   width: 50%;
   padding: 15px 0 0 15px;
+}
+
+.trainerInfo__inputs {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
 .trainerInfo__right--admin {
   transition: all .3s ease-in;
 
   &:hover {
-
     .btn:first-of-type {
       color: white;
       font-size: .85em;
@@ -95,7 +96,7 @@
 }
 
 .infoText {
-  margin-left: 30px;
+  margin-left: 15px;
 }
 
 .tagsContainer {
@@ -174,10 +175,21 @@
   overflow-x: hidden;
 }
 
+.trainer__icon {
+  width: 25px;
+}
+
 .trainerInput {
   height: 30px;
   padding: 3px 0 3px 5px;
   margin-left: 20px;
+  position: relative;
+  right: 0;
+  max-width: 375px;
+}
+
+.u-between {
+  justify-content: space-between;
 }
 
 .btn {
@@ -232,7 +244,7 @@
 }
 
 .info--customer {
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 
 .info--danger {

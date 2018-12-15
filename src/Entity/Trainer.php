@@ -57,7 +57,7 @@ class Trainer implements \JsonSerializable
 
     /**
      * @var Collection|Tag[]
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="trainer")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="trainers")
      */
     private $tags;
 
@@ -308,18 +308,6 @@ class Trainer implements \JsonSerializable
         $this->location = $location;
     }
 
-    public function jsonSerialize()
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'personalStatement' => $this->personalStatement,
-            'imageUrl' => $this->image_url,
-            'location' => $this->location
-        ];
-    }
-
     /**
      * @return Collection|Rating[]
      */
@@ -369,5 +357,18 @@ class Trainer implements \JsonSerializable
         }
 
         return $sum / $ratingsCount;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'phone' => $this->phone,
+            'personalStatement' => $this->personalStatement,
+            'imageUrl' => $this->image_url,
+            'location' => $this->location,
+            'tags' => json_encode($this->tags->toArray())
+        ];
     }
 }
