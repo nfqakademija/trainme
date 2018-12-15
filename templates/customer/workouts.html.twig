@@ -5,11 +5,11 @@
 
     <div class="workoutsContainer">
         <h1 class="blackTitle u-mgBtm">My workouts</h1>
-        <div class="customerCal u-mgTop" id="customerCal"></div>
+        <div class="customerCal u-mgTop" id="customerWorkouts"></div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('build/js/customerCal.js') }}"></script>
+    <script src="{{ asset('build/js/customerWorkouts.js') }}"></script>
 {% endblock %}

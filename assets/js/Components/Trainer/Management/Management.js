@@ -4,10 +4,10 @@ import Pikaday from "pikaday";
 import moment from 'moment';
 
 import Slot from './Slot';
-import Spinner from '../UI/Spinner';
+import Spinner from '../../UI/Spinner';
 
-import validateSlot from './validateSlot';
-import Message from "../UI/Message";
+import validateSlot from '../../utils/validateSlot';
+import Message from "../../UI/Message";
 
 class Management extends React.Component {
     constructor(props) {
@@ -60,7 +60,6 @@ class Management extends React.Component {
                 this.setState({mngToValue: time})
             }
         });
-
     }
 
     fetchSlots() {

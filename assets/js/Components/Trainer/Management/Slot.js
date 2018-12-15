@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Pikaday from "pikaday";
 import moment from 'moment';
-import validateSlot from "./validateSlot";
+import validateSlot from "../../utils/validateSlot";
 
 class Slot extends React.Component {
     constructor(props) {

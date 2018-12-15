@@ -18,12 +18,12 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('js/app', './assets/js/app.js')
-    .addEntry('js/trainerCal','./assets/js/Components/TrainerCalendar/index.js')
-    .addEntry('js/management','./assets/js/Components/Management/index.js')
-    .addEntry('js/customerCal','./assets/js/Components/CustomerCalendar/index.js')
-    .addEntry('js/trainerWorkoutsCal','./assets/js/Components/TrainerCalendar/Workouts/index.js')
-    .addEntry('js/trainerInfo','./assets/js/Components/TrainerInfo/index.js')
-    .addEntry('js/trainerTags','./assets/js/Components/TrainerTags/index.js')
+    .addEntry('js/trainerCal','./assets/js/Components/Trainer/index.js')
+    .addEntry('js/management','./assets/js/Components/Trainer/Management/index.js')
+    .addEntry('js/customerWorkouts','./assets/js/Components/Customer/index.js')
+    .addEntry('js/trainerWorkoutsCal','./assets/js/Components/Trainer/Workouts/index.js')
+    .addEntry('js/trainerInfo','./assets/js/Components/Trainer/TrainerInfo/index.js')
+    .addEntry('js/trainerTags','./assets/js/Components/Trainer/TrainerTags/index.js')
     .addStyleEntry('css/app', './assets/css/app.scss')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
