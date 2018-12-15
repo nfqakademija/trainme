@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Trainer;
+use App\Entity\User;
 use App\Repository\TagRepository;
 use App\Repository\TrainerRepository;
+use App\Services\TrainerEvaluationsService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +17,25 @@ class HomeController extends Controller
 {
     /**
      * @Route("/", name="home")
+     * @param TrainerEvaluationsService $trainerEvaluationsService
      * @return Response
      */
-    public function home()
+    public function home(TrainerEvaluationsService $trainerEvaluationsService)
     {
-        return $this->render('home/home.html.twig');
+        $trainerToEvaluate = null;
+
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            if ($this->isGranted('ROLE_CUSTOMER') && $user->getCustomer()) {
+                $customer = $user->getCustomer();
+                $didEvaluateTrainer = $customer->getHasEvaluatedTrainerOnLogin();
+
+                if (!$didEvaluateTrainer) {
+                    $trainerToEvaluate = $trainerEvaluationsService->getTrainerForEvaluation($customer);
+                }
+            }
+        }
+        return $this->render('home/home.html.twig', ['trainerToEvaluate' => $trainerToEvaluate]);
     }
 
     /**

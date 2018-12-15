@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\Trainer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -20,6 +20,25 @@ class TrainerRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Trainer::class);
+    }
+
+    public function getNotEvaluatedTrainers(Customer $customer)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "select t from App\Entity\Trainer t 
+                 INNER JOIN App\Entity\ScheduledWorkout s
+                 WITH s.trainer = t AND  s.customer = :customer AND s.endsAt < CURRENT_TIMESTAMP() 
+                 LEFT JOIN App\Entity\Rating r
+                 WITH r.trainer = s.trainer AND r.customer = :customer
+                 WHERE r.id IS NULL
+                 ORDER BY s.endsAt ASC"
+        )->setParameter('customer', $customer);
+
+        $result = $query->getResult();
+
+        return $result;
     }
 
     /**

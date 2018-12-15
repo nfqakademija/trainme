@@ -85,11 +85,22 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+
+        /** @var User $user */
+        $user = $token->getUser();
+
+        $customer = $user->getCustomer();
+
+        if ($customer) {
+            $customer->setHasEvaluatedTrainerOnLogin(false);
+            $this->entityManager->flush();
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-         return new RedirectResponse($this->router->generate('home'));
+        return new RedirectResponse($this->router->generate('home'));
     }
 
     protected function getLoginUrl()

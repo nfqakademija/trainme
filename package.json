@@ -31,6 +31,7 @@
         "react-big-calendar": "^0.20.2",
         "react-dom": "^16.6.3",
         "select2": "^4.0.6-rc.1",
+        "star-rating-svg": "^3.5.0",
         "timepicker": "^1.11.14"
     }
 }

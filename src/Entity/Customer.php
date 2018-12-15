@@ -44,6 +44,12 @@ class Customer implements \JsonSerializable
      */
     private $ratings;
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $hasEvaluatedTrainerOnLogin = false;
+
     public function __construct()
     {
         $this->scheduledWorkouts = new ArrayCollection();
@@ -164,5 +170,21 @@ class Customer implements \JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasEvaluatedTrainerOnLogin(): bool
+    {
+        return $this->hasEvaluatedTrainerOnLogin;
+    }
+
+    /**
+     * @param bool $hasEvaluatedTrainerOnLogin
+     */
+    public function setHasEvaluatedTrainerOnLogin(bool $hasEvaluatedTrainerOnLogin): void
+    {
+        $this->hasEvaluatedTrainerOnLogin = $hasEvaluatedTrainerOnLogin;
     }
 }

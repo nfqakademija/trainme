@@ -13,6 +13,7 @@
         <h1 class="blackTitle">Join TrainMe - start training now!</h1>
     </div>
 
+    {% if (trainerToEvaluate) %}
     <div class="calModal ratingModal">
         <div class="calModal__content">
             <div class="calModal__head">
@@ -21,12 +22,13 @@
             </div>
             <hr class="calModal__bar"/>
 
-            <div class="rating">
-                <p class="rating__text">Please rate your experience with the last workout.</p>
+            <div class="rating" id="rating" data-trainer="{{ trainerToEvaluate.id }}">
+                <p class="rating__text">You had a workout with <b>{{ trainerToEvaluate.name }}.</b> Please rate your experience with this trainer.</p>
                 <div class="rating__widget"></div>
             </div>
         </div>
     </div>
+    {% endif %}
 
     <main class="homeContainer">
         <article class="article">
@@ -64,14 +66,19 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/star-rating-svg@3.5.0/dist/jquery.star-rating-svg.min.js"></script>
+
+    {% if (trainerToEvaluate) %}
     <script>
         $(document).ready(function () {
+            let trainerId = $('#rating').data('trainer');
             $('.rating__widget').starRating({
                 starSize: 40,
                 useGradient: false,
+                useFullStars: true,
                 callback: function (rating) {
-                    $.post('url', rating, function () {
-                        //TODO
+                    console.log(rating);
+                    $.post(`api/customer/rate/${trainerId}`, {rating}, function () {
+                        $('.calModal__close').click();
                     });
                 }
             });
@@ -87,4 +94,5 @@
             });
         });
     </script>
+    {% endif %}
 {% endblock %}

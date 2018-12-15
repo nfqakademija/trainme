@@ -73,6 +73,7 @@ class Trainer implements \JsonSerializable
     private $user;
 
     /**
+     * @var Collection|Rating
      * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="trainer")
      */
     private $ratings;
@@ -348,5 +349,25 @@ class Trainer implements \JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * @return float|int|null
+     */
+    public function getAverageRating()
+    {
+        $ratings = $this->getRatings();
+        $ratingsCount = $ratings->count();
+
+        if ($ratingsCount == 0) {
+            return null;
+        }
+
+        $sum = 0;
+        foreach ($this->getRatings() as $rating) {
+            $sum += $rating->getStars();
+        }
+
+        return $sum / $ratingsCount;
     }
 }
