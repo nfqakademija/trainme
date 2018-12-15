@@ -32,17 +32,17 @@ class Tag implements \JsonSerializable
     private $description;
 
     /**
-     * @var Trainer
+     * @var Trainer|Collection
      * @ORM\ManyToMany(targetEntity="App\Entity\Trainer", inversedBy="tags")
      */
-    private $trainer;
+    private $trainers;
 
     /**
      * Tag constructor.
      */
     public function __construct()
     {
-        $this->trainer = new ArrayCollection();
+        $this->trainers = new ArrayCollection();
     }
 
     /**
@@ -94,9 +94,9 @@ class Tag implements \JsonSerializable
     /**
      * @return Collection|Trainer[]
      */
-    public function getTrainer(): Collection
+    public function getTrainers(): Collection
     {
-        return $this->trainer;
+        return $this->trainers;
     }
 
     /**
@@ -105,8 +105,8 @@ class Tag implements \JsonSerializable
      */
     public function addTrainer(Trainer $trainer): self
     {
-        if (!$this->trainer->contains($trainer)) {
-            $this->trainer[] = $trainer;
+        if (!$this->trainers->contains($trainer)) {
+            $this->trainers[] = $trainer;
         }
 
         return $this;
@@ -118,8 +118,8 @@ class Tag implements \JsonSerializable
      */
     public function removeTrainer(Trainer $trainer): self
     {
-        if ($this->trainer->contains($trainer)) {
-            $this->trainer->removeElement($trainer);
+        if ($this->trainers->contains($trainer)) {
+            $this->trainers->removeElement($trainer);
         }
 
         return $this;
@@ -129,8 +129,7 @@ class Tag implements \JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'name' => $this->getName(),
-            'trainer_id' => $this->trainer->getId()
+            'name' => $this->getName()
         ];
     }
 }
