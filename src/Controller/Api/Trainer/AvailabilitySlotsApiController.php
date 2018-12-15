@@ -46,6 +46,15 @@ class AvailabilitySlotsApiController extends AbstractController
                 throw new \Exception('Validation error');
             }
 
+            foreach ($trainer->getAvailabilitySlots() as $existingAvailabilitySlot) {
+                if (($existingAvailabilitySlot->getStartsAt() > $availabilitySlot->getStartsAt()
+                        && $existingAvailabilitySlot->getStartsAt() < $availabilitySlot->getEndsAt())
+                    || ($existingAvailabilitySlot->getEndsAt() > $availabilitySlot->getStartsAt()
+                        && $existingAvailabilitySlot->getEndsAt() < $availabilitySlot->getEndsAt())) {
+                    throw new \Exception('Availability slot already exists in this range');
+                }
+            }
+
             $this->getDoctrine()->getManager()->persist($availabilitySlot);
             $this->getDoctrine()->getManager()->flush();
 
