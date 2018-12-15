@@ -14,20 +14,29 @@
     </div>
 
     {% if (trainerToEvaluate) %}
-    <div class="calModal ratingModal">
-        <div class="calModal__content">
-            <div class="calModal__head">
-                <h3 class="blackTitle blackTitle--fSmaller blackTitle--modal">Leave feedback</h3>
-                <span class="calModal__close">&times;</span>
-            </div>
-            <hr class="calModal__bar"/>
+        <div class="calModal ratingModal">
+            <div class="calModal__content calModal__content--rating">
+                <div class="calModal__head">
+                    <h3 class="blackTitle blackTitle--fSmaller blackTitle--modal">Leave feedback</h3>
+                    <span class="calModal__close">&times;</span>
+                </div>
+                <hr class="calModal__bar"/>
 
-            <div class="rating" id="rating" data-trainer="{{ trainerToEvaluate.id }}">
-                <p class="rating__text">You had a workout with <b>{{ trainerToEvaluate.name }}.</b> Please rate your experience with this trainer.</p>
-                <div class="rating__widget"></div>
+                <div class="rating" id="rating" data-trainer="{{ trainerToEvaluate.id }}">
+                    <div class="rating__infoContainer">
+                        <img class="rating__image" src="{{ trainerToEvaluate.imageUrl }}">
+                        <div class="rating__info">
+                            <p class="rating__text">You had a workout with <b>{{ trainerToEvaluate.name }}.</b> Please
+                                rate your experience with this trainer.</p>
+                            <div class="rating__widget"></div>
+                            <a class="btn btn--rating" target="_blank"
+                               href="{{ path('trainer_page',{trainer:trainerToEvaluate.id}) }}">View
+                                profile</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 
     <main class="homeContainer">
@@ -68,31 +77,31 @@
     <script src="https://cdn.jsdelivr.net/npm/star-rating-svg@3.5.0/dist/jquery.star-rating-svg.min.js"></script>
 
     {% if (trainerToEvaluate) %}
-    <script>
-        $(document).ready(function () {
-            let trainerId = $('#rating').data('trainer');
-            $('.rating__widget').starRating({
-                starSize: 40,
-                useGradient: false,
-                useFullStars: true,
-                callback: function (rating) {
-                    console.log(rating);
-                    $.post(`api/customer/rate/${trainerId}`, {rating}, function () {
-                        $('.calModal__close').click();
+        <script>
+            $(document).ready(function () {
+                const trainerId = $('#rating').data('trainer');
+
+                $('.rating__widget').starRating({
+                    starSize: 40,
+                    useGradient: false,
+                    callback: function (rating) {
+                        console.log(rating);
+                        $.post(`api/customer/rate/${trainerId}`, {rating}, function () {
+                            $('.calModal__close').click();
+                        });
+                    }
+                });
+
+                $('body').css({overflowY: 'hidden'});
+                $('.ratingModal').animate({display: 'block', opacity: 1}, 300);
+
+                $('.calModal__close').on('click', function () {
+                    $('.ratingModal').animate({opacity: 0}, 300, function () {
+                        $(this).css({display: 'none'});
+                        $('body').css({overflowY: 'auto'});
                     });
-                }
-            });
-
-            $('body').css({overflowY: 'hidden'});
-            $('.ratingModal').animate({display: 'block', opacity: 1}, 300);
-
-            $('.calModal__close').on('click', function () {
-                $('.ratingModal').animate({opacity: 0}, 300, function () {
-                    $(this).css({display: 'none'});
-                    $('body').css({overflowY: 'auto'});
                 });
             });
-        });
-    </script>
+        </script>
     {% endif %}
 {% endblock %}

@@ -60,10 +60,6 @@
   text-align: justify;
 }
 
-.rating {
-  padding: 20px 0;
-}
-
 .rating__text {
   margin-bottom: 15px;
 }
@@ -71,6 +67,23 @@
 .ratingModal {
   opacity: 0;
   display: none;
+}
+
+.rating__infoContainer {
+  display: flex;
+  height: 160px;
+  padding: 20px 0;
+}
+
+.rating__info {
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+.rating__image {
+  height: 100%;
+  object-fit: cover;
 }
 
 @media only screen and (max-width: 768px) {
@@ -99,5 +112,22 @@
 
   .article__textContainer {
     padding: 10px;
+  }
+
+  .rating__infoContainer {
+    flex-direction: column;
+    height: unset;
+  }
+
+  .rating__info {
+    padding-top: 10px;
+  }
+
+  .rating__image {
+    max-height: 165px;
+  }
+
+  .btn--rating {
+    margin-top: 10px;
   }
 }
