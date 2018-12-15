@@ -18,7 +18,7 @@
                         <span class="trainerInfo__count"> {{ trainer.ratings|length }} rating(s)</span>
                     </p>
                 {% endif %}
-                <div id="trainerInfo" data-trainer="{{ trainer|json_encode() }}"
+                <div id="trainerInfo" class="trainerInfo__inputs" data-trainer="{{ trainer|json_encode() }}"
                      data-user="{{ user ? user.roles|json_encode() : "[]" }}"
                      data-count="{{ count }}">
                     {% if not user or not is_granted('ROLE_TRAINER') or user != trainer.user %}
