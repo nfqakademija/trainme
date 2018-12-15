@@ -32,7 +32,7 @@ class Tag implements \JsonSerializable
     private $description;
 
     /**
-     * @var Trainer|Collection
+     * @var Collection/Trainer[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Trainer", inversedBy="tags")
      */
     private $trainers;
