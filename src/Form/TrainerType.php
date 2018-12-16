@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Tag;
@@ -39,7 +39,7 @@ class TrainerType extends AbstractType
                 'attr' => ['class' => 'regTextArea', 'autocomplete' => 'off'],
                 'label_attr' => ['class' => 'u-mgTop']
             ])
-            ->add('image_url', UrlType::class, [
+            ->add('imageFile', VichImageType::class, [
                 'attr' => ['class' => 'regInput', 'autocomplete' => 'off'],
                 'label_attr' => ['class' => 'regLabel']
             ])

@@ -7,9 +7,12 @@
     <section class="trainerContainer">
         <h1 class="blackTitle">{{ trainer.name }}</h1>
 
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
         <div class="trainerInfo">
             <div class="trainerInfo__imageContainer">
-                <img class="trainerInfo__image" src="{{ trainer.imageUrl }}" alt="Trainer"/>
+                <img class="trainerInfo__image" src="{{ vich_uploader_asset(trainer, 'imageFile') }}" alt="Trainer"/>
             </div>
 
             <div class="trainerInfo__right {{ user and 'ROLE_TRAINER' in user.roles ? "trainerInfo__right--admin" : null }}">

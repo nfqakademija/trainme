@@ -4,14 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Trainer;
 use App\Entity\User;
+use App\Form\TrainerImageUploadType;
 use App\Repository\TagRepository;
 use App\Repository\TrainerRepository;
 use App\Services\TrainerEvaluationsService;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class HomeController extends Controller
 {
@@ -88,6 +92,50 @@ class HomeController extends Controller
         $count = count($trainer->getScheduledWorkouts()->getIterator());
         $tags = $trainer->getTags()->toArray();
         $all_tags = $tagRepository->findAll();
-        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'count', 'all_tags', 'tags'));
+
+        $form = $this->buildForm(null);
+
+        $form = $form->createView();
+
+
+        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'count', 'all_tags', 'tags', 'form'));
+    }
+
+    /**
+     * @Route("trainer/upload_image", methods={"POST"})
+     */
+    public function uploadPhoto(Request $request, UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return;
+        }
+        $trainer = $user->getTrainer();
+        $form = $this->buildForm($trainer);
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return new RedirectResponse('/trainers/' . $trainer->getId());
+
+        }
+
+        die;
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function buildForm($trainer): \Symfony\Component\Form\FormInterface
+    {
+        $form = $this->createFormBuilder($trainer)
+            ->setAction('/trainer/upload_image')
+            ->add('imageFile', VichImageType::class)
+            ->add('submit', SubmitType::class)
+            ->getForm();
+
+        return $form;
     }
 }
