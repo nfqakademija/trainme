@@ -38,7 +38,7 @@ class TrainerTags extends React.Component {
         }).then(response => {
             this.setState({
                 isEditing: false,
-                tags: JSON.parse(response.data.tags),
+                tags: response.data.tags,
                 isSaving: false
             }, () => {
                 this.selectBox.select2('destroy');
