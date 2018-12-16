@@ -5,22 +5,23 @@ import moment from 'moment';
 
 import Slot from './Slot';
 import Spinner from '../../UI/Spinner';
+import Message from "../../UI/Message";
+import AddSlot from "./AddSlot";
 
 import validateSlot from '../../utils/validateSlot';
-import Message from "../../UI/Message";
 
 class Management extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             slots: [],
-            loading: false,
+            isLoading: false,
             date: '',
             from: '',
             to: '',
             mngFromValue: '',
             mngToValue: '',
-            posting: false,
+            isPosting: false,
         };
     }
 
@@ -37,7 +38,7 @@ class Management extends React.Component {
 
         $('#mngFrom').timepicker({
             timeFormat: 'HH:mm',
-            interval: 5,
+            interval: 10,
             minTime: '6',
             maxTime: '23',
             dynamic: false,
@@ -50,7 +51,7 @@ class Management extends React.Component {
 
         $('#mngTo').timepicker({
             timeFormat: 'HH:mm',
-            interval: 5,
+            interval: 10,
             minTime: '6',
             maxTime: '23',
             dynamic: false,
@@ -63,38 +64,39 @@ class Management extends React.Component {
     }
 
     fetchSlots() {
-        this.setState({loading: true});
-
+        this.setState({isLoading: true});
         axios.get('/api/availability_slot')
             .then(response => {
                 this.setState({
                     slots: Object.keys(response.data).map(slot => response.data[slot]),
-                    loading: false
+                    isLoading: false
                 });
             })
             .catch(err => {
                 console.log(err);
                 this.setState({
-                    loading: false
+                    isLoading: false
                 })
             });
     };
 
     addNewSlot() {
-        const {date, mngFromValue, mngToValue, slots} = this.state;
+        const {
+            date,
+            mngFromValue,
+            mngToValue,
+            slots
+        } = this.state;
 
         if (date && mngFromValue && mngToValue) {
             const dateStr = moment(date).format("YYYY-MM-DD");
             const from = moment(mngFromValue).format("HH:mm");
             const to = moment(mngToValue).format("HH:mm");
-
             if (!validateSlot(slots, date, mngFromValue, mngToValue)) {
                 alert('You are already available in this period of time!');
                 return;
             }
-
-            this.setState({posting: true});
-
+            this.setState({isPosting: true});
             axios.post('/api/availability_slot', {
                 starts_at: `${dateStr} ${from}`,
                 ends_at: `${dateStr} ${to}`
@@ -105,11 +107,11 @@ class Management extends React.Component {
                         starts_at: response.data.starts_at,
                         ends_at: response.data.ends_at
                     }, ...this.state.slots],
-                    posting: false
+                    isPosting: false
                 });
             }).catch(err => {
                 console.log(err);
-                this.setState({posting: false});
+                this.setState({isPosting: false});
             });
         } else {
             alert('Please fill in all inputs');
@@ -131,11 +133,18 @@ class Management extends React.Component {
     }
 
     render() {
-        const {loading, slots, posting, mngFromValue, mngToValue} = this.state;
-
+        const {
+            isLoading,
+            slots,
+            isPosting,
+            mngFromValue,
+            mngToValue
+        } = this.state;
         let list = <p>You don't have any available time ranges yet.</p>;
+        let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
+                                   className="btnPrimary">Add new</button>;
 
-        if (loading) {
+        if (isLoading) {
             list = <Spinner/>;
         }
 
@@ -153,42 +162,15 @@ class Management extends React.Component {
             ));
         }
 
-        let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
-                                   className="btnPrimary">Add new</button>;
-
-        if (posting) {
-            addNewButton =
-                <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
+        if (isPosting) {
+            addNewButton = <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
         }
 
         return (
             <React.Fragment>
                 <Message type="info">You can add, edit or remove your availability periods here.</Message>
-
-                <div className="newSlotContainer">
-                    <div className="top">
-                        <div className="top__item">
-                            <label htmlFor="mngDate">Date:</label>
-                            <input className="mngInput" type="text" id="mngDate"/>
-                        </div>
-
-                        <div className="top__item">
-                            <label htmlFor="mngFrom">From:</label>
-                            <input className="mngInput" type="text" id="mngFrom"/>
-                            <input type="hidden" value={mngFromValue}/>
-
-                        </div>
-
-                        <div className="top__item">
-                            <label htmlFor="mngTo">To:</label>
-                            <input className="mngInput" type="text" id="mngTo"/>
-                            <input type="hidden" value={mngToValue}/>
-                        </div>
-                    </div>
-                    {addNewButton}
-                </div>
-
-                <div className={loading ? "mngList" : null}>{slots ? list : null}</div>
+                <AddSlot from={mngFromValue} to={mngToValue}>{addNewButton}</AddSlot>
+                <div className={isLoading ? "mngList" : null}>{slots && list}</div>
             </React.Fragment>
         )
     }
