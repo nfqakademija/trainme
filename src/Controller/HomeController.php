@@ -89,16 +89,16 @@ class HomeController extends Controller
      */
     public function show(Trainer $trainer, ?UserInterface $user, TagRepository $tagRepository)
     {
-        $count = count($trainer->getScheduledWorkouts()->getIterator());
-        $tags = $trainer->getTags()->toArray();
-        $all_tags = $tagRepository->findAll();
-
         $form = $this->buildForm(null);
 
-        $form = $form->createView();
-
-
-        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'count', 'all_tags', 'tags', 'form'));
+        return $this->render('trainer/trainer.html.twig', [
+            'trainer' => $trainer,
+            'user' => $user,
+            'count' => count($trainer->getScheduledWorkouts()->getIterator()),
+            'all_tags' => $tagRepository->findAll(),
+            'tags' => $trainer->getTags()->toArray(),
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -112,16 +112,13 @@ class HomeController extends Controller
         $trainer = $user->getTrainer();
         $form = $this->buildForm($trainer);
 
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return new RedirectResponse('/trainers/' . $trainer->getId());
-
         }
-
         die;
     }
 
