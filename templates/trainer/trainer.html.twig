@@ -42,8 +42,7 @@
 
             </div>
         </div>
-        {{ dump(trainer.tags) }}
-        <div id="trainerTags" class="tagsContainer" data-tags="{{ trainer.tags|json_encode() }}">
+        <div id="trainerTags" class="tagsContainer" data-all-tags="{{ all_tags|json_encode() }}" data-tags="{{ tags|json_encode() }}">
             <p class="blackTitle">Tags</p>
             {% if not user or not is_granted('ROLE_TRAINER') or user != trainer.user %}
                 <ul class="filters__tags u-listNone u-marginTop">

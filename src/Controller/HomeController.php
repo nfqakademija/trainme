@@ -83,9 +83,11 @@ class HomeController extends Controller
      * @param null|UserInterface $user
      * @return Response
      */
-    public function show(Trainer $trainer, ?UserInterface $user)
+    public function show(Trainer $trainer, ?UserInterface $user, TagRepository $tagRepository)
     {
         $count = count($trainer->getScheduledWorkouts()->getIterator());
-        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'count'));
+        $tags = $trainer->getTags()->toArray();
+        $all_tags = $tagRepository->findAll();
+        return $this->render('trainer/trainer.html.twig', compact('trainer', 'user', 'count', 'all_tags', 'tags'));
     }
 }

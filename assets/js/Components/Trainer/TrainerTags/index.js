@@ -3,36 +3,7 @@ import ReactDOM from 'react-dom';
 
 import TrainerTags from './TrainerTags';
 
-const tags = document.getElementById('trainerTags');
-const trainerTags = [
-    {
-        'id': '1',
-        'text': 'Running'
-    }, {
-        'id': '2',
-        'text': 'Yoga'
-    }, {
-        'id': '3',
-        'text': 'Crossfit'
-    }
-];
+const tagsElement = document.getElementById('trainerTags');
 
-const allTags = [
-    {
-        'id': '1',
-        'text': 'Running'
-    }, {
-        'id': '2',
-        'text': 'Yoga'
-    }, {
-        'id': '3',
-        'text': 'Crossfit'
-    }, {
-        'id': '4',
-        'text': 'Weight lifting'
-    }
-];
-
-console.log(JSON.parse(tags.dataset.tags));
-
-ReactDOM.render(<TrainerTags allTags={allTags} tags={trainerTags}/>, tags);
+ReactDOM.render(<TrainerTags allTags={JSON.parse(tagsElement.dataset.allTags)}
+                             tags={JSON.parse(tagsElement.dataset.tags)}/>, tagsElement);

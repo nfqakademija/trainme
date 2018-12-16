@@ -50,15 +50,13 @@ class TrainerApiController extends AbstractController
                     $this->getDoctrine()->getManager()->flush();
                 }
 
-//
-//                foreach ($data['tags'] as $tagId) {
-//                    $tag = $tagsRepository->find($tagId);
-//                    if ($tag) {
-//                        $trainer->addTag($tag);
-//                        $this->getDoctrine()->getManager()->flush();
-//                    }
-//
-//                }
+                foreach ($data['tags'] as $tagId) {
+                    $tag = $tagsRepository->find($tagId);
+                    if ($tag) {
+                        $trainer->addTag($tag);
+                        $this->getDoctrine()->getManager()->flush();
+                    }
+                }
             }
             $this->getDoctrine()->getManager()->flush();
 

@@ -30,14 +30,15 @@ class TrainerTags extends React.Component {
 
     saveClicked() {
         const selectedTagIds = this.selectBox.select2('val');
+        const intIds = selectedTagIds.map(id => parseInt(id));
         const selectedTags = this.props.allTags.filter(tag => selectedTagIds.includes(tag.id));
         this.setState({isSaving: true});
-        axios.post('url', {
-            'ids': selectedTagIds
+        axios.put('/api/trainer', {
+            'tags': intIds
         }).then(response => {
             this.setState({
                 isEditing: false,
-                tags: selectedTags,
+                tags: JSON.parse(response.data.tags),
                 isSaving: false
             }, () => {
                 this.selectBox.select2('destroy');
@@ -66,7 +67,7 @@ class TrainerTags extends React.Component {
             tagList = <ul className="filters__tags filters__tags--edit u-listNone">
                 {tags.map(tag => (
                     <li key={tag.id}
-                        className="filters__tag filters__tag--big filters__tag--noInteraction">{tag.text}</li>
+                        className="filters__tag filters__tag--big filters__tag--noInteraction">{tag.name}</li>
                 ))}
             </ul>
         }
@@ -74,7 +75,7 @@ class TrainerTags extends React.Component {
         if (isEditing) {
             select = <select id="select2Edit" multiple="multiple">
                 {this.props.allTags.map(tag => (
-                    <option key={tag.id} value={tag.id}>{tag.text}</option>
+                    <option key={tag.id} value={tag.id}>{tag.name}</option>
                 ))}
             </select>;
         }
