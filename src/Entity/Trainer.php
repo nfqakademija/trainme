@@ -288,11 +288,18 @@ class Trainer implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getImageName(): ?string
     {
         return $this->imageName;
     }
 
+    /**
+     * @param null|string $imageName
+     * @return Trainer
+     */
     public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
@@ -322,11 +329,18 @@ class Trainer implements \JsonSerializable
         $this->imageFile = $image;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * @param User $user
+     * @return Trainer
+     */
     public function setUser(User $user): self
     {
         $this->user = $user;
@@ -358,6 +372,10 @@ class Trainer implements \JsonSerializable
         return $this->ratings;
     }
 
+    /**
+     * @param Rating $rating
+     * @return Trainer
+     */
     public function addRating(Rating $rating): self
     {
         if (!$this->ratings->contains($rating)) {
@@ -368,6 +386,10 @@ class Trainer implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @param Rating $rating
+     * @return Trainer
+     */
     public function removeRating(Rating $rating): self
     {
         if ($this->ratings->contains($rating)) {
@@ -401,6 +423,9 @@ class Trainer implements \JsonSerializable
         return $sum / $ratingsCount;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return [
@@ -414,6 +439,9 @@ class Trainer implements \JsonSerializable
         ];
     }
 
+    /**
+     * @return array
+     */
     public function __sleep()
     {
         return \array_keys($this->jsonSerialize());

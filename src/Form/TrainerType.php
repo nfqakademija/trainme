@@ -14,15 +14,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Tag;
 
+/**
+ * Class TrainerType
+ * @package App\Form
+ */
 class TrainerType extends AbstractType
 {
+    /**
+     * @var TagRepository
+     */
     private $tagRepository;
 
+    /**
+     * TrainerType constructor.
+     * @param TagRepository $tagRepository
+     */
     public function __construct(TagRepository $tagRepository)
     {
         $this->tagRepository = $tagRepository;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -53,6 +68,9 @@ class TrainerType extends AbstractType
                 'multiple' => true]);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

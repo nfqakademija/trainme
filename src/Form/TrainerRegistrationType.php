@@ -18,15 +18,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
 
+/**
+ * Class TrainerRegistrationType
+ * @package App\Form
+ */
 class TrainerRegistrationType extends AbstractType
 {
+    /**
+     * @var TagRepository
+     */
     private $tagRepository;
 
+    /**
+     * TrainerRegistrationType constructor.
+     * @param TagRepository $tagRepository
+     */
     public function __construct(TagRepository $tagRepository)
     {
         $this->tagRepository = $tagRepository;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder

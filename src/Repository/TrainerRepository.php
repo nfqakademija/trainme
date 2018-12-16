@@ -17,11 +17,19 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class TrainerRepository extends ServiceEntityRepository
 {
+    /**
+     * TrainerRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Trainer::class);
     }
 
+    /**
+     * @param Customer $customer
+     * @return mixed
+     */
     public function getNotEvaluatedTrainers(Customer $customer)
     {
         $em = $this->getEntityManager();

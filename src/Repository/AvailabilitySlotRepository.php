@@ -15,11 +15,19 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AvailabilitySlotRepository extends ServiceEntityRepository
 {
+    /**
+     * AvailabilitySlotRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, AvailabilitySlot::class);
     }
 
+    /**
+     * @param Trainer $trainer
+     * @return mixed
+     */
     public function getTrainerSlotsWithScheduledWorkoutsArray(Trainer $trainer)
     {
         $em = $this->getEntityManager();

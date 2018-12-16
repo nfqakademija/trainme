@@ -112,11 +112,18 @@ class ScheduledWorkout implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return Customer|null
+     */
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
+    /**
+     * @param Customer|null $customer
+     * @return ScheduledWorkout
+     */
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
@@ -124,6 +131,9 @@ class ScheduledWorkout implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return [
