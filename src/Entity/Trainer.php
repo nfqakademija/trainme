@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainerRepository")
+ * @Vich\Uploadable
  */
 class Trainer implements \JsonSerializable
 {
@@ -62,9 +65,20 @@ class Trainer implements \JsonSerializable
     private $tags;
 
     /**
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"image/jpeg"},
+     *     mimeTypesMessage = "Please upload a valid Image"
+     * )
+     * @Vich\UploadableField(mapping="profile_photo", fileNameProperty="imageName")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image_url;
+    private $imageName;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"}, inversedBy="trainer")
@@ -77,6 +91,12 @@ class Trainer implements \JsonSerializable
      * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="trainer")
      */
     private $ratings;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $updatedAt = null;
 
     /**
      * Trainer constructor.
@@ -268,16 +288,38 @@ class Trainer implements \JsonSerializable
         return $this;
     }
 
-    public function getImageUrl(): ?string
+    public function getImageName(): ?string
     {
-        return $this->image_url;
+        return $this->imageName;
     }
 
-    public function setImageUrl(string $image_url): self
+    public function setImageName(?string $imageName): self
     {
-        $this->image_url = $image_url;
+        $this->imageName = $imageName;
 
         return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param null|File $image
+     * @throws \Exception
+     */
+    public function setImageFile(?File $image = null): void
+    {
+        if (null !== $image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+        $this->imageFile = $image;
     }
 
     public function getUser(): ?User
@@ -366,9 +408,14 @@ class Trainer implements \JsonSerializable
             'name' => $this->name,
             'phone' => $this->phone,
             'personalStatement' => $this->personalStatement,
-            'imageUrl' => $this->image_url,
+            'imageName' => $this->imageName,
             'location' => $this->location,
-            'tags' => $this->tags->toArray()
+            'tags' => $this->tags ?? $this->tags->toArray()
         ];
+    }
+
+    public function __sleep()
+    {
+        return \array_keys($this->jsonSerialize());
     }
 }
