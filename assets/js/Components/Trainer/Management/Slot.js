@@ -2,14 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import Pikaday from "pikaday";
 import moment from 'moment';
+
 import validateSlot from "../../utils/validateSlot";
 
 class Slot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit: false,
-            saving: false,
+            isEditing: false,
+            isSaving: false,
             date: this.props.date,
             from: this.props.from,
             to: this.props.to,
@@ -20,7 +21,7 @@ class Slot extends React.Component {
     }
 
     editClicked() {
-        this.setState({edit: true}, () => {
+        this.setState({isEditing: true}, () => {
             const picker = new Pikaday({
                 field: $('#mngEditDate')[0],
                 firstDay: 1,
@@ -32,7 +33,7 @@ class Slot extends React.Component {
 
             $('#mngEditFrom').timepicker({
                 timeFormat: 'HH:mm',
-                interval: 5,
+                interval: 10,
                 minTime: '6',
                 maxTime: '23',
                 dynamic: false,
@@ -47,7 +48,7 @@ class Slot extends React.Component {
 
             $('#mngEditTo').timepicker({
                 timeFormat: 'HH:mm',
-                interval: 5,
+                interval: 10,
                 minTime: '6',
                 maxTime: '23',
                 dynamic: false,
@@ -63,7 +64,7 @@ class Slot extends React.Component {
     };
 
     cancelClicked() {
-        this.setState({edit: false});
+        this.setState({isEditing: false});
     }
 
     saveClicked(id) {
@@ -88,9 +89,7 @@ class Slot extends React.Component {
             alert('You are already available in this period of time!');
             return;
         }
-
-        this.setState({saving: true});
-
+        this.setState({isSaving: true});
         axios.put(`/api/availability_slot/${id}`,
             {
                 'starts_at': `${date} ${from}`,
@@ -98,26 +97,34 @@ class Slot extends React.Component {
             })
             .then(response => {
                 this.setState({
-                    edit: false,
-                    saving: false,
+                    isEditing: false,
+                    isSaving: false,
                     date: date,
                     from: from,
                     to: to
                 });
             }).catch(err => {
-            this.setState({saving: false, edit: false});
+            this.setState({isSaving: false, isEditing: false});
             console.log(err);
         });
     }
 
     render() {
-        const {date, from, to, dateInput, fromInput, toInput, edit, saving} = this.state;
-
+        const {
+            date,
+            from,
+            to,
+            dateInput,
+            fromInput,
+            toInput,
+            isEditing,
+            isSaving
+        } = this.state;
         let dateField = <p>{date}</p>;
         let fromField = <p>{from}</p>;
         let toField = <p>{to}</p>;
 
-        if (edit) {
+        if (isEditing) {
             dateField = (<React.Fragment>
                     <input type='hidden' value={dateInput}/>
                     <input className="mngInput" type='text' defaultValue={this.state.date} id='mngEditDate'/>
@@ -156,11 +163,11 @@ class Slot extends React.Component {
                     </div>
                     <div className="functionsBlock">
                         <button onClick={() => this.editClicked()}
-                                className="btn editButton">{saving ? 'Saving...' : 'Edit'}</button>
-                        {edit ?
+                                className="btn editButton">{isSaving ? 'Saving...' : 'Edit'}</button>
+                        {isEditing ?
                             <React.Fragment>
                                 <button style={{'opacity': 1}} onClick={() => this.saveClicked(this.props.id)}
-                                        className="btn btnSave">{saving ? null : 'Save'}
+                                        className="btn btnSave">{isSaving ? null : 'Save'}
                                 </button>
                                 <button style={{'opacity': 1}} onClick={() => this.cancelClicked()}
                                         className="btn btn--cancel btnDiscard">Cancel

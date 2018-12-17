@@ -2,8 +2,17 @@
 
 namespace App\ValueObjects;
 
+/**
+ * Class Interval
+ * @package App\ValueObjects
+ */
 class Interval implements \JsonSerializable
 {
+    /**
+     * Interval constructor.
+     * @param \DateTimeInterface $startsAt
+     * @param \DateTimeInterface $endsAt
+     */
     public function __construct(\DateTimeInterface $startsAt, \DateTimeInterface $endsAt)
     {
         $this->startsAt = $startsAt;
@@ -52,6 +61,9 @@ class Interval implements \JsonSerializable
         $this->startsAt = $startsAt;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return [

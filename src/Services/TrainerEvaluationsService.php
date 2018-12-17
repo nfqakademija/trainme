@@ -6,10 +6,21 @@ use App\Entity\Customer;
 use App\Entity\Trainer;
 use App\Repository\TrainerRepository;
 
+/**
+ * Class TrainerEvaluationsService
+ * @package App\Services
+ */
 class TrainerEvaluationsService
 {
+    /**
+     * @var TrainerRepository
+     */
     private $trainerRepository;
 
+    /**
+     * TrainerEvaluationsService constructor.
+     * @param TrainerRepository $trainerRepository
+     */
     public function __construct(TrainerRepository $trainerRepository)
     {
         $this->trainerRepository = $trainerRepository;

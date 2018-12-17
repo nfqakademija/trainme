@@ -50,22 +50,35 @@ class Customer implements \JsonSerializable
      */
     private $hasEvaluatedTrainerOnLogin = false;
 
+    /**
+     * Customer constructor.
+     */
     public function __construct()
     {
         $this->scheduledWorkouts = new ArrayCollection();
         $this->ratings = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPhone(): ?string
     {
         return $this->phone;
     }
 
+    /**
+     * @param string $phone
+     * @return Customer
+     */
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
@@ -81,6 +94,10 @@ class Customer implements \JsonSerializable
         return $this->scheduledWorkouts;
     }
 
+    /**
+     * @param scheduledWorkout $scheduledWorkout
+     * @return Customer
+     */
     public function addScheduledWorkout(scheduledWorkout $scheduledWorkout): self
     {
         if (!$this->scheduledWorkouts->contains($scheduledWorkout)) {
@@ -91,6 +108,10 @@ class Customer implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @param scheduledWorkout $scheduledWorkout
+     * @return Customer
+     */
     public function removeScheduledWorkout(scheduledWorkout $scheduledWorkout): self
     {
         if ($this->scheduledWorkouts->contains($scheduledWorkout)) {
@@ -104,11 +125,18 @@ class Customer implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * @param User $user
+     * @return Customer
+     */
     public function setUser(User $user): self
     {
         $this->user = $user;
@@ -132,6 +160,9 @@ class Customer implements \JsonSerializable
         $this->name = $name;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return [
@@ -149,6 +180,10 @@ class Customer implements \JsonSerializable
         return $this->ratings;
     }
 
+    /**
+     * @param Rating $rating
+     * @return Customer
+     */
     public function addRating(Rating $rating): self
     {
         if (!$this->ratings->contains($rating)) {
@@ -159,6 +194,10 @@ class Customer implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @param Rating $rating
+     * @return Customer
+     */
     public function removeRating(Rating $rating): self
     {
         if ($this->ratings->contains($rating)) {

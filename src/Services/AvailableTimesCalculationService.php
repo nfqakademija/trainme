@@ -6,11 +6,22 @@ use App\Entity\Trainer;
 use App\Repository\AvailabilitySlotRepository;
 use App\ValueObjects\Interval;
 
+/**
+ * Class AvailableTimesCalculationService
+ * @package App\Services
+ */
 class AvailableTimesCalculationService
 {
 
+    /**
+     * @var AvailabilitySlotRepository
+     */
     private $availabilitySlotsRepository;
 
+    /**
+     * AvailableTimesCalculationService constructor.
+     * @param AvailabilitySlotRepository $availabilitySlotRepository
+     */
     public function __construct(AvailabilitySlotRepository $availabilitySlotRepository)
     {
         $this->availabilitySlotsRepository = $availabilitySlotRepository;

@@ -40,16 +40,26 @@ class Rating
      */
     private $trainer;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return int|null
+     */
     public function getStars(): ?int
     {
         return $this->stars;
     }
 
+    /**
+     * @param int $stars
+     * @return Rating
+     */
     public function setStars(int $stars): self
     {
         $this->stars = $stars;
@@ -57,11 +67,18 @@ class Rating
         return $this;
     }
 
+    /**
+     * @return Customer|null
+     */
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
+    /**
+     * @param Customer|null $customer
+     * @return Rating
+     */
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
@@ -69,11 +86,18 @@ class Rating
         return $this;
     }
 
+    /**
+     * @return Trainer|null
+     */
     public function getTrainer(): ?Trainer
     {
         return $this->trainer;
     }
 
+    /**
+     * @param Trainer|null $trainer
+     * @return Rating
+     */
     public function setTrainer(?Trainer $trainer): self
     {
         $this->trainer = $trainer;
