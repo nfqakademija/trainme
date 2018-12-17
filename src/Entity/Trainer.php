@@ -436,7 +436,7 @@ class Trainer implements \JsonSerializable
             'personalStatement' => $this->personalStatement,
             'imageName' => $this->imageName,
             'location' => $this->location,
-            'tags' => $this->tags ?? $this->tags->toArray()
+            'tags' => $this->tags->toArray()
         ];
     }
 
