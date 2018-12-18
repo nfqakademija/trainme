@@ -43,6 +43,16 @@
 
             </div>
         </div>
+
+        {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
+            <button class="btn edit-image">Edit</button>
+            <div class="trainerInfo__imageEdit">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        {% endif %}
+
         <div id="trainerTags" class="tagsContainer" data-all-tags="{{ all_tags|json_encode() }}"
              data-tags="{{ tags|json_encode() }}">
             <p class="blackTitle">Tags</p>

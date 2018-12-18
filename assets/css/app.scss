@@ -11,6 +11,12 @@ html {
   height: 100%;
 }
 
+input,
+textarea,
+button {
+  -webkit-appearance: none;
+}
+
 //Libs
 @import "~normalize.css";
 @import "~react-big-calendar/lib/css/react-big-calendar.css";

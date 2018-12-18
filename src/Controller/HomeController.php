@@ -17,6 +17,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
+/**
+ * Class HomeController
+ * @package App\Controller
+ */
 class HomeController extends Controller
 {
     /**
@@ -129,8 +133,13 @@ class HomeController extends Controller
     {
         $form = $this->createFormBuilder($trainer)
             ->setAction('/trainer/upload_image')
-            ->add('imageFile', VichImageType::class)
-            ->add('submit', SubmitType::class)
+            ->add('imageFile', VichImageType::class, [
+                'attr' => ['class' => 'fileInput']
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'upload__submit'],
+                'label' => 'Save'
+            ])
             ->getForm();
 
         return $form;
