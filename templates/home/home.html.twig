@@ -84,6 +84,7 @@
                 $('.rating__widget').starRating({
                     starSize: 40,
                     useGradient: false,
+                    useFullStars: true,
                     callback: function (rating) {
                         console.log(rating);
                         $.post(`api/customer/rate/${trainerId}`, {rating}, function () {
