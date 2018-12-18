@@ -55,7 +55,7 @@ class TrainerType extends AbstractType
                 'label_attr' => ['class' => 'u-mgTop']
             ])
             ->add('imageFile', VichImageType::class, [
-                'attr' => ['class' => 'regInput', 'autocomplete' => 'off'],
+                'attr' => ['class' => 'regInput imageUpload', 'autocomplete' => 'off'],
                 'label_attr' => ['class' => 'regLabel']
             ])
             ->add('tags', ChoiceType::class, [
