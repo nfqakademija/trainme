@@ -39,7 +39,6 @@ class HomeController extends AbstractController
             }
 
             $trainerToEvaluate = $trainerEvaluationsService->getTrainerForEvaluation($customer);
-
         } catch (\Exception $e) {
             $trainerToEvaluate = null;
         }

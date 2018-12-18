@@ -24,8 +24,7 @@ class ScheduledWorkoutsApiController extends AbstractController
         Request $request,
         TrainerRepository $trainerRepository,
         ValidatorInterface $validator
-    )
-    {
+    ) {
         try {
             $data = json_decode($request->getContent(), true);
 
