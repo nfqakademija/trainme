@@ -137,7 +137,7 @@ class HomeController extends Controller
                 'attr' => ['class' => 'fileInput']
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'upload__submit'],
+                'attr' => ['class' => 'btn upload-submit'],
                 'label' => 'Save'
             ])
             ->getForm();
