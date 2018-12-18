@@ -28,7 +28,7 @@
                     </div>
                 {% else %}
                     <img class="trainerInfo__image"
-                         src="{{ 'http' in trainer.imageName ? trainer.imageName : vich_uploader_asset(trainer, 'imageFile') }}"
+                         src="{{ vich_uploader_asset(trainer, 'imageFile') }}"
                          alt="Trainer"/>
                 {% endif %}
 

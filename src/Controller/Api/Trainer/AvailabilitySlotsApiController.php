@@ -4,7 +4,7 @@ namespace App\Controller\Api\Trainer;
 
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,12 +27,7 @@ class AvailabilitySlotsApiController extends AbstractController
                 throw new \Exception('Parameters \'starts_at\' or/and \'ends_at\' are not defined');
             }
 
-            $user = $this->getUser();
-
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-            $trainer = $user->getTrainer();
+            $trainer = $this->getTrainer();
 
             $availabilitySlot = new AvailabilitySlot();
 

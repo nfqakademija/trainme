@@ -7,7 +7,7 @@ use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 
 class TrainerApiController extends AbstractController
 {
@@ -19,15 +19,9 @@ class TrainerApiController extends AbstractController
     public function updateInfo(Request $request)
     {
         try {
-            $user = $this->getUser();
+            $trainer = $this->getTrainer();
 
             $data = json_decode($request->getContent(), true);
-
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-
-            $trainer = $user->getTrainer();
 
             if (isset($data['personal_statement'])) {
                 $trainer->setPersonalStatement($data['personal_statement']);

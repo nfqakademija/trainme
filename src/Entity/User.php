@@ -11,6 +11,10 @@ use Doctrine\Common\Collections\Collection;
  */
 class User implements UserInterface
 {
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_TRAINER = 'ROLE_TRAINER';
+    const ROLE_CUSTOMER = 'ROLE_CUSTOMER';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -89,7 +93,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
     }
