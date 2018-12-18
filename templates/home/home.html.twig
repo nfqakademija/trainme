@@ -24,7 +24,7 @@
 
                 <div class="rating" id="rating" data-trainer="{{ trainerToEvaluate.id }}">
                     <div class="rating__infoContainer">
-                        <img class="rating__image" src="{{ trainerToEvaluate.imageUrl }}">
+                        <img class="rating__image" src="{{ vich_uploader_asset(trainerToEvaluate, 'imageFile') }}">
                         <div class="rating__info">
                             <p class="rating__text">You had a workout with <b>{{ trainerToEvaluate.name }}.</b> Please
                                 rate your experience with this trainer.</p>
