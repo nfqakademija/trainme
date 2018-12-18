@@ -36,7 +36,7 @@ class AvailabilitySlotRepository extends ServiceEntityRepository
             "select a, s from App\Entity\AvailabilitySlot a 
                  LEFT JOIN App\Entity\ScheduledWorkout s 
                  WITH s.trainer = a.trainer AND s.startsAt >= a.startsAt AND s.endsAt <= a.endsAt 
-                 WHERE a.trainer = :trainer 
+                 WHERE a.trainer = :trainer AND a.endsAt > CURRENT_TIMESTAMP() 
                  ORDER BY a.id, s.startsAt"
         )->setParameter('trainer', $trainer);
 
