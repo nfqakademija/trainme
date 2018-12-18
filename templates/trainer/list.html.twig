@@ -78,7 +78,8 @@
                                 </div>
                             </div>
                             <div class="trainerBox__imageContainer">
-                                <img class="trainerBox__image" src="{{ trainer.imageName }}">
+                                <img class="trainerBox__image"
+                                     src="{{ 'http' in trainer.imageName?trainer.imageName:vich_uploader_asset(trainer, 'imageFile') }}">
                             </div>
                         </a>
                     </div>

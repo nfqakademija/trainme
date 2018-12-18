@@ -60,6 +60,10 @@
 .trainerInfo__imageContainer {
   height: 350px;
   width: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .justify {
@@ -67,8 +71,9 @@
 }
 
 .trainerInfo__image {
-  max-width: 100%;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .trainerInfo__rating {
