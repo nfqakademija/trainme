@@ -62,7 +62,7 @@ class SecurityController extends AbstractController
 
             $user->setEmail($data['email']);
             $user->setPassword($userPasswordEncoder->encodePassword($user, $data['password']));
-            $user->setRoles(['ROLE_CUSTOMER']);
+            $user->setRoles([User::ROLE_CUSTOMER]);
 
             $em->persist($user);
 
@@ -102,7 +102,7 @@ class SecurityController extends AbstractController
 
             $user->setEmail($data['email']);
             $user->setPassword($userPasswordEncoder->encodePassword($user, $data['password']));
-            $user->setRoles(['ROLE_TRAINER']);
+            $user->setRoles([User::ROLE_TRAINER]);
 
             $em->persist($user);
 
