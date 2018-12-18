@@ -4,8 +4,7 @@ namespace App\Controller\Api\Customer;
 
 use App\Entity\Rating;
 use App\Entity\Trainer;
-use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,17 +20,7 @@ class RatingsApiController extends AbstractController
     public function rateTrainer(Request $request, Trainer $trainer)
     {
         try {
-            $user = $this->getUser();
-
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-
-            $customer = $user->getCustomer();
-
-            if (!$customer) {
-                throw new \Exception('Customer data is not available');
-            }
+            $customer = $this->getCustomer();
 
             $alreadyHasARating = $trainer->getRatings()->exists(function ($key, Rating $rating) use ($customer) {
                 return $rating->getCustomer()->getId() === $customer->getId();

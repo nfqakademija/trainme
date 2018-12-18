@@ -4,7 +4,7 @@ namespace App\Controller\Api\Customer;
 
 use App\Repository\TrainerRepository;
 use App\Services\AvailableTimesCalculationService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ScheduledWorkout;
 use App\Entity\User;
@@ -37,20 +37,12 @@ class ScheduledWorkoutsApiController extends AbstractController
 
             $user = $this->getUser();
 
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-
             $trainer = $trainerRepository->find($data['trainer_id']);
 
             $customer = $user->getCustomer();
 
             if (!$trainer) {
                 throw new \Exception('Trainer not found');
-            }
-
-            if (!$customer) {
-                throw new \Exception('Customer data is not available');
             }
 
             $scheduledWorkout = new ScheduledWorkout();
@@ -98,15 +90,7 @@ class ScheduledWorkoutsApiController extends AbstractController
         try {
             $user = $this->getUser();
 
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-
             $customer = $user->getCustomer();
-
-            if (!$customer) {
-                throw new \Exception('Customer data is not available');
-            }
 
             $scheduledWorkouts = $customer->getScheduledWorkouts()->toArray();
 
@@ -133,16 +117,7 @@ class ScheduledWorkoutsApiController extends AbstractController
                 throw new \Exception('No scheduled workout found');
             }
 
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-
             $customer = $user->getCustomer();
-
-            if (!$customer) {
-                throw new \Exception('Customer data is not available');
-            }
-
 
             if ($customer->getId() !== $scheduledWorkout->getCustomer()->getId()) {
                 throw new \Exception('Unauthorized');
@@ -177,21 +152,11 @@ class ScheduledWorkoutsApiController extends AbstractController
     public function deleteAction(ScheduledWorkout $scheduledWorkout)
     {
         try {
-            $user = $this->getUser();
-
             if (!$scheduledWorkout) {
                 throw new \Exception('No scheduled workout found');
             }
 
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-
-            $customer = $user->getCustomer();
-
-            if (!$customer) {
-                throw new \Exception('Customer data is not available');
-            }
+            $customer = $this->getCustomer();
 
             if ($customer->getId() !== $scheduledWorkout->getCustomer()->getId()) {
                 throw new \Exception('Unauthorized');

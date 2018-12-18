@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Trainer;
 use App\Entity\User;
-use App\Form\TrainerImageUploadType;
 use App\Repository\TagRepository;
 use App\Repository\TrainerRepository;
 use App\Services\TrainerEvaluationsService;
@@ -21,7 +20,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
  * Class HomeController
  * @package App\Controller
  */
-class HomeController extends Controller
+class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
@@ -30,19 +29,21 @@ class HomeController extends Controller
      */
     public function home(TrainerEvaluationsService $trainerEvaluationsService)
     {
-        $trainerToEvaluate = null;
+        try {
+            $customer = $this->getCustomer();
 
-        $user = $this->getUser();
-        if ($user instanceof User) {
-            if ($this->isGranted('ROLE_CUSTOMER') && $user->getCustomer()) {
-                $customer = $user->getCustomer();
-                $didEvaluateTrainer = $customer->getHasEvaluatedTrainerOnLogin();
+            $didEvaluateTrainer = $customer->getHasEvaluatedTrainerOnLogin();
 
-                if (!$didEvaluateTrainer) {
-                    $trainerToEvaluate = $trainerEvaluationsService->getTrainerForEvaluation($customer);
-                }
+            if ($didEvaluateTrainer) {
+                throw  new \Exception('User already rated a trainer.');
             }
+
+            $trainerToEvaluate = $trainerEvaluationsService->getTrainerForEvaluation($customer);
+
+        } catch (\Exception $e) {
+            $trainerToEvaluate = null;
         }
+
         return $this->render('home/home.html.twig', ['trainerToEvaluate' => $trainerToEvaluate]);
     }
 
