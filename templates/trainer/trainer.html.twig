@@ -53,7 +53,7 @@
             </div>
         {% endif %}
 
-        <div id="trainerTags" class="tagsContainer" data-all-tags="{{ all_tags|json_encode() }}"
+        <div id="trainerTags" class="tagsContainer" data-all-tags="{{ allTags|json_encode() }}"
              data-tags="{{ tags|json_encode() }}">
             <p class="blackTitle">Tags</p>
             {% if not user or not is_granted('ROLE_TRAINER') or user != trainer.user %}
@@ -67,7 +67,7 @@
 
         <div class="calendarContainer">
             <p class="blackTitle">Available workout times</p>
-            <div id="trainerCal" class="trainerCal" data-trainer='{{ trainer.id }}'
+            <div id="trainerCal" class="trainerCal" data-date='{{ selectedDate }}' data-trainer='{{ trainer.id }}'
                  data-roles="{{ user ? user.roles|json_encode() : "[]" }}"></div>
         </div>
 
