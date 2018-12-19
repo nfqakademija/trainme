@@ -8,9 +8,30 @@
         <h1 class="blackTitle">{{ trainer.name }}</h1>
         <div class="trainerInfo">
             <div class="trainerInfo__imageContainer">
-                <img class="trainerInfo__image"
-                     src="{{ vich_uploader_asset(trainer, 'imageFile') }}"
-                     alt="Trainer"/>
+
+                {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
+                    {% form_theme form 'form/upload.html.twig' %}
+                    <div class="trainerInfo__uploadWrapper">
+                        <label for="form_imageFile_file" class="trainerInfo__imageLabel">
+                            <div class="trainerInfo__overlay">
+                                <p>Change picture</p>
+                                <i class="fas fa-images trainerInfo__icon"></i>
+                            </div>
+                            <img class="trainerInfo__image"
+                                 src="{{ 'http' in trainer.imageName ? trainer.imageName : vich_uploader_asset(trainer, 'imageFile') }}"
+                                 alt="Trainer"/>
+                        </label>
+                        {{ form_start(form) }}
+                        {{ form_row(form.imageFile.file) }}
+                        {{ form_row(form.submit) }}
+                        {{ form_end(form) }}
+                    </div>
+                {% else %}
+                    <img class="trainerInfo__image"
+                         src="{{ vich_uploader_asset(trainer, 'imageFile') }}"
+                         alt="Trainer"/>
+                {% endif %}
+
             </div>
 
             <div class="trainerInfo__right {{ user and 'ROLE_TRAINER' in user.roles ? "trainerInfo__right--admin" : null }}">
@@ -43,15 +64,6 @@
 
             </div>
         </div>
-
-        {% if user and 'ROLE_TRAINER' in user.roles and user == trainer.user %}
-            <button class="btn edit-image">Edit</button>
-            <div class="trainerInfo__imageEdit">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                {{ form_end(form) }}
-            </div>
-        {% endif %}
 
         <div id="trainerTags" class="tagsContainer" data-all-tags="{{ allTags|json_encode() }}"
              data-tags="{{ tags|json_encode() }}">

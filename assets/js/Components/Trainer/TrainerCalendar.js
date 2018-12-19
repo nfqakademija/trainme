@@ -202,7 +202,8 @@ class TrainerCalendar extends React.Component {
             info = <Message type="info">Click on the desired available time slot to book a workout.</Message>;
         } else if (!isLoading && events.length !== 0) {
             info = <Message type="danger">Only logged in
-                <em style={{fontWeight: 'bolder', fontStyle: 'normal'}}> customers </em> can book workouts!</Message>;
+                <em style={{fontWeight: 'bolder', fontStyle: 'normal'}}> customers </em> can book workouts! Please <a
+                    href="/login">log in</a>.</Message>;
         }
 
         return (

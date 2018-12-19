@@ -1,10 +1,20 @@
 import $ from 'jquery';
 
-const edit = $('.edit-image');
-const form = $('.trainerInfo__imageEdit');
+const file = $('#form_imageFile_file');
+const saveButton = $('.upload-submit');
+const fileName = $('.trainerInfo__filename');
+const cancelButton = $('.upload-cancel');
 
-edit.on('click', () => {
-    form.css({transform: 'scaleY(1)'});
-    edit.css({display: 'none'});
-    $('.trainerInfo__imageEdit').css({margin: '10px 0'});
+file.on('change', () => {
+    if (file[0].files[0]) {
+        saveButton.css({display: 'inline-block'});
+        cancelButton.css({display: 'inline-block'});
+        fileName.text(file[0].files[0].name).css({display: 'inline-block'});
+    }
+});
+
+cancelButton.on('click', () => {
+    saveButton.css({display: 'none'});
+    cancelButton.css({display: 'none'});
+    fileName.text('').css({display: 'none'});
 });

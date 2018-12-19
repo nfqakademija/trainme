@@ -20,7 +20,7 @@ class ScheduledWorkoutsApiController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(
+    public function createWorkout(
         Request $request,
         TrainerRepository $trainerRepository,
         ValidatorInterface $validator
@@ -66,7 +66,7 @@ class ScheduledWorkoutsApiController extends AbstractController
     /**
      * @Route("/api/scheduled_workout", methods={"GET"})
      */
-    public function listAction()
+    public function listWorkouts()
     {
         try {
             $customer = $this->getCustomer();
@@ -80,54 +80,11 @@ class ScheduledWorkoutsApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/scheduled_workout/{id}", methods={"PUT"})
-     * @param ScheduledWorkout $scheduledWorkout
-     * @param Request $request
-     * @param ValidatorInterface $validator
-     * @return JsonResponse
-     */
-    public function updateAction(ScheduledWorkout $scheduledWorkout, Request $request, ValidatorInterface $validator)
-    {
-        try {
-            $data = json_decode($request->getContent(), true);
-
-            if (!$scheduledWorkout) {
-                throw new \Exception('No scheduled workout found');
-            }
-
-            $customer = $this->getCustomer();
-
-            if ($customer->getId() !== $scheduledWorkout->getCustomer()->getId()) {
-                throw new \Exception('Unauthorized');
-            }
-
-            if (isset($data['starts_at'])) {
-                $scheduledWorkout->setStartsAt(new \DateTime($data['starts_at']));
-            }
-            if (isset($data['ends_at'])) {
-                $scheduledWorkout->setEndsAt(new \DateTime($data['ends_at']));
-            }
-
-            $errors = $validator->validate($scheduledWorkout);
-
-            if (count($errors) > 0) {
-                throw new \Exception('Validation error');
-            }
-
-            $this->getDoctrine()->getManager()->flush();
-
-            return new JsonResponse($scheduledWorkout);
-        } catch (\Throwable $e) {
-            return new JsonResponse($e->getMessage(), 400);
-        }
-    }
-
-    /**
      * @Route("/api/scheduled_workout/{id}", methods={"DELETE"})
      * @param ScheduledWorkout $scheduledWorkout
      * @return JsonResponse
      */
-    public function deleteAction(ScheduledWorkout $scheduledWorkout)
+    public function deleteWorkout(ScheduledWorkout $scheduledWorkout)
     {
         try {
             if (!$scheduledWorkout) {

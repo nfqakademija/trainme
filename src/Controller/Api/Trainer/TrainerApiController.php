@@ -16,7 +16,7 @@ class TrainerApiController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateAction(Request $request)
+    public function updateInfo(Request $request)
     {
         try {
             $trainer = $this->getTrainer();

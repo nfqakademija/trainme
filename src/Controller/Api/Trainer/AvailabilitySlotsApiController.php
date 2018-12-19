@@ -18,7 +18,7 @@ class AvailabilitySlotsApiController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(Request $request, ValidatorInterface $validator)
+    public function createSlot(Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -62,7 +62,7 @@ class AvailabilitySlotsApiController extends AbstractController
     /**
      * @Route("/api/availability_slot")
      */
-    public function listAction()
+    public function listSlots()
     {
         try {
             $user = $this->getUser();
@@ -85,7 +85,7 @@ class AvailabilitySlotsApiController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function updateAction(AvailabilitySlot $availabilitySlot, Request $request, ValidatorInterface $validator)
+    public function updateSlot(AvailabilitySlot $availabilitySlot, Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -129,7 +129,7 @@ class AvailabilitySlotsApiController extends AbstractController
      * @param AvailabilitySlot $availabilitySlot
      * @return JsonResponse
      */
-    public function deleteAction(AvailabilitySlot $availabilitySlot)
+    public function deleteSlot(AvailabilitySlot $availabilitySlot)
     {
         try {
             $user = $this->getUser();

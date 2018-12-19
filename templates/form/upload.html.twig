@@ -1,0 +1,13 @@
+{% block form_row %}
+    {% spaceless %}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+        {{ form_help(form) }}
+    {% endspaceless %}
+{% endblock form_row %}
+
+{%- block button_widget -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+    <span class="btn btn--cancel upload-cancel">Discard</span>
+    <span class="trainerInfo__filename"></span>
+{%- endblock button_widget -%}
