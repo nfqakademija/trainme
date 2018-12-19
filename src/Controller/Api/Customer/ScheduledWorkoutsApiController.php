@@ -2,13 +2,12 @@
 
 namespace App\Controller\Api\Customer;
 
-use App\Repository\TrainerRepository;
-use App\Services\AvailableTimesCalculationService;
 use App\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ScheduledWorkout;
+use App\Repository\TrainerRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ScheduledWorkoutsApiController extends AbstractController

@@ -2,12 +2,11 @@
 
 namespace App\Controller\Api\Trainer;
 
+use App\Controller\AbstractController;
 use App\Entity\Tag;
-use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\AbstractController;
 
 class TrainerApiController extends AbstractController
 {

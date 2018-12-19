@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RatingRepository")
+ * @ORM\Entity()
  */
 class Rating
 {
@@ -22,8 +22,8 @@ class Rating
      * @Assert\Range(
      *      min = 1,
      *      max = 5,
-     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
-     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     *      minMessage = "Minimum rating is 1 star.",
+     *      maxMessage = "Maximum rating is 5 stars."
      * )
      */
     private $stars;
@@ -31,12 +31,14 @@ class Rating
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="ratings")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull
      */
     private $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trainer", inversedBy="ratings")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull
      */
     private $trainer;
 

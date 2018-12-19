@@ -2,9 +2,9 @@
 
 namespace App\Controller\Api\Customer;
 
+use App\Controller\AbstractController;
 use App\Entity\Rating;
 use App\Entity\Trainer;
-use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

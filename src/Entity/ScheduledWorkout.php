@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
+use App\Validator\Constraints as CustomAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as CustomAssert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ScheduledWorkoutRepository")
+ * @ORM\Entity()
  * @CustomAssert\ScheduledWorkoutInAvailableTimes
  */
 class ScheduledWorkout implements \JsonSerializable
@@ -38,7 +38,7 @@ class ScheduledWorkout implements \JsonSerializable
      * @var Trainer
      * @ORM\ManyToOne(targetEntity="App\Entity\Trainer", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $trainer;
 
@@ -46,6 +46,7 @@ class ScheduledWorkout implements \JsonSerializable
      * @var Customer
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull
      */
     private $customer;
 

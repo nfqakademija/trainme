@@ -16,6 +16,7 @@ const Calendar = props => (
         startAccessor={'starts_at'}
         endAccessor={'ends_at'}
         events={props.events}
+        defaultDate={props.defaultDate}
         min={new Date(new Date().setHours(7, 0))}
         max={new Date(new Date().setHours(23, 0))}
         selectable={props.selectable}

@@ -2,21 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
-use App\Entity\User;
 use App\Repository\TagRepository;
-use Doctrine\DBAL\Types\StringType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * Class TrainerRegistrationType
@@ -24,20 +16,6 @@ use Symfony\Component\Validator\Constraints\Choice;
  */
 class TrainerRegistrationType extends AbstractType
 {
-    /**
-     * @var TagRepository
-     */
-    private $tagRepository;
-
-    /**
-     * TrainerRegistrationType constructor.
-     * @param TagRepository $tagRepository
-     */
-    public function __construct(TagRepository $tagRepository)
-    {
-        $this->tagRepository = $tagRepository;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -65,7 +43,7 @@ class TrainerRegistrationType extends AbstractType
             ))
             ->add('personal_info', TrainerType::class, [
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regSecLabel'],
+                'label_attr' => ['class' => 'regSecLabel']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',

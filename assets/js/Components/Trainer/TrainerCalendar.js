@@ -167,10 +167,13 @@ class TrainerCalendar extends React.Component {
         }
 
         if (events.length) {
+            const selectedDate = moment(this.props.selectedDate, "YYYY-MM-DD");
+
             calendar = (<Calendar
                 events={events}
                 selectable
                 onSelectEvent={event => this.onEventClick(event)}
+                defaultDate={ selectedDate.isValid() ? selectedDate.toDate() : new Date()}
             />);
         }
 
