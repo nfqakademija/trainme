@@ -152,7 +152,8 @@ class TrainerCalendar extends React.Component {
             bookFromValue,
             bookToValue,
             isBooking,
-            isCustomer
+            isCustomer,
+            isTrainer
         } = this.state;
         const BODY = $('body');
         BODY.css({overflowY: 'auto'});
@@ -195,12 +196,15 @@ class TrainerCalendar extends React.Component {
                 </Modal>);
         }
 
-        if (!isLoading && isCustomer && events.length !== 0) {
+        if (!isLoading && isCustomer && events.length) {
             info = <Message type="info">Click on the desired available time slot to book a workout.</Message>;
-        } else if (!isLoading && events.length !== 0) {
+        } else if (!isLoading && events.length && !isTrainer) {
             info = <Message type="danger">Only logged in
                 <em style={{fontWeight: 'bolder', fontStyle: 'normal'}}> customers </em> can book workouts! Please <a
                     href="/login">log in</a>.</Message>;
+        } else if (!isLoading && events.length) {
+            info =
+                <Message type="info">You are logged in as a trainer. Your customers will book workouts here.</Message>;
         }
 
         return (
