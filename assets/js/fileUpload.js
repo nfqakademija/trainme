@@ -18,3 +18,8 @@ cancelButton.on('click', () => {
     cancelButton.css({display: 'none'});
     fileName.text('').css({display: 'none'});
 });
+
+saveButton.on('click', () => {
+    saveButton.text('Saving...');
+    cancelButton.css({display: 'none'});
+});
