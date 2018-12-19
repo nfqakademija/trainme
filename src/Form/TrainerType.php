@@ -5,8 +5,8 @@ namespace App\Form;
 use App\Entity\Tag;
 use App\Entity\Trainer;
 use App\Repository\TagRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,24 +20,6 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
  */
 class TrainerType extends AbstractType
 {
-    /**
-     * @var TagRepository
-     */
-    private $tagRepository;
-
-    /**
-     * TrainerType constructor.
-     * @param TagRepository $tagRepository
-     */
-    public function __construct(TagRepository $tagRepository)
-    {
-        $this->tagRepository = $tagRepository;
-    }
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -58,13 +40,11 @@ class TrainerType extends AbstractType
                 'attr' => ['class' => 'regInput imageUpload', 'autocomplete' => 'off'],
                 'label_attr' => ['class' => 'regLabel']
             ])
-            ->add('tags', ChoiceType::class, [
-                'choices' => $this->tagRepository->findAll(),
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
                 'label_attr' => ['class' => 'regLabel'],
                 'attr' => ['class' => 'choiceInput'],
-                'choice_label' => function (Tag $tag) {
-                    return $tag->getName();
-                },
+                'choice_label' => 'name',
                 'multiple' => true]);
     }
 

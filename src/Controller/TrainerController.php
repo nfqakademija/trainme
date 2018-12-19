@@ -24,8 +24,10 @@ class TrainerController extends AbstractController
      * @param TagRepository $tagRepository
      * @return Response
      */
-    public function index(TrainerRepository $trainerRepository, TagRepository $tagRepository, Request $request)
+    public function index(TrainerRepository $trainerRepository, Request $request)
     {
+        $tagRepository = $this->getDoctrine()->getRepository(Tag::class);
+
         $filter = new Filter($request);
 
         $allTags = $tagRepository->findAll();

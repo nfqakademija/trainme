@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ScheduledWorkoutRepository")
+ * @ORM\Entity()
  * @CustomAssert\ScheduledWorkoutInAvailableTimes
  */
 class ScheduledWorkout implements \JsonSerializable

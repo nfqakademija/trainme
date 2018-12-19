@@ -17,20 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 class TrainerRegistrationType extends AbstractType
 {
     /**
-     * @var TagRepository
-     */
-    private $tagRepository;
-
-    /**
-     * TrainerRegistrationType constructor.
-     * @param TagRepository $tagRepository
-     */
-    public function __construct(TagRepository $tagRepository)
-    {
-        $this->tagRepository = $tagRepository;
-    }
-
-    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -57,7 +43,7 @@ class TrainerRegistrationType extends AbstractType
             ))
             ->add('personal_info', TrainerType::class, [
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regSecLabel'],
+                'label_attr' => ['class' => 'regSecLabel']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',
