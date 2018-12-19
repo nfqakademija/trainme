@@ -8,7 +8,6 @@ use App\Entity\ScheduledWorkout;
 use App\Entity\Tag;
 use App\Entity\Trainer;
 use App\Entity\User;
-use function Couchbase\fastlzCompress;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
