@@ -12,7 +12,7 @@
                 <label for="datepickerList">Date:</label>
                 <div>
                     <input id="datepickerList" type="text" class="filters__input"
-                           value="{{ app.request.query.get('date') }}"
+                           value="{{ filter.date }}"
                            name="date" autocomplete="off"/>
                 </div>
             </div>
@@ -20,26 +20,26 @@
             <div class="filters__inputElement">
                 <label for="fromList">From:</label>
                 <input class="filters__input" type="text" id="fromList" name="from"
-                       autocomplete="off" value="{{ app.request.query.get('from') }}"/>
+                       autocomplete="off" value="{{ filter.from }}"/>
             </div>
 
             <div class="filters__inputElement">
                 <label for="toList">To:</label>
                 <input class="filters__input" type="text" id="toList" name="to"
-                       autocomplete="off" value="{{ app.request.query.get('to') }}"/>
+                       autocomplete="off" value="{{ filter.to }}"/>
             </div>
 
             <div class="filters__inputElement filters__inputElement--long">
                 <label for="toList">Trainer's name:</label>
                 <input class="filters__input" type="text" name="name"
-                       autocomplete="off" value="{{ app.request.query.get('name') }}"/>
+                       autocomplete="off" value="{{ filter.name }}"/>
             </div>
         </div>
         <div class="filters__tagContainer">
             <ul class="filters__tags u-listNone">
                 {% for tag in tags %}
                     <li>
-                        {% if (tag.id in app.request.query.get('tags')) %}
+                        {% if (tag.id in filter.tags) %}
                             <input name="tags[]" class="hiddenCheckbox" checked type="checkbox"
                                    id="{{ tag.name }}" value="{{ tag.id }}"/>
                         {% else %}
@@ -63,7 +63,10 @@
             {% if trainers|length>0 %}
                 {% for trainer in trainers %}
                     <div class="trainerBox">
-                        <a href="{{ trainer.id }}">
+                        <a href="{{ path('trainer_page', {
+                            selected_date: filter.date,
+                            trainer: trainer.id,
+                        } ) }}">
                             <div class="trainerBox__overlay">
                                 <div class="trainerBox__details">
                                     <div class="trainerBox__head">
@@ -91,13 +94,16 @@
         {% if maxPages > 1 %}
             <ul class="pagination u-listNone">
                 {% for i in 1..maxPages %}
-                    <li class="pagination__box {{ thisPage==i? "pagination__box--active" }}">
+                    <li class="pagination__box {{ filter.page == i? "pagination__box--active" }}">
                         <a class="pagination__number"
-                           href="{{ path('list', {page: i, name: app.request.query.get('name'),
-                               date: app.request.query.get('date'),
-                               from: app.request.query.get('from'),
-                               to: app.request.query.get('to'),
-                               tags: app.request.query.get('tags')}) }}">{{ i }}</a>
+                           href="{{ path('list', {
+                               page: i,
+                               name: filter.name,
+                               date: filter.date,
+                               from: filter.from,
+                               to: filter.to,
+                               tags: filter.tags
+                           }) }}">{{ i }}</a>
                     </li>
                 {% endfor %}
             </ul>
