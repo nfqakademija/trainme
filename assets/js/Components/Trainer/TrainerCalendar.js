@@ -173,8 +173,12 @@ class TrainerCalendar extends React.Component {
                 events={events}
                 selectable
                 onSelectEvent={event => this.onEventClick(event)}
-                defaultDate={ selectedDate.isValid() ? selectedDate.toDate() : new Date()}
+                defaultDate={selectedDate.isValid() ? selectedDate.toDate() : new Date()}
             />);
+        }
+
+        if (isTrainer && !events.length && !isLoading) {
+            calendar = <p>You have no available workout times. Add some <a href="/manage">here</a>.</p>;
         }
 
         if (isModalVisible) {
