@@ -12,12 +12,12 @@ const ModalContent = props => {
             <div className="modalInputGroup">
                 <label htmlFor="bookFrom">From:</label>
                 <input className="bookInput" id="bookFrom" type="text"/>
-                <input type="hidden" value={props.bookFromValue}/>
+                <input type="hidden" value={props.bookFromValue} autoComplete="off"/>
             </div>
             <div className="modalInputGroup">
                 <label htmlFor="bookTo">To:</label>
                 <input className="bookInput" id="bookTo" type="text"/>
-                <input type="hidden" value={props.bookToValue}/>
+                <input type="hidden" value={props.bookToValue} autoComplete="off"/>
             </div>
         </React.Fragment>
     }

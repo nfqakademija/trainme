@@ -126,6 +126,11 @@ class TrainerCalendar extends React.Component {
             return;
         }
 
+        if (bookToValue <= bookFromValue) {
+            alert('Invalid time');
+            return;
+        }
+
         this.setState({isBooking: true});
         axios.post('/api/scheduled_workout', {
             'starts_at': moment(bookFromValue).format('YYYY-MM-DD HH:mm'),
