@@ -5,6 +5,8 @@ namespace App\Controller\Api\Trainer;
 use App\Controller\AbstractController;
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
+use App\Exceptions\ValidationException;
+use App\Repository\AvailabilitySlotRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +40,7 @@ class AvailabilitySlotsApiController extends AbstractController
             $errors = $validator->validate($availabilitySlot);
 
             if (count($errors) > 0) {
-                throw new \Exception('Validation error');
+                throw new ValidationException('Validation error', $errors);
             }
 
             foreach ($trainer->getAvailabilitySlots() as $existingAvailabilitySlot) {
@@ -54,24 +56,24 @@ class AvailabilitySlotsApiController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($availabilitySlot);
-        } catch (\Throwable $exception) {
-            return new JsonResponse($exception->getMessage(), 400);
+        } catch (ValidationException $e) {
+            return new JsonResponse(['validationError' => true, 'errors' => $e->getErrorsArray()], 400);
+        } catch (\Exception $e) {
+            return new JsonResponse(['errors' => [$e->getMessage()]], 400);
         }
     }
 
     /**
      * @Route("/api/availability_slot")
+     * @param AvailabilitySlotRepository $availabilitySlotRepository
+     * @return JsonResponse
      */
-    public function listSlots()
+    public function listSlots(AvailabilitySlotRepository $availabilitySlotRepository)
     {
         try {
-            $user = $this->getUser();
+            $trainer = $this->getTrainer();
 
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-            $availabilitySlots = $user->getTrainer()->getAvailabilitySlots()->getIterator();
-
+            $availabilitySlots = $availabilitySlotRepository->findBy(['trainer' => $trainer], ['startsAt' => 'DESC']);
             return new JsonResponse($availabilitySlots);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
@@ -113,14 +115,16 @@ class AvailabilitySlotsApiController extends AbstractController
             $errors = $validator->validate($availabilitySlot);
 
             if (count($errors) > 0) {
-                throw new \Exception('Validation error');
+                throw new ValidationException('Validation error', $errors);
             }
 
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($availabilitySlot);
-        } catch (\Throwable $e) {
-            return new JsonResponse($e->getMessage(), 400);
+        } catch (ValidationException $e) {
+            return new JsonResponse(['validationError' => true, 'errors' => $e->getErrorsArray()], 400);
+        } catch (\Exception $e) {
+            return new JsonResponse(['errors' => [$e->getMessage()]], 400);
         }
     }
 
