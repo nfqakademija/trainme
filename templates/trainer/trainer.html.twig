@@ -27,9 +27,11 @@
                         {{ form_end(form) }}
                     </div>
                 {% else %}
-                    <img class="trainerInfo__image"
-                         src="{{ vich_uploader_asset(trainer, 'imageFile') }}"
-                         alt="Trainer"/>
+                    <div class="trainerInfo__imageWrapper">
+                        <img class="trainerInfo__image"
+                             src="{{ vich_uploader_asset(trainer, 'imageFile') }}"
+                             alt="Trainer"/>
+                    </div>
                 {% endif %}
 
             </div>
