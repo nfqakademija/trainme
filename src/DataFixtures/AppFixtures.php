@@ -54,7 +54,6 @@ class AppFixtures extends Fixture
             'Cardio', 'Fighting', 'Powerlifting', 'Flexibility'
         ];
 
-
         $tagObjects = [];
 
         foreach ($tags as $name) {
@@ -63,6 +62,37 @@ class AppFixtures extends Fixture
             $tagObjects[] = $tag;
             $manager->persist($tag);
         }
+
+        $userTrainer = new User();
+        $trainer = new Trainer();
+        $userTrainer->setEmail('trainer123@train.me');
+        $userTrainer->setPassword($this->passwordEncoder->encodePassword($userTrainer, 'trainer123'));
+        $userTrainer->setRoles([User::ROLE_TRAINER]);
+        $manager->persist($userTrainer);
+
+        $trainer->setName('Treneris Trenerijauskas');
+        $trainer->setPhone('+370644534534534');
+        $trainer->addTag($tagObjects[0]);
+        $trainer->setPersonalStatement($faker->text);
+        $trainer->setLocation('Vilnius');
+        $trainer->setImageName($imageNames[3]);
+        $trainer->setUser($userTrainer);
+
+        $manager->persist($trainer);
+
+
+        $customer = new Customer();
+        $userCustomer = new User();
+        $userCustomer->setEmail('customer123@train.me');
+        $userCustomer->setPassword($this->passwordEncoder->encodePassword($userCustomer, 'customer123'));
+        $userCustomer->setRoles([User::ROLE_CUSTOMER]);
+        $manager->persist($userCustomer);
+
+        $customer->setName('Klientas Klientauskas');
+        $customer->setPhone('37076456545644');
+        $customer->setUser($userCustomer);
+        $manager->persist($customer);
+
 
         for ($i = 0; $i < 20; $i++) {
             $trainer = new Trainer();

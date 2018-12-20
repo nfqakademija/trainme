@@ -93,7 +93,7 @@ class TrainerController extends AbstractController
         $form = $this->createFormBuilder($trainer)
             ->setAction('/trainer/upload_image')
             ->add('imageFile', VichImageType::class, [
-                'attr' => ['class' => 'fileInput']
+                'attr' => ['class' => 'fileInput', 'accept'=> '.jpg, .png']
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn upload-submit'],

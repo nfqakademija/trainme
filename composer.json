@@ -13,6 +13,7 @@
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/dotenv": "*",
+        "symfony/finder": "4.1.*",
         "symfony/flex": "^1.1",
         "symfony/form": "4.1.*",
         "symfony/framework-bundle": "*",
