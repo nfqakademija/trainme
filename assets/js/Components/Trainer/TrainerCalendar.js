@@ -23,6 +23,7 @@ class TrainerCalendar extends React.Component {
             isModalVisible: false,
             isBooking: false,
             isSuccess: false,
+            isError: false,
             starts_at: '',
             ends_at: '',
             bookFromValue: '',
@@ -68,6 +69,7 @@ class TrainerCalendar extends React.Component {
 
         this.setState({
             isSuccess: false,
+            isError: false,
             isModalVisible: true,
             starts_at: event.starts_at,
             ends_at: event.ends_at,
@@ -124,6 +126,11 @@ class TrainerCalendar extends React.Component {
             return;
         }
 
+        if (bookToValue <= bookFromValue) {
+            alert('Invalid time');
+            return;
+        }
+
         this.setState({isBooking: true});
         axios.post('/api/scheduled_workout', {
             'starts_at': moment(bookFromValue).format('YYYY-MM-DD HH:mm'),
@@ -137,7 +144,10 @@ class TrainerCalendar extends React.Component {
             });
         }).catch(err => {
             console.log(err);
-            this.setState({isBooking: false});
+            this.setState({
+                isBooking: false,
+                isError: true
+            });
             this.closeModal();
         });
     }
@@ -146,6 +156,7 @@ class TrainerCalendar extends React.Component {
         const {
             isModalVisible,
             isSuccess,
+            isError,
             isLoading,
             events,
             starts_at,
@@ -178,7 +189,9 @@ class TrainerCalendar extends React.Component {
         }
 
         if (isTrainer && !events.length && !isLoading) {
-            calendar = <p>You have no available workout times. Add some <a className="messageLink" href="/manage">here</a>.</p>;
+            calendar =
+                <p>You have no available workout times. Add some <a className="messageLink" href="/manage">here</a>.
+                </p>;
         }
 
         if (isModalVisible) {
@@ -218,6 +231,8 @@ class TrainerCalendar extends React.Component {
             <React.Fragment>
                 {isSuccess &&
                 <Message type="success">You've successfully booked a workout! Trainer will contact you soon.</Message>}
+                {isError &&
+                <Message type="danger">Oops, something went wrong.</Message>}
                 {info}
                 {calendar}
                 {modal}
