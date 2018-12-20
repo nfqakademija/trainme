@@ -1,27 +1,13 @@
-﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100)
+﻿![](https://avatars0.githubusercontent.com/u/4995607?v=3&s=100)![](https://i.ibb.co/qDqbCms/Untitled-2.jpg)
 
-Asmeninio trenerio puslapis
+TrainMe [![Build Status](https://travis-ci.com/nfqakademija/trainme.png?branch=master)](https://travis-ci.com/nfqakademija/trainme)
 ============
 
 # Intro
 
-Sveiki! Tai yra Jūsų startinis projekto "template". 
-Šioje repositorijoje rasite Symfony `4.1.6` minimalų projekto paketą su jau paruoštais 
-visais reikalingais failais ir įrankiais darbui:
- 
-- Lokalaus development'o aplinka (docker) (PHP 7.2, MySql DB, Nginx)
-- Pradinis bundle (AppBundle) kartu su stiliaus failais.
-- Įdiegtas bootstrap
-- Asset'ų buildinimas (npm, yarn, sass)
-- Travis CI template
-
+TrainMe - tai asmeninio trenerio paieškos ir treniruočių rezervavimo sistema, kuri klientui leidžia rasti patinkantį trenerį, rezervuoti norimą treniruotės laiką ar atšaukti rezervuotą treniruotę. Užsiregistravęs treneris gali įvesti savo darbo laiką, keisti asmeninę informaciją bei peržiūrėti klientų revervuotas treniruotes kalendoriuje. Projekto sprendžiama problema - trenerio laiko ir treniruočių rezervacijos bei komunikacijos su klientais supaprastinimas.
 
 # Paleidimo instrukcija
-
-Metai iš metų studentai maldavo jog galėtų dirbti su Windows'ais akademijos metu.
- Bet nepaisant nieko, tolerancijos ir palaikymo Windows operacinei niekada nebuvo ir nebus.  
-
-> Perspėjimas: Itin kieti profesionalai nenaudoja niekam tikusių operacinių sistemų. 
 
 ### Reikės dokerio
 
@@ -43,8 +29,6 @@ Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/relea
 
 ### Projekto paleidimas
 
-Pasileidžiant pirmą kartą būdavo įveliama daug klaidų, todėl padaryti _script'ai_ dažniausiems atvejams.
-
 * Pasileidžiama infrastruktūrą per `docker`į:
 ```bash
 scripts/start.sh
@@ -55,8 +39,20 @@ scripts/start.sh
 scripts/install-prod.sh
 ```
 
-* Pasižiūrime, ar veikia.
-  Naršyklėje atidarius [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/) turėtų rašyti `NFQ Akademija
+* Susikuriame duomenų bazę:
+```bash
+php bin/console d:d:c
+```
+
+* Susikuriame duomenų bazės schemą:
+```bash
+php bin/console d:s:c
+```
+
+* Užpildome duomenų bazę fikstūromis:
+```bash
+php bin/console d:f:l -n
+```
 
 * Pabaigus, gražiai išjungiame:
 ```bash
@@ -95,28 +91,3 @@ scripts/logs.sh
 ```bash
 scripts/clean-and-start-fresh.sh
 ```
-
-### Dažniausiai užduodami klausimai
-
-* **Kaip įkelti savo pakeitimus į LIVE?**
-Jei viskas gerai sukonfiguruota, užteks sudėti pakeitimus į `master`.
-Jei neveiks, plačiau žr. [įkėlimo į serverį dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/deploy-project.md)
-
-* **Kaip prisijungti prie duomenų bazės su savo mėgstamu MySql redagtoriumi?**
-Trumpai: `scripts/mysql.sh` atspausdina visus prisijungimus.
-Plačiau žr. [MySql GUI dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/use-mysql-with-gui.md)
-
-* **Kaip pasileisti xDebug?**
-Trumpai: `./scripts/backend.sh /enable_xdebug.sh <TAVO_KOMPO_IP_ADRESAS>`
-Plačiau žr. [xDebug dokumentacijoje](https://github.com/nfqakademija/docker/blob/master/docs/setup-xdebug.md)
-
-* **Turių daugiau techninių klausimų?**
-Google ir StackOverflow yra geriausi tavo draugai.
-Nepavykus – kreipkis į savo mentorių. Jei jis nepadės,
-nukreips į atitinkamą lektorių arba pamokys `git blame`,
-kad žinotumei, kur kreiptis toliau. 
-
-### Feedbackas
-
-Jeigu taip nutiktų, kad repositorijoje, projekto template ar instrukcijoje rastumėte klaidą, tai nesišnibždėkite vieni tarp kitų, o sukurkite "issue". 
-O jei atidarysite "pull requestą" su fixu, gausite iškart 1000 karmos taškų.
