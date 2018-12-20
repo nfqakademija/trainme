@@ -2,9 +2,9 @@
 
 namespace App\Controller\Api\Trainer;
 
+use App\Controller\AbstractController;
 use App\Entity\AvailabilitySlot;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +18,7 @@ class AvailabilitySlotsApiController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function createAction(Request $request, ValidatorInterface $validator)
+    public function createSlot(Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -27,12 +27,7 @@ class AvailabilitySlotsApiController extends AbstractController
                 throw new \Exception('Parameters \'starts_at\' or/and \'ends_at\' are not defined');
             }
 
-            $user = $this->getUser();
-
-            if (!$user instanceof User) {
-                throw new \Exception('User expected');
-            }
-            $trainer = $user->getTrainer();
+            $trainer = $this->getTrainer();
 
             $availabilitySlot = new AvailabilitySlot();
 
@@ -44,6 +39,15 @@ class AvailabilitySlotsApiController extends AbstractController
 
             if (count($errors) > 0) {
                 throw new \Exception('Validation error');
+            }
+
+            foreach ($trainer->getAvailabilitySlots() as $existingAvailabilitySlot) {
+                if (($existingAvailabilitySlot->getStartsAt() > $availabilitySlot->getStartsAt()
+                        && $existingAvailabilitySlot->getStartsAt() < $availabilitySlot->getEndsAt())
+                    || ($existingAvailabilitySlot->getEndsAt() > $availabilitySlot->getStartsAt()
+                        && $existingAvailabilitySlot->getEndsAt() < $availabilitySlot->getEndsAt())) {
+                    throw new \Exception('Availability slot already exists in this range');
+                }
             }
 
             $this->getDoctrine()->getManager()->persist($availabilitySlot);
@@ -58,7 +62,7 @@ class AvailabilitySlotsApiController extends AbstractController
     /**
      * @Route("/api/availability_slot")
      */
-    public function listAction()
+    public function listSlots()
     {
         try {
             $user = $this->getUser();
@@ -81,7 +85,7 @@ class AvailabilitySlotsApiController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function updateAction(AvailabilitySlot $availabilitySlot, Request $request, ValidatorInterface $validator)
+    public function updateSlot(AvailabilitySlot $availabilitySlot, Request $request, ValidatorInterface $validator)
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -125,7 +129,7 @@ class AvailabilitySlotsApiController extends AbstractController
      * @param AvailabilitySlot $availabilitySlot
      * @return JsonResponse
      */
-    public function deleteAction(AvailabilitySlot $availabilitySlot)
+    public function deleteSlot(AvailabilitySlot $availabilitySlot)
     {
         try {
             $user = $this->getUser();

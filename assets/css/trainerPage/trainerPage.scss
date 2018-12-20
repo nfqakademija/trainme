@@ -22,7 +22,55 @@
 
 .trainerInfo__right {
   width: 50%;
-  padding-left: 15px;
+  padding: 15px 0 0 15px;
+}
+
+.trainerInfo__inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.trainerInfo__right--admin {
+  transition: all .3s ease-in;
+
+  &:hover {
+    .btn:first-of-type {
+      color: white;
+      font-size: .85em;
+      background: grey;
+      border-radius: 5px;
+      padding: 10px 15px;
+    }
+  }
+}
+
+.btn {
+  color: grey;
+  font-size: .85em;
+  margin-right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 5px 5px 5px 0;
+  text-decoration: none;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.trainerInfo__filename {
+  word-break: break-all;
+}
+
+.btn--editingInfo {
+  color: white !important;
+  font-size: .85em !important;
+  background: grey !important;
+  border-radius: 5px !important;
+  padding: 10px 15px !important;
 }
 
 .trainerInfo__left {
@@ -31,8 +79,13 @@
 }
 
 .trainerInfo__imageContainer {
-  height: 350px;
   width: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+  user-select: none;
 }
 
 .justify {
@@ -40,8 +93,76 @@
 }
 
 .trainerInfo__image {
-  max-width: 100%;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+.trainerInfo__icon {
+  font-size: 3em;
+  margin-top: 15px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.trainerInfo__imageLabel {
+  width: 100%;
+  height: 350px;
+  position: relative;
+}
+
+.trainerInfo__overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transition: all .3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  flex-direction: column;
+  color: white;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, .55);
+    opacity: 1;
+  }
+}
+
+.trainerInfo__uploadWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.edit-image {
+  margin: 10px 0;
+
+  &:hover {
+    color: white;
+    font-size: .85em;
+    background: grey;
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+}
+
+.upload-cancel {
+  display: none;
+  margin-left: 5px;
+}
+
+.upload-submit {
+  margin: 5px 0;
+  display: none;
+  background: grey;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 15px;
 }
 
 .trainerInfo__rating {
@@ -50,29 +171,42 @@
 }
 
 .trainerInfo__count {
-  font-size: .9em;
+  font-size: .8em;
   font-style: italic;
   margin-left: 10px;
 }
 
 .fa-star--big {
-  font-size: 2em;
+  font-size: 1.3em;
 }
 
 .trainerInfo__desc {
-  max-width: 330px;
   margin: 20px 0 10px 0;
   font-size: 1em;
   overflow-wrap: break-word;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .infoText {
-  margin-left: 30px;
+  margin-left: 15px;
 }
 
 .tagsContainer {
   margin: 35px 0;
   max-width: 400px;
+  min-height: 165px;
+
+  &:hover {
+    .btn:first-of-type {
+      color: white;
+      font-size: .85em;
+      background: grey;
+      border-radius: 5px;
+      padding: 10px 15px;
+    }
+  }
 }
 
 .u-marginTop {
@@ -95,68 +229,88 @@
   }
 }
 
-.button {
-  padding: 0;
+.btnPrimary {
   border: none;
-}
-
-.button__content {
-  display: block;
   color: white;
   cursor: pointer;
   text-decoration: none;
-  background: black;
+  background: rgba(0, 0, 0, .78);
+  text-align: center;
   padding: 15px 20px;
   max-height: 55px;
+  transition: all .2s;
+  border-radius: 3px;
+  display: block;
+
+  &:hover {
+    background: black;
+  }
 }
 
-.textBox {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #eeeeee;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
+.filters__btnWrap {
+  margin-top: 15px;
+  width: 80px;
+}
+
+.trainerTextarea,
+.trainerInput {
   border-radius: 2px;
-  box-sizing: content-box;
+  background: none;
+  border: 1px solid #eeeeee;
+  width: 100%;
+}
+
+.trainerTextarea {
+  padding: 5px;
+  min-height: 150px;
+  margin: 10px 0;
   resize: none;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.btn {
-  color: grey;
-  font-size: .85em;
-  margin-right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  padding: 5px 5px 5px 0;
-  text-decoration: none;
-  transition: all .3s ease-in-out;
+.trainer__icon {
+  width: 25px;
+}
 
-  &:hover {
-    text-decoration: underline;
-  }
+.trainerInput {
+  height: 30px;
+  padding: 3px 0 3px 5px;
+  margin-left: 20px;
+  position: relative;
+  right: 0;
+  max-width: 375px;
+}
+
+.u-between {
+  justify-content: space-between;
 }
 
 .btn--cancel {
   color: red;
 }
 
-.btnSave,
-.btnDiscard {
-  opacity: 0;
-  transition: opacity .3s;
+.buttonContainer {
+  display: flex;
+  margin-top: 10px;
 }
 
 .info {
   background: #eee;
   padding: 15px;
+  border-radius: 5px;
 
   &:hover {
-    .fa-info-circle--custom {
+    .fa-info-circle--info {
       color: #4481ff;
+    }
+
+    .fa-info-circle--danger {
+      color: #a9000f;
+    }
+
+    .fa-info-circle--success {
+      color: #008000;
     }
   }
 }
@@ -167,20 +321,40 @@
 }
 
 .info--customer {
-  margin-bottom: 20px;
+  margin: 10px 0;
+}
+
+.info--danger {
+  background: #ffb3b3;
+}
+
+.info--success {
+  background: rgba(119, 255, 3, 0.42);
 }
 
 .u-mgRt {
   margin-right: 15px;
 }
 
-.fa-info-circle--custom {
+.fa-info-circle {
   font-size: 1.4em;
   transition: all .3s ease-in-out;
   color: black;
 }
 
+.filters__tags--edit {
+  margin: 15px 0;
+}
+
 @media only screen and (max-width: 600px) {
+  .button__content {
+    transition: none;
+
+    &:hover {
+      background: black;
+    }
+  }
+
   .trainerInfo {
     flex-direction: column;
   }

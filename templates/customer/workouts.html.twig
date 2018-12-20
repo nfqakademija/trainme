@@ -5,17 +5,11 @@
 
     <div class="workoutsContainer">
         <h1 class="blackTitle u-mgBtm">My workouts</h1>
-        <section class="info info--customer">
-            <p class="info__text">
-                <i class="fas fa-info-circle u-mgRt fa-info-circle--custom"></i>
-                Click on the workout to view info or to cancel it.
-            </p>
-        </section>
-        <div class="customerCal u-mgTop" id="customerCal"></div>
+        <div class="customerCal u-mgTop" id="customerWorkouts"></div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('build/js/customerCal.js') }}"></script>
+    <script src="{{ asset('build/js/customerWorkouts.js') }}"></script>
 {% endblock %}

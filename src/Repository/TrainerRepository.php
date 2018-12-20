@@ -2,12 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\Trainer;
+use App\ValueObjects\Filter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method Trainer|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,30 +18,46 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class TrainerRepository extends ServiceEntityRepository
 {
+    /**
+     * TrainerRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Trainer::class);
     }
 
     /**
-     * @param  int $page
-     * @param  int $itemsPerPage
-     * @param  null|string $name
-     * @param  \DateTimeInterface|null $startsAt
-     * @param  \DateTimeInterface|null $endsAt
-     * @param  array $tags
+     * @param Customer $customer
+     * @return mixed
+     */
+    public function getNotEvaluatedTrainers(Customer $customer)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "select t from App\Entity\Trainer t 
+                 INNER JOIN App\Entity\ScheduledWorkout s
+                 WITH s.trainer = t AND  s.customer = :customer AND s.endsAt < CURRENT_TIMESTAMP() 
+                 LEFT JOIN App\Entity\Rating r
+                 WITH r.trainer = s.trainer AND r.customer = :customer
+                 WHERE r.id IS NULL
+                 ORDER BY s.endsAt ASC"
+        )->setParameter('customer', $customer);
+
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
+     * @param Filter $filter
      * @return Paginator
      */
-    public function findFilteredTrainers(
-        int $page,
-        int $itemsPerPage,
-        ?string $name,
-        ?\DateTimeInterface $startsAt,
-        ?\DateTimeInterface $endsAt,
-        array $tags
-    ): Paginator {
+    public function findFilteredTrainers(Filter $filter): Paginator
+    {
         $qb = $this->createQueryBuilder('t');
-        if ($startsAt && $endsAt) {
+        if ($filter->getStartsAt() && $filter->getEndsAt()) {
             $qb->innerJoin('t.availabilitySlots', 'a', Join::WITH, $qb->expr()->andX(
                 $qb->expr()->lte('a.startsAt', ':from'),
                 $qb->expr()->gte('a.endsAt', ':to')
@@ -48,10 +65,10 @@ class TrainerRepository extends ServiceEntityRepository
                 ->leftJoin('t.scheduledWorkouts', 's', Join::WITH, $qb->expr()->orX(
                     $qb->expr()->andX(
                         $qb->expr()->gte('s.startsAt', ':from'),
-                        $qb->expr()->lte('s.startsAt', ':to')
+                        $qb->expr()->lt('s.startsAt', ':to')
                     ),
                     $qb->expr()->andX(
-                        $qb->expr()->gte('s.endsAt', ':from'),
+                        $qb->expr()->gt('s.endsAt', ':from'),
                         $qb->expr()->lte('s.endsAt', ':to')
                     ),
                     $qb->expr()->andX(
@@ -64,19 +81,20 @@ class TrainerRepository extends ServiceEntityRepository
                     )
                 ))->where(
                     $qb->expr()->isNull('s.id')
-                )->setParameters(['from'=> $startsAt, 'to' => $endsAt]);
+                )->setParameters(['from' => $filter->getStartsAt(), 'to' => $filter->getEndsAt()]);
         }
-        if ($name) {
-            $qb->andWhere('t.name LIKE :name')->setParameter('name', '%' . $name . '%');
+        if ($filter->getName()) {
+            $qb->andWhere('t.name LIKE :name')->setParameter('name', '%' . $filter->getName() . '%');
         }
 
-        if (!empty($tags)) {
+        if (!empty($filter->getTags())) {
             $qb->innerJoin('t.tags', 'f')
-                ->andWhere($qb->expr()->in('f.id', $tags));
+                ->andWhere($qb->expr()->in('f.id', $filter->getTags()));
         }
 
         $query = $qb->getQuery();
-        $paginator = $this->paginate($query, $page, $itemsPerPage);
+        $paginator = $this->paginate($query, $filter->getPage(), $filter->getItemsPerPage());
+
         return $paginator;
     }
 

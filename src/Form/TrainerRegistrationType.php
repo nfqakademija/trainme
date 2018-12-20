@@ -2,31 +2,23 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
-use App\Entity\User;
-use App\Repository\TagRepository;
-use Doctrine\DBAL\Types\StringType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
+/**
+ * Class TrainerRegistrationType
+ * @package App\Form
+ */
 class TrainerRegistrationType extends AbstractType
 {
-    private $tagRepository;
-
-    public function __construct(TagRepository $tagRepository)
-    {
-        $this->tagRepository = $tagRepository;
-    }
-
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -41,22 +33,20 @@ class TrainerRegistrationType extends AbstractType
                 'required' => true,
                 'first_options' => array(
                     'label' => 'Password',
-                    'attr' => ['class' => 'regInput'],
-                    'label_attr' => ['class' => 'regLabel']
+                    'attr' => ['class' => 'regInput', 'minlength' => 5, 'maxlength' => 20]
                 ),
                 'second_options' => array(
                     'label' => 'Repeat Password',
-                    'attr' => ['class' => 'regInput'],
-                    'label_attr' => ['class' => 'regLabel']
+                    'attr' => ['class' => 'regInput', 'minlength' => 5, 'maxlength' => 20]
                 ),
             ))
             ->add('personal_info', TrainerType::class, [
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regLabel--big'],
+                'label_attr' => ['class' => 'regSecLabel']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',
-                'attr' => ['class' => 'button button__content']
+                'attr' => ['class' => 'btnPrimary']
             ]);
     }
 }

@@ -1,0 +1,71 @@
+<footer class="footerContainer">
+    <div class="footer">
+        <div class="footer__container u-listNone">
+            <ul class="linkList">
+                <li><a class="footer__link{{ app.request.pathInfo == path('home')?" link--active" : null }}"
+                       href="{{ path('home') }}">Home</a></li>
+                <li><a class="footer__link{{ app.request.pathInfo == path('list')?" link--active" : null }}"
+                       href="{{ path('list') }}">Our trainers</a></li>
+
+                {% if app.user and is_granted('ROLE_TRAINER') %}
+
+                    <li>
+                        <a href="{{ path('trainer_page', {trainer : app.user.trainer.id}) }}"
+                           class="footer__link{{ app.request.pathInfo == path('trainer_page', {trainer : app.user.trainer.id})?" link--active" : null }}">
+                            Personal page
+                        </a>
+                    </li>
+                    <li><a href="{{ path('trainer_workouts') }}"
+                           class="footer__link{{ app.request.pathInfo == path('trainer_workouts')?" link--active" : null }}">Workouts</a>
+                    </li>
+                    <li><a href="{{ path('manage') }}"
+                           class="footer__link{{ app.request.pathInfo == path('manage')?" link--active" : null }}">Manage
+                            schedule</a></li>
+                    <li><a href="{{ path('app_logout') }}" class="footer__link">Log out</a></li>
+
+                {% elseif app.user and is_granted('ROLE_CUSTOMER') %}
+
+                    <li>
+                        <a href="{{ path('customer_workouts') }}"
+                           class="footer__link{{ app.request.pathInfo == path('customer_workouts')?" link--active" : null }}">
+                            My workouts
+                        </a>
+                    </li>
+
+                {% else %}
+                    <li><a class="footer__link{{ app.request.pathInfo == path('app_login')?" link--active" : null }}"
+                           href="{{ path('app_login') }}">Login</a></li>
+                    <li>
+                        <a class="footer__link{{ app.request.pathInfo == path('app_customer_register')?" link--active" : null }}"
+                           href="{{ path('app_customer_register') }}">Register</a></li>
+                    <li>
+                        <a class="footer__link{{ app.request.pathInfo == path('app_trainer_register')?" link--active" : null }}"
+                           href="{{ path('app_trainer_register') }}">Trainer registration</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <div class="media">
+                <p class="media__text">Follow us:</p>
+                <ul class="mediaList">
+                    <li class="u-listNone">
+                        <a class="footer__link footer__link--media" href="https://facebook.com" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="u-listNone">
+                        <a class="footer__link footer__link--media" href="https://instagram.com" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li class="u-listNone">
+                        <a class="footer__link footer__link--media" href="https://youtube.com" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<footer class="copyright">All rights reserved at © TrainMe 2018</footer>

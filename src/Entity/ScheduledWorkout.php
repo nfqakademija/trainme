@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use App\Validator\Constraints as CustomAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ScheduledWorkoutRepository")
+ * @ORM\Entity()
+ * @CustomAssert\ScheduledWorkoutInAvailableTimes
  */
 class ScheduledWorkout implements \JsonSerializable
 {
@@ -36,7 +38,7 @@ class ScheduledWorkout implements \JsonSerializable
      * @var Trainer
      * @ORM\ManyToOne(targetEntity="App\Entity\Trainer", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $trainer;
 
@@ -44,6 +46,7 @@ class ScheduledWorkout implements \JsonSerializable
      * @var Customer
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="scheduledWorkouts")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull
      */
     private $customer;
 
@@ -112,11 +115,18 @@ class ScheduledWorkout implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return Customer|null
+     */
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
+    /**
+     * @param Customer|null $customer
+     * @return ScheduledWorkout
+     */
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
@@ -124,6 +134,9 @@ class ScheduledWorkout implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return [

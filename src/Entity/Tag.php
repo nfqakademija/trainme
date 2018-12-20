@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
+ * @ORM\Entity()
  */
-class Tag
+class Tag implements \JsonSerializable
 {
     /**
      * @var int
@@ -26,23 +26,17 @@ class Tag
     private $name;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
-     * @var Trainer
+     * @var Collection/Trainer[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Trainer", inversedBy="tags")
      */
-    private $trainer;
+    private $trainers;
 
     /**
      * Tag constructor.
      */
     public function __construct()
     {
-        $this->trainer = new ArrayCollection();
+        $this->trainers = new ArrayCollection();
     }
 
     /**
@@ -73,30 +67,11 @@ class Tag
     }
 
     /**
-     * @return null|string
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     * @return Tag
-     */
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Trainer[]
      */
-    public function getTrainer(): Collection
+    public function getTrainers(): Collection
     {
-        return $this->trainer;
+        return $this->trainers;
     }
 
     /**
@@ -105,8 +80,8 @@ class Tag
      */
     public function addTrainer(Trainer $trainer): self
     {
-        if (!$this->trainer->contains($trainer)) {
-            $this->trainer[] = $trainer;
+        if (!$this->trainers->contains($trainer)) {
+            $this->trainers[] = $trainer;
         }
 
         return $this;
@@ -118,10 +93,21 @@ class Tag
      */
     public function removeTrainer(Trainer $trainer): self
     {
-        if ($this->trainer->contains($trainer)) {
-            $this->trainer->removeElement($trainer);
+        if ($this->trainers->contains($trainer)) {
+            $this->trainers->removeElement($trainer);
         }
 
         return $this;
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName()
+        ];
     }
 }

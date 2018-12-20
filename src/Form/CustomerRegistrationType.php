@@ -2,19 +2,23 @@
 
 namespace App\Form;
 
-use App\Entity\User;
-use Doctrine\DBAL\Types\StringType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class CustomerRegistrationType
+ * @package App\Form
+ */
 class CustomerRegistrationType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,16 +28,26 @@ class CustomerRegistrationType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field regInput')),
                 'required' => true,
-                'first_options' => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options' => ['label' => 'Password', 'attr' => [
+                    'class' => 'regInput',
+                    'minlength' => 5,
+                    'maxlength' => 20
+                ]],
+                'second_options' => ['label' => 'Repeat password', 'attr' => [
+                    'class' => 'regInput',
+                    'minlength' => 5,
+                    'maxlength' => 20
+                ]],
             ))
             ->add('personal_info', CustomerType::class, array(
                 'label' => 'Personal info:',
-                'label_attr' => ['class' => 'regLabel--big rowWrapper--label']
+                'label_attr' => [
+                    'class' => 'regSecLabel'
+                ]
             ))
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',
-                'attr' => ['class' => 'button button__content u-mgTop']
+                'attr' => ['class' => 'btnPrimary u-mgTop']
             ]);
     }
 }

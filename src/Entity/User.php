@@ -3,14 +3,20 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity()
+ * @UniqueEntity(fields={"email"}, message="It looks like your already have an account!")
  */
 class User implements UserInterface
 {
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_TRAINER = 'ROLE_TRAINER';
+    const ROLE_CUSTOMER = 'ROLE_CUSTOMER';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -19,7 +25,9 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var string $email
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email
      */
     private $email;
 
@@ -36,7 +44,7 @@ class User implements UserInterface
     private $password;
     /**
      * @var Trainer
-     * @ORM\OneToOne(targetEntity="Trainer", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Trainer", mappedBy="user", cascade={"persist"})
      */
     private $trainer;
 
@@ -45,16 +53,26 @@ class User implements UserInterface
      */
     private $customer;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return User
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -79,11 +97,15 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     * @return User
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -99,6 +121,10 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
+    /**
+     * @param string $password
+     * @return User
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -139,11 +165,18 @@ class User implements UserInterface
         $this->trainer = $trainer;
     }
 
+    /**
+     * @return Customer|null
+     */
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
+    /**
+     * @param Customer $customer
+     * @return User
+     */
     public function setCustomer(Customer $customer): self
     {
         $this->customer = $customer;

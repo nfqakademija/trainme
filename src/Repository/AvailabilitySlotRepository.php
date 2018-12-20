@@ -15,11 +15,19 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AvailabilitySlotRepository extends ServiceEntityRepository
 {
+    /**
+     * AvailabilitySlotRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, AvailabilitySlot::class);
     }
 
+    /**
+     * @param Trainer $trainer
+     * @return mixed
+     */
     public function getTrainerSlotsWithScheduledWorkoutsArray(Trainer $trainer)
     {
         $em = $this->getEntityManager();
@@ -28,7 +36,7 @@ class AvailabilitySlotRepository extends ServiceEntityRepository
             "select a, s from App\Entity\AvailabilitySlot a 
                  LEFT JOIN App\Entity\ScheduledWorkout s 
                  WITH s.trainer = a.trainer AND s.startsAt >= a.startsAt AND s.endsAt <= a.endsAt 
-                 WHERE a.trainer = :trainer 
+                 WHERE a.trainer = :trainer AND a.endsAt > CURRENT_TIMESTAMP() 
                  ORDER BY a.id, s.startsAt"
         )->setParameter('trainer', $trainer);
 

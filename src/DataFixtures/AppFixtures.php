@@ -4,49 +4,77 @@ namespace App\DataFixtures;
 
 use App\Entity\AvailabilitySlot;
 use App\Entity\Customer;
+use App\Entity\Rating;
 use App\Entity\ScheduledWorkout;
 use App\Entity\Tag;
 use App\Entity\Trainer;
 use App\Entity\User;
-use function Couchbase\fastlzCompress;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class AppFixtures
+ * @package App\DataFixtures
+ */
 class AppFixtures extends Fixture
 {
 
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    private $kernel;
+
+    /**
+     * AppFixtures constructor.
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param KernelInterface $kernel
+     */
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, KernelInterface $kernel)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->kernel = $kernel;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
 
+        $imageNames = $this->getImageNames();
 
         $tags = [
-            'Indoors' => 'Tag 1 description',
-            'Outdoors' => 'Tag 2 description',
-            'Yoga' => 'Tag 3 description',
-            'Weight lifting' => 'Tag 4 description',
-            'Running' => 'Tag 5 description',
-            'Endurance training' => 'Tag 6 description',
+            'Indoors', 'Outdoors', 'Yoga', 'Weight lifting', 'Running', 'Endurance', 'Crossfit', 'Weight loss',
+            'Cardio', 'Fighting', 'Powerlifting', 'Flexibility'
         ];
 
         $tagObjects = [];
 
-        foreach ($tags as $name => $description) {
+        foreach ($tags as $name) {
             $tag = new Tag();
             $tag->setName($name);
-            $tag->setDescription($description);
             $tagObjects[] = $tag;
             $manager->persist($tag);
         }
+
+        $dummyCustomer = new Customer();
+        $user = new User();
+
+        $user->setEmail($faker->email);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+        $user->setRoles(['ROLE_CUSTOMER']);
+        $manager->persist($user);
+        $dummyCustomer->setUser($user);
+        $dummyCustomer->setPhone($faker->phoneNumber);
+        $dummyCustomer->setName($faker->name);
+        $manager->persist($dummyCustomer);
 
         for ($i = 0; $i < 20; $i++) {
             $trainer = new Trainer();
@@ -59,11 +87,18 @@ class AppFixtures extends Fixture
             $trainer->setPersonalStatement($faker->realText());
             $trainer->setPhone($faker->phoneNumber);
             $trainer->setLocation($faker->city);
-            $trainer->setImageUrl($faker->imageUrl(250, 250, 'sports', false, $i % 10 + 1));
+            $trainer->setImageName($imageNames[array_rand($imageNames)]);
             $this->addReference(sprintf("Trainer %s", $i + 1), $trainer);
             $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags) - 1)]);
             $trainer->setUser($user);
             $manager->persist($trainer);
+
+            $rating = new Rating();
+            $rating->setCustomer($dummyCustomer);
+            $rating->setTrainer($trainer);
+            $rating->setStars(rand(3, 5));
+            $manager->persist($rating);
+
 
             for ($day = 8; $day < 30; $day++) {
                 $availabilitySlot = new AvailabilitySlot();
@@ -102,7 +137,7 @@ class AppFixtures extends Fixture
                     $scheduledWorkout->setEndsAt(clone $availabilitySlot->getEndsAt());
                 } else {
                     $newStartDate = $availabilitySlot->getStartsAt();
-                    $newEndDate =  $availabilitySlot->getEndsAt();
+                    $newEndDate = $availabilitySlot->getEndsAt();
 
                     if ($i % 2 == 0) {
                         $newStartDate->modify('+30 minutes');
@@ -170,6 +205,55 @@ class AppFixtures extends Fixture
             }
         }
 
+        $userTrainer = new User();
+        $trainer = new Trainer();
+        $userTrainer->setEmail('trainer123@train.me');
+        $userTrainer->setPassword($this->passwordEncoder->encodePassword($userTrainer, 'trainer123'));
+        $userTrainer->setRoles([User::ROLE_TRAINER]);
+
+        $manager->persist($userTrainer);
+
+        $trainer->setName('Treneris Trenerijauskas');
+        $trainer->setPhone('+370644534534534');
+        $trainer->addTag($tagObjects[0]);
+        $trainer->setPersonalStatement($faker->text);
+        $trainer->setLocation('Vilnius');
+        $trainer->setImageName($imageNames[3]);
+        $trainer->setUser($userTrainer);
+
+        $manager->persist($trainer);
+
+        $customer = new Customer();
+        $userCustomer = new User();
+        $userCustomer->setEmail('customer123@train.me');
+        $userCustomer->setPassword($this->passwordEncoder->encodePassword($userCustomer, 'customer123'));
+        $userCustomer->setRoles([User::ROLE_CUSTOMER]);
+        $manager->persist($userCustomer);
+
+        $customer->setName('Klientas Klientauskas');
+        $customer->setPhone('37076456545644');
+        $customer->setUser($userCustomer);
+        $manager->persist($customer);
+
+        $rating = new Rating();
+        $rating->setStars(5);
+        $rating->setTrainer($trainer);
+        $rating->setCustomer($dummyCustomer);
+        $manager->persist($rating);
+
         $manager->flush();
+    }
+
+    private function getImageNames()
+    {
+        $fileNames = [];
+        $finder = new Finder();
+        $imagesDir = $this->kernel->getProjectDir() . '/public/images/profile/';
+
+        $finder->files()->in($imagesDir);
+        foreach ($finder as $file) {
+            $fileNames[] = $file->getFilename();
+        }
+        return $fileNames;
     }
 }

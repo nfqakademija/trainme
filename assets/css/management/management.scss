@@ -35,7 +35,7 @@
 }
 
 .top__item {
-  margin-right: 80px;
+  margin-right: 50px;
   display: flex;
   flex-direction: column;
 }
@@ -44,16 +44,7 @@
   margin-bottom: 60px;
 }
 
-.newSlot {
-  border: none;
-  padding: 10px 20px;
-  color: white;
-  background: black;
-  cursor: pointer;
-  margin-top: 25px;
-}
-
-.newSlot--disabled {
+.btnPrimary--disabled {
   background: rgba(0, 0, 0, .6);
   cursor: default;
 }
@@ -73,9 +64,24 @@
   align-items: center;
 }
 
+.mngInput {
+  height: 30px;
+  border-radius: 2px;
+  padding-left: 10px;
+}
+
 @media only screen and (max-width: 768px) {
+  .managementContainer {
+    width: 90vw;
+  }
+
   .top__item {
     margin-right: 30px;
+    width: 25%;
+  }
+
+  .newSlotContainer {
+    padding: 30px;
   }
 }
 
@@ -87,10 +93,13 @@
 
   .top {
     flex-direction: column;
+    width: 80%;
+    max-width: 250px;
   }
 
   .top__item {
     margin: 0 0 15px 0;
+    width: 100%;
   }
 
   .managementContainer__item {

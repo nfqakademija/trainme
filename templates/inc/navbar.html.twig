@@ -1,0 +1,63 @@
+<nav class="navbar">
+    <a class="navbar__brand u-listNone" href="{{ path('home') }}">TrainMe</a>
+    <ul class="navbar__menu u-listNone">
+        <li class="navbar__item"><a href="{{ path('list') }}"
+                                    class="navbar__item__link{{ app.request.pathInfo == path('list')?" link--active" : null }}">Trainers</a>
+        </li>
+        <li class="navbar__item sublist">
+
+            {% if app.user and is_granted('ROLE_TRAINER') %}
+
+            <a href="#" class="navbar__item__link">{{ app.user.trainer.name }}</a>
+            <ul class="login__list u-listNone">
+                <li>
+                    <a href="{{ path('trainer_page', {trainer : app.user.trainer.id}) }}"
+                       class="login__link{{ app.request.pathInfo == path('trainer_page', {trainer : app.user.trainer.id})?" link--active" : null }}">
+                        Personal page
+                    </a>
+                </li>
+                <li><a href="{{ path('trainer_workouts') }}"
+                       class="login__link{{ app.request.pathInfo == path('trainer_workouts')?" link--active" : null }}">Workouts</a>
+                </li>
+                <li><a href="{{ path('manage') }}"
+                       class="login__link{{ app.request.pathInfo == path('manage')?" link--active" : null }}">Manage
+                        schedule</a></li>
+                <li><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
+            </ul>
+
+            {% elseif app.user and is_granted('ROLE_CUSTOMER') %}
+
+            <a href="#" class="navbar__item__link">{{ app.user.customer.name }}</a>
+            <ul class="login__list u-listNone">
+                <li>
+                    <a href="{{ path('customer_workouts') }}"
+                       class="login__link{{ app.request.pathInfo == path('customer_workouts')?" link--active" : null }}">
+                        My workouts
+                    </a>
+                </li>
+                <li><a href="{{ path('app_logout') }}" class="login__link">Log out</a></li>
+            </ul>
+
+            {% else %}
+
+            <a href="#" class="navbar__item__link">Register</a>
+            <ul class="login__list u-listNone">
+                <li><a href="{{ path('app_customer_register') }}"
+                       class="login__link{{ app.request.pathInfo == path('app_customer_register')?" link--active" : null }}">
+                        Customer</a>
+                </li>
+                <li><a href="{{ path('app_trainer_register') }}"
+                       class="login__link{{ app.request.pathInfo == path('app_trainer_register')?" link--active" : null }}">
+                        Trainer</a>
+                </li>
+            </ul>
+        </li>
+        <li class="navbar__item sublist">
+            <a href="{{ path('app_login') }}"
+               class="navbar__item__link{{ app.request.pathInfo == path('app_login')?" link--active" : null }}">Log
+                in</a>
+        </li>
+        {% endif %}
+    </ul>
+    <div class="navbar__toggle"><i class="fas fa-caret-down navbar__arrow"></i></div>
+</nav>
