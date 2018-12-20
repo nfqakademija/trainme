@@ -34,11 +34,11 @@ class TrainerRegistrationType extends AbstractType
                 'required' => true,
                 'first_options' => array(
                     'label' => 'Password',
-                    'attr' => ['class' => 'regInput']
+                    'attr' => ['class' => 'regInput', 'minlength' => 5, 'maxlength' => 20]
                 ),
                 'second_options' => array(
                     'label' => 'Repeat Password',
-                    'attr' => ['class' => 'regInput']
+                    'attr' => ['class' => 'regInput', 'minlength' => 5, 'maxlength' => 20]
                 ),
             ))
             ->add('personal_info', TrainerType::class, [
