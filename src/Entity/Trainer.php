@@ -72,9 +72,10 @@ class Trainer implements \JsonSerializable
     /**
      * @Assert\File(
      *     maxSize = "1024k",
-     *     mimeTypes = {"image/jpeg"},
+     *     mimeTypes = {"image/jpeg", "image/png"},
      *     mimeTypesMessage = "Please upload a valid Image"
      * )
+     * @Assert\NotNull
      * @Vich\UploadableField(mapping="profile_photo", fileNameProperty="imageName")
      * @var File
      */
