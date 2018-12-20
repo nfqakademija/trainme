@@ -24,11 +24,11 @@ class TrainerCalendar extends React.Component {
             isBooking: false,
             isSuccess: false,
             isError: false,
-            isValidationError: false,
             starts_at: '',
             ends_at: '',
             bookFromValue: '',
-            bookToValue: ''
+            bookToValue: '',
+            responseMessage: ''
         }
     }
 
@@ -49,7 +49,6 @@ class TrainerCalendar extends React.Component {
                     }),
                     isLoading: false,
                     isBooking: false,
-                    success: false
                 });
                 this.closeModal();
             })
@@ -57,7 +56,6 @@ class TrainerCalendar extends React.Component {
                 this.setState({
                     isLoading: false,
                     isBooking: false,
-                    success: false
                 });
                 console.log(err);
             });
@@ -71,7 +69,6 @@ class TrainerCalendar extends React.Component {
         this.setState({
             isSuccess: false,
             isError: false,
-            isValidationError: false,
             isModalVisible: true,
             starts_at: event.starts_at,
             ends_at: event.ends_at,
@@ -134,26 +131,26 @@ class TrainerCalendar extends React.Component {
         }
 
         this.setState({isBooking: true});
-        axios.post('/api/scheduled_workouts', {
+        axios.post('/api/scheduled_workout', {
             'starts_at': moment(bookFromValue).format('YYYY-MM-DD HH:mm'),
             'ends_at': moment(bookToValue).format('YYYY-MM-DD HH:mm'),
             'trainer_id': this.props.id
         }).then(response => {
-            this.fetchAvailableTimes();
             this.setState({
                 isBooking: false,
-                isSuccess: true
+                isSuccess: true,
+                isError: false,
+                responseMessage: 'You\'ve successfully booked a workout! Trainer will contact you soon.'
             });
+            this.fetchAvailableTimes();
         }).catch(err => {
             console.log(err);
             this.setState({
                 isBooking: false,
                 isError: true,
+                isSuccess: false,
+                responseMessage: err.response.data.validationError ? err.response.data.errors[0] : 'Oops, something went wrong.'
             });
-
-            if (err.response.data.validationError) {
-                this.setState({isValidationError: true});
-            }
             this.closeModal();
         });
     }
@@ -163,7 +160,6 @@ class TrainerCalendar extends React.Component {
             isModalVisible,
             isSuccess,
             isError,
-            isValidationError,
             isLoading,
             events,
             starts_at,
@@ -171,7 +167,8 @@ class TrainerCalendar extends React.Component {
             bookToValue,
             isBooking,
             isCustomer,
-            isTrainer
+            isTrainer,
+            responseMessage
         } = this.state;
         const BODY = $('body');
         BODY.css({overflowY: 'auto'});
@@ -179,11 +176,7 @@ class TrainerCalendar extends React.Component {
         let calendar = <p>This trainer has no available workouts.</p>;
         let modal = null;
         let info = null;
-        let error = <Message type="danger">Oops, something went wrong.</Message>;
-
-        if (!isLoading && isValidationError) {
-            error = <Message type="danger">Invalid time range.</Message>;
-        }
+        let message = <Message type={isSuccess ? 'success' : 'danger'}>{responseMessage}</Message>;
 
         if (isLoading) {
             calendar = <Spinner/>;
@@ -228,22 +221,20 @@ class TrainerCalendar extends React.Component {
                 </Modal>);
         }
 
-        if (!isLoading && isCustomer && events.length) {
+        if (isCustomer && events.length) {
             info = <Message type="info">Click on the desired available time slot to book a workout.</Message>;
-        } else if (!isLoading && events.length && !isTrainer) {
+        } else if (events.length && !isTrainer) {
             info = <Message type="danger">Only logged in
                 <em style={{fontWeight: 'bolder', fontStyle: 'normal'}}> customers </em> can book workouts! Please <a
                     href="/login" className="messageLink">log in</a>.</Message>;
-        } else if (!isLoading && events.length) {
+        } else if (events.length) {
             info =
                 <Message type="info">You are logged in as a trainer. Your customers will book workouts here.</Message>;
         }
 
         return (
             <React.Fragment>
-                {isSuccess &&
-                <Message type="success">You've successfully booked a workout! Trainer will contact you soon.</Message>}
-                {isError && error}
+                {(isSuccess || isError) && message}
                 {info}
                 {calendar}
                 {modal}
