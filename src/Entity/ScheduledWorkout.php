@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @CustomAssert\ScheduledWorkoutInAvailableTimes
  * @CustomAssert\ValidRange
+ * @CustomAssert\ScheduledWorkoutNotInExistingRange
  */
 class ScheduledWorkout implements DateRangeInterface, \JsonSerializable
 {
