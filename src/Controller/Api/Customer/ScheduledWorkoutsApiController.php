@@ -4,6 +4,7 @@ namespace App\Controller\Api\Customer;
 
 use App\Controller\AbstractController;
 use App\Entity\ScheduledWorkout;
+use App\Exceptions\ValidationException;
 use App\Repository\TrainerRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,15 +51,17 @@ class ScheduledWorkoutsApiController extends AbstractController
             $errors = $validator->validate($scheduledWorkout);
 
             if (count($errors) > 0) {
-                throw new \Exception('Validation error');
+                throw new ValidationException('Validation error', $errors);
             }
 
             $this->getDoctrine()->getManager()->persist($scheduledWorkout);
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($scheduledWorkout);
-        } catch (\Throwable $exception) {
-            return new JsonResponse($exception->getMessage(), 400);
+        } catch (ValidationException $exception) {
+            return new JsonResponse(['validationError' => true,'errors' => $exception->getErrorsArray()], 400);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['errors' => [$exception->getMessage()]]);
         }
     }
 
