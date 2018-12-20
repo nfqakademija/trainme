@@ -26,12 +26,6 @@ class Tag implements \JsonSerializable
     private $name;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
      * @var Collection/Trainer[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Trainer", inversedBy="tags")
      */
@@ -68,25 +62,6 @@ class Tag implements \JsonSerializable
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     * @return Tag
-     */
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
