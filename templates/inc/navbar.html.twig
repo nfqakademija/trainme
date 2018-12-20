@@ -40,7 +40,7 @@
 
             {% else %}
 
-            <a href="#" class="navbar__item__link">Register</a>
+            <a href="#" id="menu-expand" class="navbar__item__link">Register</a>
             <ul class="login__list u-listNone">
                 <li><a href="{{ path('app_customer_register') }}"
                        class="login__link{{ app.request.pathInfo == path('app_customer_register')?" link--active" : null }}">
