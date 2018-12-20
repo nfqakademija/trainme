@@ -72,7 +72,7 @@
                                     <div class="trainerBox__head">
                                         <p class="trainerBox__name">{{ trainer.name }}</p>
                                         {% if trainer.averageRating %}
-                                            <p class="trainerBox__rating"><span>{{ trainer.averageRating }} </span>
+                                            <p class="trainerBox__rating"><span>{{ trainer.averageRating | number_format(1) }} </span>
                                                 <i class="fas fa-star fa-star--yellow"></i>
                                             </p>
                                         {% endif %}
