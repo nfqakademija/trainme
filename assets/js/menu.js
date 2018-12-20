@@ -10,16 +10,6 @@ $(window).resize(() => {
     }
 });
 
-if ($(window).width() < 480) {
-    $('.login__list').css({position: 'relative'});
-
-    $('#menu-expand').hover(() => {
-        $('.navbar__menu').css({minHeight: 235});
-    }, () => {
-        $('.navbar__menu').css({minHeight: 160});
-    })
-}
-
 toggle.on('click', () => {
     if (state) {
         menu.animate({
