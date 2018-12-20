@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CustomerRegistrationType
@@ -22,32 +23,23 @@ class CustomerRegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, ['attr' => ['class' => 'regInput']])
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'options' => array('attr' => array('class' => 'password-field regInput')),
-                'required' => true,
-                'first_options' => ['label' => 'Password', 'attr' => [
-                    'class' => 'regInput',
-                    'minlength' => 5,
-                    'maxlength' => 20
-                ]],
-                'second_options' => ['label' => 'Repeat password', 'attr' => [
-                    'class' => 'regInput',
-                    'minlength' => 5,
-                    'maxlength' => 20
-                ]],
-            ))
-            ->add('personal_info', CustomerType::class, array(
-                'label' => 'Personal info:',
-                'label_attr' => [
-                    'class' => 'regSecLabel'
-                ]
-            ))
+            ->add('user', UserType::class)
+            ->add('name', TextType::class, [
+                'attr' => ['class' => 'regInput', 'autocomplete' => 'off']
+            ])
+            ->add('phone', TelType::class, [
+                'attr' => ['class' => 'regInput', 'autocomplete' => 'off']
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',
                 'attr' => ['class' => 'btnPrimary u-mgTop']
             ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Customer::class
+        ]);
     }
 }

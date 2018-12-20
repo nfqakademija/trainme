@@ -37,7 +37,7 @@ class Customer implements \JsonSerializable
     private $scheduledWorkouts;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="customer")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="customer", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
