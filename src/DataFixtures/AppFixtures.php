@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\AvailabilitySlot;
 use App\Entity\Customer;
+use App\Entity\Rating;
 use App\Entity\ScheduledWorkout;
 use App\Entity\Tag;
 use App\Entity\Trainer;
@@ -63,36 +64,17 @@ class AppFixtures extends Fixture
             $manager->persist($tag);
         }
 
-        $userTrainer = new User();
-        $trainer = new Trainer();
-        $userTrainer->setEmail('trainer123@train.me');
-        $userTrainer->setPassword($this->passwordEncoder->encodePassword($userTrainer, 'trainer123'));
-        $userTrainer->setRoles([User::ROLE_TRAINER]);
-        $manager->persist($userTrainer);
+        $dummyCustomer = new Customer();
+        $user = new User();
 
-        $trainer->setName('Treneris Trenerijauskas');
-        $trainer->setPhone('+370644534534534');
-        $trainer->addTag($tagObjects[0]);
-        $trainer->setPersonalStatement($faker->text);
-        $trainer->setLocation('Vilnius');
-        $trainer->setImageName($imageNames[3]);
-        $trainer->setUser($userTrainer);
-
-        $manager->persist($trainer);
-
-
-        $customer = new Customer();
-        $userCustomer = new User();
-        $userCustomer->setEmail('customer123@train.me');
-        $userCustomer->setPassword($this->passwordEncoder->encodePassword($userCustomer, 'customer123'));
-        $userCustomer->setRoles([User::ROLE_CUSTOMER]);
-        $manager->persist($userCustomer);
-
-        $customer->setName('Klientas Klientauskas');
-        $customer->setPhone('37076456545644');
-        $customer->setUser($userCustomer);
-        $manager->persist($customer);
-
+        $user->setEmail($faker->email);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+        $user->setRoles(['ROLE_CUSTOMER']);
+        $manager->persist($user);
+        $dummyCustomer->setUser($user);
+        $dummyCustomer->setPhone($faker->phoneNumber);
+        $dummyCustomer->setName($faker->name);
+        $manager->persist($dummyCustomer);
 
         for ($i = 0; $i < 20; $i++) {
             $trainer = new Trainer();
@@ -110,6 +92,13 @@ class AppFixtures extends Fixture
             $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags) - 1)]);
             $trainer->setUser($user);
             $manager->persist($trainer);
+
+            $rating = new Rating();
+            $rating->setCustomer($dummyCustomer);
+            $rating->setTrainer($trainer);
+            $rating->setStars(rand(3, 5));
+            $manager->persist($rating);
+
 
             for ($day = 8; $day < 30; $day++) {
                 $availabilitySlot = new AvailabilitySlot();
@@ -215,6 +204,42 @@ class AppFixtures extends Fixture
                 $manager->persist($availabilitySlot);
             }
         }
+
+        $userTrainer = new User();
+        $trainer = new Trainer();
+        $userTrainer->setEmail('trainer123@train.me');
+        $userTrainer->setPassword($this->passwordEncoder->encodePassword($userTrainer, 'trainer123'));
+        $userTrainer->setRoles([User::ROLE_TRAINER]);
+
+        $manager->persist($userTrainer);
+
+        $trainer->setName('Treneris Trenerijauskas');
+        $trainer->setPhone('+370644534534534');
+        $trainer->addTag($tagObjects[0]);
+        $trainer->setPersonalStatement($faker->text);
+        $trainer->setLocation('Vilnius');
+        $trainer->setImageName($imageNames[3]);
+        $trainer->setUser($userTrainer);
+
+        $manager->persist($trainer);
+
+        $customer = new Customer();
+        $userCustomer = new User();
+        $userCustomer->setEmail('customer123@train.me');
+        $userCustomer->setPassword($this->passwordEncoder->encodePassword($userCustomer, 'customer123'));
+        $userCustomer->setRoles([User::ROLE_CUSTOMER]);
+        $manager->persist($userCustomer);
+
+        $customer->setName('Klientas Klientauskas');
+        $customer->setPhone('37076456545644');
+        $customer->setUser($userCustomer);
+        $manager->persist($customer);
+
+        $rating = new Rating();
+        $rating->setStars(5);
+        $rating->setTrainer($trainer);
+        $rating->setCustomer($dummyCustomer);
+        $manager->persist($rating);
 
         $manager->flush();
     }
