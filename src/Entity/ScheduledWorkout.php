@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interfaces\DateRangeInterface;
 use App\Validator\Constraints as CustomAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -9,8 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity()
  * @CustomAssert\ScheduledWorkoutInAvailableTimes
+ * @CustomAssert\ValidRange
  */
-class ScheduledWorkout implements \JsonSerializable
+class ScheduledWorkout implements DateRangeInterface, \JsonSerializable
 {
     /**
      * @var int
