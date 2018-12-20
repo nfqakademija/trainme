@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -42,10 +43,14 @@ class SecurityController extends AbstractController
      * @Route("/customer/register", name="app_customer_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
+     * @param ValidatorInterface $validator
      * @return Response
      */
-    public function customerRegister(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
-    {
+    public function customerRegister(
+        Request $request,
+        UserPasswordEncoderInterface $userPasswordEncoder,
+        ValidatorInterface $validator
+    ) {
         $form = $this->createForm(CustomerRegistrationType::class);
 
         $form->handleRequest($request);
@@ -64,6 +69,11 @@ class SecurityController extends AbstractController
             $user->setPassword($userPasswordEncoder->encodePassword($user, $data['password']));
             $user->setRoles([User::ROLE_CUSTOMER]);
 
+            $errors = $validator->validate($user);
+
+            if ($errors->count() > 0) {
+                return $this->redirectToRoute('app_customer_register');
+            }
             $em->persist($user);
 
             $customer->setUser($user);
@@ -82,10 +92,14 @@ class SecurityController extends AbstractController
      * @Route("/trainer/register", name="app_trainer_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
+     * @param ValidatorInterface $validator
      * @return Response
      */
-    public function trainerRegister(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
-    {
+    public function trainerRegister(
+        Request $request,
+        UserPasswordEncoderInterface $userPasswordEncoder,
+        ValidatorInterface $validator
+    ) {
         $form = $this->createForm(TrainerRegistrationType::class);
 
         $form->handleRequest($request);
@@ -104,12 +118,14 @@ class SecurityController extends AbstractController
             $user->setPassword($userPasswordEncoder->encodePassword($user, $data['password']));
             $user->setRoles([User::ROLE_TRAINER]);
 
+            $errors = $validator->validate($user);
+
+            if ($errors->count() > 0) {
+                return $this->redirectToRoute('app_trainer_register');
+            }
             $em->persist($user);
-
             $trainer->setUser($user);
-
             $em->persist($trainer);
-
             $em->flush();
 
             return $this->redirectToRoute('app_login');

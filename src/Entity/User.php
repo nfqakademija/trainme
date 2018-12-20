@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
+ * @UniqueEntity(fields={"email"}, message="It looks like your already have an account!")
  */
 class User implements UserInterface
 {
@@ -23,6 +25,7 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var string $email
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\Email
      */
@@ -41,7 +44,7 @@ class User implements UserInterface
     private $password;
     /**
      * @var Trainer
-     * @ORM\OneToOne(targetEntity="Trainer", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Trainer", mappedBy="user", cascade={"persist"})
      */
     private $trainer;
 
