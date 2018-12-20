@@ -20,6 +20,7 @@ security:
                 authenticators:
                     - App\Security\AppCustomAuthenticator
 
+
             # activate different ways to authenticate
 
             # http_basic: true
@@ -35,4 +36,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/api/availability_slot/*, roles: ROLE_TRAINER }
-         - { path: ^/api/trainer/, roles: ROLE_TRAINER }
+         - { path: ^/api/trainer/*, roles: ROLE_TRAINER }
+         - { path: ^/manage/*, roles: ROLE_TRAINER}
+         - { path: ^/trainer/*, roles: ROLE_TRAINER }
+         - { path: ^/workouts/*, roles: ROLE_CUSTOMER }
+         - { path: ^/api/scheduled_workout/*, roles: ROLE_CUSTOMER }
