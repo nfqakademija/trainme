@@ -24,7 +24,7 @@ class Management extends React.Component {
             isPosting: false,
             isSuccess: false,
             isError: false,
-            isDeleteSuccess: false
+            responseMessage: ''
         };
     }
 
@@ -35,7 +35,11 @@ class Management extends React.Component {
             field: $('#mngDate')[0],
             firstDay: 1,
             onSelect: (date) => {
-                this.setState({date, isSuccess: false, isError: false, isDeleteSuccess: false});
+                this.setState({
+                    date,
+                    isSuccess: false,
+                    isError: false,
+                });
             }
         });
 
@@ -48,7 +52,11 @@ class Management extends React.Component {
             dropdown: true,
             scrollbar: false,
             change: (time) => {
-                this.setState({mngFromValue: time, isSuccess: false, isError: false, isDeleteSuccess: false});
+                this.setState({
+                    mngFromValue: time,
+                    isSuccess: false,
+                    isError: false,
+                });
             }
         });
 
@@ -61,8 +69,20 @@ class Management extends React.Component {
             dropdown: true,
             scrollbar: false,
             change: (time) => {
-                this.setState({mngToValue: time, isSuccess: false, isError: false, isDeleteSuccess: false});
+                this.setState({
+                    mngToValue: time,
+                    isSuccess: false,
+                    isError: false,
+                });
             }
+        });
+    }
+
+    clearMsg() {
+        this.setState({
+            isSuccess: false,
+            isError: false,
+            responseMessage: ''
         });
     }
 
@@ -80,7 +100,8 @@ class Management extends React.Component {
                 console.log(err);
                 this.setState({
                     isLoading: false,
-                    isError: true
+                    isError: true,
+                    responseMessage: 'Oops, something went wrong.'
                 })
             });
     };
@@ -117,11 +138,16 @@ class Management extends React.Component {
                         ends_at: response.data.ends_at
                     }, ...this.state.slots],
                     isPosting: false,
-                    isSuccess: true
+                    isSuccess: true,
+                    responseMessage: 'Added new available time inteval successfully.'
                 });
             }).catch(err => {
                 console.log(err);
-                this.setState({isPosting: false, isError: true});
+                this.setState({
+                    isPosting: false,
+                    isError: true,
+                    responseMessage: 'Oops, something went wrong.'
+                });
             });
         } else {
             alert('Please fill in all inputs');
@@ -136,16 +162,34 @@ class Management extends React.Component {
                     this.setState({
                         slots: [...this.state.slots.filter(slot => slot.id !== id)],
                         isDeleteSuccess: true,
-                        isSuccess: true
+                        isSuccess: true,
+                        responseMessage: 'Successfully deleted time interval.'
                     });
                 }).catch(err => {
                 console.log(err);
                 this.setState({
                     isDeleteSuccess: false,
-                    isSuccess: false
+                    isSuccess: false,
+                    responseMessage: 'Oops, something went wrong.'
                 })
             });
         }
+    }
+
+    onEditSuccess() {
+        this.setState({
+            isSuccess: true,
+            isError: false,
+            responseMessage: 'Time interval updated successfully.'
+        })
+    }
+
+    onEditError() {
+        this.setState({
+            isSuccess: false,
+            isError: true,
+            responseMessage: 'Time interval updated successfully.'
+        })
     }
 
     render() {
@@ -157,18 +201,12 @@ class Management extends React.Component {
             mngToValue,
             isError,
             isSuccess,
-            isDeleteSuccess
+            responseMessage
         } = this.state;
         let list = <p>You don't have any available time ranges yet.</p>;
         let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
                                    className="btnPrimary">Add new</button>;
-        let message = <Message type="success">Successfully added new available time interval.</Message>;
-
-        if (!isLoading && isError) {
-            message = <Message type="danger">Oops, something went wrong</Message>;
-        } else if (!isLoading && isDeleteSuccess) {
-            message = <Message type="success">Successfully deleted time interval.</Message>;
-        }
+        let message = <Message type={isSuccess ? 'success' : 'danger'}>{responseMessage}</Message>;
 
         if (isLoading) {
             list = <Spinner/>;
@@ -184,6 +222,9 @@ class Management extends React.Component {
                     to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
                     slots={slots}
+                    clearMsg={() => this.clearMsg()}
+                    onEditSuccess={() => this.onEditSuccess()}
+                    onEditError={() => this.onEditError()}
                 />
             ));
         }
