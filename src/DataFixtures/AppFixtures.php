@@ -50,21 +50,16 @@ class AppFixtures extends Fixture
         $imageNames = $this->getImageNames();
 
         $tags = [
-            'Indoors' => 'Tag 1 description',
-            'Outdoors' => 'Tag 2 description',
-            'Yoga' => 'Tag 3 description',
-            'Weight lifting' => 'Tag 4 description',
-            'Running' => 'Tag 5 description',
-            'Endurance training' => 'Tag 6 description',
+            'Indoors', 'Outdoors', 'Yoga', 'Weight lifting', 'Running', 'Endurance', 'Crossfit', 'Weight loss',
+            'Cardio', 'Fighting', 'Powerlifting', 'Flexibility'
         ];
 
 
         $tagObjects = [];
 
-        foreach ($tags as $name => $description) {
+        foreach ($tags as $name) {
             $tag = new Tag();
             $tag->setName($name);
-            $tag->setDescription($description);
             $tagObjects[] = $tag;
             $manager->persist($tag);
         }
