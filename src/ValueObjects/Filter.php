@@ -79,8 +79,6 @@ class Filter
         } catch (\Exception $e) {
             $this->resetDatesFilter();
         }
-
-
     }
 
     /**

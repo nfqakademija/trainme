@@ -29,16 +29,20 @@ class CustomerRegistrationType extends AbstractType
                 'options' => array('attr' => array('class' => 'password-field regInput')),
                 'required' => true,
                 'first_options' => ['label' => 'Password', 'attr' => [
-                    'class' => 'regInput'
+                    'class' => 'regInput',
+                    'minlength' => 5,
+                    'maxlength' => 20
                 ]],
                 'second_options' => ['label' => 'Repeat password', 'attr' => [
-                    'class' => 'regInput'
+                    'class' => 'regInput',
+                    'minlength' => 5,
+                    'maxlength' => 20
                 ]],
             ))
             ->add('personal_info', CustomerType::class, array(
                 'label' => 'Personal info:',
-                'label_attr'=>[
-                    'class'=>'regSecLabel'
+                'label_attr' => [
+                    'class' => 'regSecLabel'
                 ]
             ))
             ->add('submit', SubmitType::class, [
