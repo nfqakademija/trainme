@@ -27,7 +27,7 @@ class TrainerRegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user', UserType::class)
+            ->add('user', UserType::class, ['label_attr' => ['class' => 'u-dNone']])
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'regInput', 'autocomplete' => 'off']
             ])
