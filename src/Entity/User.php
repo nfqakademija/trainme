@@ -38,6 +38,13 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(min=6, max=4096)
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -49,7 +56,7 @@ class User implements UserInterface
     private $trainer;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Customer", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\Entity\Customer", mappedBy="user", cascade={"persist"})
      */
     private $customer;
 
@@ -192,5 +199,21 @@ class User implements UserInterface
     public function __sleep()
     {
         return ['id','email','roles', 'password'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
     }
 }
