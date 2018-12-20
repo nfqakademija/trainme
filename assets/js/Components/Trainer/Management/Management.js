@@ -22,6 +22,9 @@ class Management extends React.Component {
             mngFromValue: '',
             mngToValue: '',
             isPosting: false,
+            isSuccess: false,
+            isError: false,
+            responseMessage: ''
         };
     }
 
@@ -32,7 +35,11 @@ class Management extends React.Component {
             field: $('#mngDate')[0],
             firstDay: 1,
             onSelect: (date) => {
-                this.setState({date})
+                this.setState({
+                    date,
+                    isSuccess: false,
+                    isError: false,
+                });
             }
         });
 
@@ -45,7 +52,11 @@ class Management extends React.Component {
             dropdown: true,
             scrollbar: false,
             change: (time) => {
-                this.setState({mngFromValue: time})
+                this.setState({
+                    mngFromValue: time,
+                    isSuccess: false,
+                    isError: false,
+                });
             }
         });
 
@@ -58,8 +69,20 @@ class Management extends React.Component {
             dropdown: true,
             scrollbar: false,
             change: (time) => {
-                this.setState({mngToValue: time})
+                this.setState({
+                    mngToValue: time,
+                    isSuccess: false,
+                    isError: false,
+                });
             }
+        });
+    }
+
+    clearMsg() {
+        this.setState({
+            isSuccess: false,
+            isError: false,
+            responseMessage: ''
         });
     }
 
@@ -69,13 +92,16 @@ class Management extends React.Component {
             .then(response => {
                 this.setState({
                     slots: Object.keys(response.data).map(slot => response.data[slot]),
-                    isLoading: false
+                    isLoading: false,
+                    isError: false
                 });
             })
             .catch(err => {
                 console.log(err);
                 this.setState({
-                    isLoading: false
+                    isLoading: false,
+                    isError: true,
+                    responseMessage: 'Oops, something went wrong.'
                 })
             });
     };
@@ -96,6 +122,10 @@ class Management extends React.Component {
                 alert('You are already available in this period of time!');
                 return;
             }
+            if (mngFromValue >= mngToValue) {
+                alert('Invalid time range.');
+                return;
+            }
             this.setState({isPosting: true});
             axios.post('/api/availability_slot', {
                 starts_at: `${dateStr} ${from}`,
@@ -107,11 +137,17 @@ class Management extends React.Component {
                         starts_at: response.data.starts_at,
                         ends_at: response.data.ends_at
                     }, ...this.state.slots],
-                    isPosting: false
+                    isPosting: false,
+                    isSuccess: true,
+                    responseMessage: 'Added new available time inteval successfully.'
                 });
             }).catch(err => {
                 console.log(err);
-                this.setState({isPosting: false});
+                this.setState({
+                    isPosting: false,
+                    isError: true,
+                    responseMessage: 'Oops, something went wrong.'
+                });
             });
         } else {
             alert('Please fill in all inputs');
@@ -125,11 +161,35 @@ class Management extends React.Component {
                 .then(response => {
                     this.setState({
                         slots: [...this.state.slots.filter(slot => slot.id !== id)],
+                        isDeleteSuccess: true,
+                        isSuccess: true,
+                        responseMessage: 'Successfully deleted time interval.'
                     });
                 }).catch(err => {
                 console.log(err);
+                this.setState({
+                    isDeleteSuccess: false,
+                    isSuccess: false,
+                    responseMessage: 'Oops, something went wrong.'
+                })
             });
         }
+    }
+
+    onEditSuccess() {
+        this.setState({
+            isSuccess: true,
+            isError: false,
+            responseMessage: 'Time interval updated successfully.'
+        })
+    }
+
+    onEditError() {
+        this.setState({
+            isSuccess: false,
+            isError: true,
+            responseMessage: 'Time interval updated successfully.'
+        })
     }
 
     render() {
@@ -138,11 +198,15 @@ class Management extends React.Component {
             slots,
             isPosting,
             mngFromValue,
-            mngToValue
+            mngToValue,
+            isError,
+            isSuccess,
+            responseMessage
         } = this.state;
         let list = <p>You don't have any available time ranges yet.</p>;
         let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
                                    className="btnPrimary">Add new</button>;
+        let message = <Message type={isSuccess ? 'success' : 'danger'}>{responseMessage}</Message>;
 
         if (isLoading) {
             list = <Spinner/>;
@@ -158,16 +222,21 @@ class Management extends React.Component {
                     to={moment(slot.ends_at).format('HH:mm')}
                     onDelete={id => this.deleteClicked(id)}
                     slots={slots}
+                    clearMsg={() => this.clearMsg()}
+                    onEditSuccess={() => this.onEditSuccess()}
+                    onEditError={() => this.onEditError()}
                 />
             ));
         }
 
         if (isPosting) {
-            addNewButton = <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
+            addNewButton =
+                <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
         }
 
         return (
             <React.Fragment>
+                {(isSuccess || isError) && message}
                 <Message type="info">You can add, edit or remove your availability periods here.</Message>
                 <AddSlot from={mngFromValue} to={mngToValue}>{addNewButton}</AddSlot>
                 <div className={isLoading ? "mngList" : null}>{slots && list}</div>

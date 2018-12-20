@@ -24,6 +24,7 @@ class TrainerCalendar extends React.Component {
             isBooking: false,
             isSuccess: false,
             isError: false,
+            isValidationError: false,
             starts_at: '',
             ends_at: '',
             bookFromValue: '',
@@ -70,6 +71,7 @@ class TrainerCalendar extends React.Component {
         this.setState({
             isSuccess: false,
             isError: false,
+            isValidationError: false,
             isModalVisible: true,
             starts_at: event.starts_at,
             ends_at: event.ends_at,
@@ -132,7 +134,7 @@ class TrainerCalendar extends React.Component {
         }
 
         this.setState({isBooking: true});
-        axios.post('/api/scheduled_workout', {
+        axios.post('/api/scheduled_workouts', {
             'starts_at': moment(bookFromValue).format('YYYY-MM-DD HH:mm'),
             'ends_at': moment(bookToValue).format('YYYY-MM-DD HH:mm'),
             'trainer_id': this.props.id
@@ -146,8 +148,12 @@ class TrainerCalendar extends React.Component {
             console.log(err);
             this.setState({
                 isBooking: false,
-                isError: true
+                isError: true,
             });
+
+            if (err.response.data.validationError) {
+                this.setState({isValidationError: true});
+            }
             this.closeModal();
         });
     }
@@ -157,6 +163,7 @@ class TrainerCalendar extends React.Component {
             isModalVisible,
             isSuccess,
             isError,
+            isValidationError,
             isLoading,
             events,
             starts_at,
@@ -172,6 +179,11 @@ class TrainerCalendar extends React.Component {
         let calendar = <p>This trainer has no available workouts.</p>;
         let modal = null;
         let info = null;
+        let error = <Message type="danger">Oops, something went wrong.</Message>;
+
+        if (!isLoading && isValidationError) {
+            error = <Message type="danger">Invalid time range.</Message>;
+        }
 
         if (isLoading) {
             calendar = <Spinner/>;
@@ -231,8 +243,7 @@ class TrainerCalendar extends React.Component {
             <React.Fragment>
                 {isSuccess &&
                 <Message type="success">You've successfully booked a workout! Trainer will contact you soon.</Message>}
-                {isError &&
-                <Message type="danger">Oops, something went wrong.</Message>}
+                {isError && error}
                 {info}
                 {calendar}
                 {modal}
