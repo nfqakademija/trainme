@@ -11,6 +11,8 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -25,13 +27,17 @@ class AppFixtures extends Fixture
      */
     private $passwordEncoder;
 
+    private $kernel;
+
     /**
      * AppFixtures constructor.
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param KernelInterface $kernel
      */
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, KernelInterface $kernel)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->kernel = $kernel;
     }
 
     /**
@@ -41,6 +47,7 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create();
 
+        $imageNames = $this->getImageNames();
 
         $tags = [
             'Indoors' => 'Tag 1 description',
@@ -50,6 +57,7 @@ class AppFixtures extends Fixture
             'Running' => 'Tag 5 description',
             'Endurance training' => 'Tag 6 description',
         ];
+
 
         $tagObjects = [];
 
@@ -72,7 +80,7 @@ class AppFixtures extends Fixture
             $trainer->setPersonalStatement($faker->realText());
             $trainer->setPhone($faker->phoneNumber);
             $trainer->setLocation($faker->city);
-            $trainer->setImageName($faker->imageUrl(250, 250, 'sports', false, $i % 10 + 1));
+            $trainer->setImageName($imageNames[array_rand($imageNames)]);
             $this->addReference(sprintf("Trainer %s", $i + 1), $trainer);
             $trainer->addTag($tagObjects[$faker->numberBetween(0, count($tags) - 1)]);
             $trainer->setUser($user);
@@ -115,7 +123,7 @@ class AppFixtures extends Fixture
                     $scheduledWorkout->setEndsAt(clone $availabilitySlot->getEndsAt());
                 } else {
                     $newStartDate = $availabilitySlot->getStartsAt();
-                    $newEndDate =  $availabilitySlot->getEndsAt();
+                    $newEndDate = $availabilitySlot->getEndsAt();
 
                     if ($i % 2 == 0) {
                         $newStartDate->modify('+30 minutes');
@@ -184,5 +192,18 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    private function getImageNames()
+    {
+        $fileNames = [];
+        $finder = new Finder();
+        $imagesDir = $this->kernel->getProjectDir() . '/public/images/profile/';
+
+        $finder->files()->in($imagesDir);
+        foreach ($finder as $file) {
+            $fileNames[] = $file->getFilename();
+        }
+        return $fileNames;
     }
 }
