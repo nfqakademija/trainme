@@ -22,6 +22,9 @@ class Management extends React.Component {
             mngFromValue: '',
             mngToValue: '',
             isPosting: false,
+            isSuccess: false,
+            isError: false,
+            isDeleteSuccess: false
         };
     }
 
@@ -32,7 +35,7 @@ class Management extends React.Component {
             field: $('#mngDate')[0],
             firstDay: 1,
             onSelect: (date) => {
-                this.setState({date})
+                this.setState({date, isSuccess: false, isError: false, isDeleteSuccess: false});
             }
         });
 
@@ -45,7 +48,7 @@ class Management extends React.Component {
             dropdown: true,
             scrollbar: false,
             change: (time) => {
-                this.setState({mngFromValue: time})
+                this.setState({mngFromValue: time, isSuccess: false, isError: false, isDeleteSuccess: false});
             }
         });
 
@@ -58,7 +61,7 @@ class Management extends React.Component {
             dropdown: true,
             scrollbar: false,
             change: (time) => {
-                this.setState({mngToValue: time})
+                this.setState({mngToValue: time, isSuccess: false, isError: false, isDeleteSuccess: false});
             }
         });
     }
@@ -69,13 +72,15 @@ class Management extends React.Component {
             .then(response => {
                 this.setState({
                     slots: Object.keys(response.data).map(slot => response.data[slot]),
-                    isLoading: false
+                    isLoading: false,
+                    isError: false
                 });
             })
             .catch(err => {
                 console.log(err);
                 this.setState({
-                    isLoading: false
+                    isLoading: false,
+                    isError: true
                 })
             });
     };
@@ -96,6 +101,10 @@ class Management extends React.Component {
                 alert('You are already available in this period of time!');
                 return;
             }
+            if (mngFromValue >= mngToValue) {
+                alert('Invalid time range.');
+                return;
+            }
             this.setState({isPosting: true});
             axios.post('/api/availability_slot', {
                 starts_at: `${dateStr} ${from}`,
@@ -107,11 +116,12 @@ class Management extends React.Component {
                         starts_at: response.data.starts_at,
                         ends_at: response.data.ends_at
                     }, ...this.state.slots],
-                    isPosting: false
+                    isPosting: false,
+                    isSuccess: true
                 });
             }).catch(err => {
                 console.log(err);
-                this.setState({isPosting: false});
+                this.setState({isPosting: false, isError: true});
             });
         } else {
             alert('Please fill in all inputs');
@@ -125,9 +135,15 @@ class Management extends React.Component {
                 .then(response => {
                     this.setState({
                         slots: [...this.state.slots.filter(slot => slot.id !== id)],
+                        isDeleteSuccess: true,
+                        isSuccess: true
                     });
                 }).catch(err => {
                 console.log(err);
+                this.setState({
+                    isDeleteSuccess: false,
+                    isSuccess: false
+                })
             });
         }
     }
@@ -138,11 +154,21 @@ class Management extends React.Component {
             slots,
             isPosting,
             mngFromValue,
-            mngToValue
+            mngToValue,
+            isError,
+            isSuccess,
+            isDeleteSuccess
         } = this.state;
         let list = <p>You don't have any available time ranges yet.</p>;
         let addNewButton = <button style={{marginTop: '25px'}} onClick={() => this.addNewSlot()}
                                    className="btnPrimary">Add new</button>;
+        let message = <Message type="success">Successfully added new available time interval.</Message>;
+
+        if (!isLoading && isError) {
+            message = <Message type="danger">Oops, something went wrong</Message>;
+        } else if (!isLoading && isDeleteSuccess) {
+            message = <Message type="success">Successfully deleted time interval.</Message>;
+        }
 
         if (isLoading) {
             list = <Spinner/>;
@@ -163,11 +189,13 @@ class Management extends React.Component {
         }
 
         if (isPosting) {
-            addNewButton = <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
+            addNewButton =
+                <button style={{marginTop: '25px'}} className="btnPrimary btnPrimary--disabled">Adding</button>;
         }
 
         return (
             <React.Fragment>
+                {(isSuccess || isError) && message}
                 <Message type="info">You can add, edit or remove your availability periods here.</Message>
                 <AddSlot from={mngFromValue} to={mngToValue}>{addNewButton}</AddSlot>
                 <div className={isLoading ? "mngList" : null}>{slots && list}</div>
