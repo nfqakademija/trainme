@@ -238,7 +238,7 @@ class AppFixtures extends Fixture
         $rating = new Rating();
         $rating->setStars(5);
         $rating->setTrainer($trainer);
-        $rating->setCustomer($customer);
+        $rating->setCustomer($dummyCustomer);
         $manager->persist($rating);
 
         $manager->flush();
