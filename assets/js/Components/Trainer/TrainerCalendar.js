@@ -178,7 +178,7 @@ class TrainerCalendar extends React.Component {
         }
 
         if (isTrainer && !events.length && !isLoading) {
-            calendar = <p>You have no available workout times. Add some <a href="/manage">here</a>.</p>;
+            calendar = <p>You have no available workout times. Add some <a className="messageLink" href="/manage">here</a>.</p>;
         }
 
         if (isModalVisible) {
@@ -208,7 +208,7 @@ class TrainerCalendar extends React.Component {
         } else if (!isLoading && events.length && !isTrainer) {
             info = <Message type="danger">Only logged in
                 <em style={{fontWeight: 'bolder', fontStyle: 'normal'}}> customers </em> can book workouts! Please <a
-                    href="/login">log in</a>.</Message>;
+                    href="/login" className="messageLink">log in</a>.</Message>;
         } else if (!isLoading && events.length) {
             info =
                 <Message type="info">You are logged in as a trainer. Your customers will book workouts here.</Message>;

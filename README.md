@@ -26,7 +26,6 @@ Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/relea
 * docker: `18.x-ce`
 * docker-compose: `1.20.1`
 
-
 ### Projekto paleidimas
 
 * Pasileidžiama infrastruktūrą per `docker`į:
@@ -39,18 +38,10 @@ scripts/start.sh
 scripts/install-prod.sh
 ```
 
-* Susikuriame duomenų bazę:
+* Atsinaujiname `.env` failą ir susikuriame duomenų bazę su duomenimis:
 ```bash
 php bin/console d:d:c
-```
-
-* Susikuriame duomenų bazės schemą:
-```bash
 php bin/console d:s:c
-```
-
-* Užpildome duomenų bazę fikstūromis:
-```bash
 php bin/console d:f:l -n
 ```
 
@@ -91,3 +82,10 @@ scripts/logs.sh
 ```bash
 scripts/clean-and-start-fresh.sh
 ```
+
+### Komanda
+#### Mentorius
+Laurynas Valenta
+
+#### Studentai
+Ignas Dailydė, Gintautas Plonis

@@ -65,6 +65,11 @@
   word-break: break-all;
 }
 
+.messageLink {
+  color: black;
+  font-weight: bolder;
+}
+
 .btn--editingInfo {
   color: white !important;
   font-size: .85em !important;
@@ -86,6 +91,11 @@
   align-items: center;
   border-radius: 2px;
   user-select: none;
+}
+
+.trainerInfo__imageWrapper {
+  height: 350px;
+  width: 100%;
 }
 
 .justify {
