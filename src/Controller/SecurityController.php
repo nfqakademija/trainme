@@ -62,6 +62,8 @@ class SecurityController extends AbstractController
             $em->persist($customer);
             $em->flush();
 
+            $this->addFlash('success', 'You registered successfully. You can now login!');
+
             return $this->redirectToRoute('app_login');
         }
 
@@ -94,6 +96,8 @@ class SecurityController extends AbstractController
             $trainer->getUser()->setRoles([User::ROLE_TRAINER]);
             $em->persist($trainer);
             $em->flush();
+
+            $this->addFlash('success', 'You registered successfully. You can now login!');
 
             return $this->redirectToRoute('app_login');
         }
