@@ -39,6 +39,7 @@ class Customer implements \JsonSerializable
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="customer", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
      */
     private $user;
 
