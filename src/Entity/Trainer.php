@@ -89,6 +89,7 @@ class Trainer implements \JsonSerializable
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"}, inversedBy="trainer")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
      */
     private $user;
 

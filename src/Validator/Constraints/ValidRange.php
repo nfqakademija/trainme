@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ValidRange extends Constraint
 {
-    public $message = 'This date range is invalid.';
+    public $message = 'Provided date range cannot be in the past.';
 
     public function getTargets()
     {
