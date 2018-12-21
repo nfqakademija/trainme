@@ -216,9 +216,9 @@ class AppFixtures extends Fixture
         $trainer->setName('John Trainer Doe');
         $trainer->setPhone('+37065867812');
         $trainer->addTag($tagObjects[0]);
-        $trainer->setPersonalStatement('Hello! My name is John and I\'m ready to help you in reaching
-        your fitness goals. My clients love working with me as much as I love sports. I always make sure I provide
-        the best workout advice for my customers. It will be fun, I promise!');
+        $trainer->setPersonalStatement('Hello! My name is John and I\'m ready to help you in reaching 
+        your fitness goals. My clients love working with me as much as I love sports. I always make sure I provide the 
+        best workout advice for my customers. It will be fun, I promise!');
         $trainer->setLocation('Vilnius');
         $trainer->setImageName($imageNames[3]);
         $trainer->setUser($userTrainer);
