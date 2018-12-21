@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Tag;
 use App\Entity\Trainer;
-use App\Repository\TagRepository;
 use App\Repository\TrainerRepository;
 use App\ValueObjects\Filter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,7 +20,6 @@ class TrainerController extends AbstractController
      * @Route("/trainers/list", name="list")
      * @param Request $request
      * @param TrainerRepository $trainerRepository
-     * @param TagRepository $tagRepository
      * @return Response
      */
     public function index(TrainerRepository $trainerRepository, Request $request)

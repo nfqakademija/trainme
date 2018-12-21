@@ -21,6 +21,7 @@ class Slot extends React.Component {
     }
 
     editClicked() {
+        this.props.clearMsg();
         this.setState({isEditing: true}, () => {
             const picker = new Pikaday({
                 field: $('#mngEditDate')[0],
@@ -103,9 +104,11 @@ class Slot extends React.Component {
                     from: from,
                     to: to
                 });
+                this.props.onEditSuccess();
             }).catch(err => {
             this.setState({isSaving: false, isEditing: false});
             console.log(err);
+            this.props.onError();
         });
     }
 
@@ -126,19 +129,21 @@ class Slot extends React.Component {
 
         if (isEditing) {
             dateField = (<React.Fragment>
-                    <input type='hidden' value={dateInput}/>
-                    <input className="mngInput" type='text' defaultValue={this.state.date} id='mngEditDate'/>
+                    <input type="hidden" value={dateInput}/>
+                    <input className="mngInput" type="text" defaultValue={this.state.date} id="mngEditDate"
+                           autoComplete="off"/>
                 </React.Fragment>
             );
 
             fromField = (<React.Fragment>
-                <input type='hidden' value={fromInput}/>
-                <input className="mngInput" type='text' defaultValue={this.state.from} id='mngEditFrom'/>
+                <input type="hidden" value={fromInput}/>
+                <input className="mngInput" type="text" defaultValue={this.state.from} id="mngEditFrom"
+                       autoComplete="off"/>
             </React.Fragment>);
 
             toField = (<React.Fragment>
-                <input type='hidden' value={toInput}/>
-                <input className="mngInput" type='text' defaultValue={this.state.to} id='mngEditTo'/>
+                <input type="hidden" value={toInput}/>
+                <input className="mngInput" type="text" defaultValue={this.state.to} id="mngEditTo" autoComplete="off"/>
             </React.Fragment>);
         }
 

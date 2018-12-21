@@ -213,10 +213,12 @@ class AppFixtures extends Fixture
 
         $manager->persist($userTrainer);
 
-        $trainer->setName('Treneris Trenerijauskas');
-        $trainer->setPhone('+370644534534534');
+        $trainer->setName('John Trainer Doe');
+        $trainer->setPhone('+37065867812');
         $trainer->addTag($tagObjects[0]);
-        $trainer->setPersonalStatement($faker->text);
+        $trainer->setPersonalStatement('Hello! My name is John and I\'m ready to help you in reaching 
+        your fitness goals. My clients love working with me as much as I love sports. I always make sure I provide the 
+        best workout advice for my customers. It will be fun, I promise!');
         $trainer->setLocation('Vilnius');
         $trainer->setImageName($imageNames[3]);
         $trainer->setUser($userTrainer);
@@ -230,8 +232,8 @@ class AppFixtures extends Fixture
         $userCustomer->setRoles([User::ROLE_CUSTOMER]);
         $manager->persist($userCustomer);
 
-        $customer->setName('Klientas Klientauskas');
-        $customer->setPhone('37076456545644');
+        $customer->setName('John Customer Doe');
+        $customer->setPhone('+37064565289');
         $customer->setUser($userCustomer);
         $manager->persist($customer);
 

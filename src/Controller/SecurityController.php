@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
-use App\Entity\Trainer;
 use App\Entity\User;
 use App\Form\CustomerRegistrationType;
 use App\Form\TrainerRegistrationType;
@@ -13,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -42,14 +39,12 @@ class SecurityController extends AbstractController
     /**
      * @Route("/customer/register", name="app_customer_register")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
-     * @param ValidatorInterface $validator
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
     public function customerRegister(
         Request $request,
-        UserPasswordEncoderInterface $userPasswordEncoder,
-        ValidatorInterface $validator
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         $form = $this->createForm(CustomerRegistrationType::class);
 
@@ -57,29 +52,14 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            $data = $form->getData();
-
-            /** @var Customer $customer */
-            $customer = $data['personal_info'];
-
-            $user = new User();
-
-            $user->setEmail($data['email']);
-            $user->setPassword($userPasswordEncoder->encodePassword($user, $data['password']));
-            $user->setRoles([User::ROLE_CUSTOMER]);
-
-            $errors = $validator->validate($user);
-
-            if ($errors->count() > 0) {
-                return $this->redirectToRoute('app_customer_register');
-            }
-            $em->persist($user);
-
-            $customer->setUser($user);
-
+            $customer = $form->getData();
+            $password = $passwordEncoder->encodePassword(
+                $customer->getUser(),
+                $customer->getUser()->getPlainPassword()
+            );
+            $customer->getUser()->setPassword($password);
+            $customer->getUser()->setRoles([User::ROLE_CUSTOMER]);
             $em->persist($customer);
-
             $em->flush();
 
             return $this->redirectToRoute('app_login');
@@ -91,14 +71,12 @@ class SecurityController extends AbstractController
     /**
      * @Route("/trainer/register", name="app_trainer_register")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
-     * @param ValidatorInterface $validator
-     * @return Response
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function trainerRegister(
         Request $request,
-        UserPasswordEncoderInterface $userPasswordEncoder,
-        ValidatorInterface $validator
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         $form = $this->createForm(TrainerRegistrationType::class);
 
@@ -107,24 +85,13 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $data = $form->getData();
-
-            /** @var Trainer $trainer */
-            $trainer = $data['personal_info'];
-
-            $user = new User();
-
-            $user->setEmail($data['email']);
-            $user->setPassword($userPasswordEncoder->encodePassword($user, $data['password']));
-            $user->setRoles([User::ROLE_TRAINER]);
-
-            $errors = $validator->validate($user);
-
-            if ($errors->count() > 0) {
-                return $this->redirectToRoute('app_trainer_register');
-            }
-            $em->persist($user);
-            $trainer->setUser($user);
+            $trainer = $form->getData();
+            $password = $passwordEncoder->encodePassword(
+                $trainer->getUser(),
+                $trainer->getUser()->getPlainPassword()
+            );
+            $trainer->getUser()->setPassword($password);
+            $trainer->getUser()->setRoles([User::ROLE_TRAINER]);
             $em->persist($trainer);
             $em->flush();
 

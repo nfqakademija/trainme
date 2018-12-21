@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use App\Interfaces\DateRangeInterface;
+use App\Validator\Constraints as CustomAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AvailabilitySlotRepository")
+ * @CustomAssert\ValidRange
  */
-class AvailabilitySlot implements \JsonSerializable
+class AvailabilitySlot implements DateRangeInterface, \JsonSerializable
 {
     /**
      * @var int

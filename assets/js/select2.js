@@ -1,4 +1,4 @@
 import 'select2';
 import $ from 'jquery';
 
-$('#trainer_registration_personal_info_tags').select2();
+$('#trainer_registration_tags').select2();
