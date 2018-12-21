@@ -96,7 +96,8 @@ class TrainerInfo extends React.Component {
 
         if (isEditing) {
             statementField = <textarea className="trainerTextarea"
-                                       onChange={(e) => this.onStatementChange(e)} defaultValue={statement}/>;
+                                       onChange={(e) => this.onStatementChange(e)}
+                                       defaultValue={statement.replace(/(\r\n|\n|\r)/gm, '').replace(/ {1,}/g, ' ')}/>;
             phoneField = <input className="trainerInput" onChange={(e) => this.onPhoneChange(e)} type="phone"
                                 defaultValue={phone}/>;
             locationField = <input className="trainerInput" onChange={(e) => this.onLocationChange(e)} type="text"
