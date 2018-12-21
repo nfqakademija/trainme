@@ -5,6 +5,16 @@
 {% block body %}
     <div class="heroLogin"></div>
     <section class="loginContainer">
+
+        {% for message in app.flashes('success') %}
+            <section class="info info--customer info--success">
+                <p class="info__text">
+                    <i class="fas fa-info-circle u-mgRt fa-info-circle--info fa-info-circle--info--success"></i>
+                    {{ message }}
+                </p>
+            </section>
+        {% endfor %}
+
         <h1 class="blackTitle">Log in</h1>
         <p class="login__info">Log in or sign up to find available trainers or to keep track of your workouts.</p>
 
