@@ -5,7 +5,7 @@ TrainMe [![Build Status](https://travis-ci.com/nfqakademija/trainme.png?branch=m
 
 # Intro
 
-TrainMe - tai asmeninio trenerio paieškos ir treniruočių rezervavimo sistema, kuri klientui leidžia rasti patinkantį trenerį, rezervuoti norimą treniruotės laiką ar atšaukti rezervuotą treniruotę. Užsiregistravęs treneris gali įvesti savo darbo laiką, keisti asmeninę informaciją bei peržiūrėti klientų rezervuotas treniruotes kalendoriuje. Projekto sprendžiama problema - trenerio laiko ir treniruočių rezervacijos bei komunikacijos su klientais supaprastinimas.
+TrainMe - tai asmeninio trenerio paieškos ir treniruočių rezervavimo sistema, kuri klientui leidžia rasti patinkantį trenerį, rezervuoti norimą treniruotės laiką ar atšaukti rezervuotą treniruotę. Užsiregistravęs treneris gali įvesti savo darbo laiką, keisti asmeninę informaciją bei peržiūrėti klientų rezervuotas treniruotes kalendoriuje. Projekto sprendžiama problema - trenerio laiko ir treniruočių rezervacijos bei komunikacijos su klientais supaprastinimas. Projektas [live serveryje](http://trainme.projektai.nfqakademija.lt/).
 
 # Paleidimo instrukcija
 
